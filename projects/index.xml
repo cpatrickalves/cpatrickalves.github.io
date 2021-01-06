@@ -6,7 +6,20 @@
     <description>Recent content in Projects on Patrick Alves - ML Engineer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 20 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://cpatrickalves.github.io/projects/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 12 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://cpatrickalves.github.io/projects/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Creating Synthetic Faces</title>
+      <link>https://cpatrickalves.github.io/projects/creating-synthetic-face-images/</link>
+      <pubDate>Sat, 12 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://cpatrickalves.github.io/projects/creating-synthetic-face-images/</guid>
+      <description>This project presents a solution to creating synthetic face images to feed Deep Learning models.
+Problem A client had ~500 face images of people with acne that feed some Deep Learning models.
+But to reach a good accuracy, he needs at least 10,000 images.
+Task Build a Deep Learning model able to generate any amount of synthetic images of faces with acne conditions.
+Solution I&amp;rsquo;ve tested the best Deep Learning models of type Generative Adversarial Networks and found that StyleGAN2-ADA create by NVIDIA can be trained with less than 1000 images and generate really good synthetic images.</description>
+    </item>
+    
     <item>
       <title>Real-time face detection</title>
       <link>https://cpatrickalves.github.io/projects/real-time-face-detection/</link>
@@ -18,19 +31,6 @@ Problem I need to detect faces on images and from a webcam in real-time.
 Task Build a algorithm or machine learning model to detect faces on images.
 Solution I&amp;rsquo;ve used Python, OpenCV and the Viola-Jones Algorithm to build a solution to detect faces fast.
 Results The solution has a good accuracy and can detect faces really fast.</description>
-    </item>
-    
-    <item>
-      <title>Creating Synthetic Faces</title>
-      <link>https://cpatrickalves.github.io/projects/creating-synthetic-face-images/</link>
-      <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://cpatrickalves.github.io/projects/creating-synthetic-face-images/</guid>
-      <description>This project presents a solution to creating synthetic face images to feed Deep Learning models.
-Problem A client had ~500 face images of people with acne that feed some Deep Learning models.
-But to reach a good accuracy, he needs at least 10,000 images.
-Task Build a Deep Learning model able to generate any amount of synthetic images of faces with acne conditions.
-Solution I&amp;rsquo;ve tested the best Deep Learning models of type Generative Adversarial Networks and found that StyleGAN2-ADA create by NVIDIA can be trained with less than 1000 images and generate really good synthetic images.</description>
     </item>
     
     <item>
