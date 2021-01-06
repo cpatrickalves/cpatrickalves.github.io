@@ -126,10 +126,13 @@ ga('create', 'UA-186704979-1', 'auto');
                 <div class="post-content">
                     <p>This project presents a solution to creating synthetic face images to feed Deep Learning models.</p>
 <h2 id="problem">Problem</h2>
-<p>A client had ~500 face images of people with acne that feed some Deep Learning models.</p>
-<p>But to reach a good accuracy, he needs at least <strong>10,000 images</strong>.</p>
+<ul>
+<li>A client has several Deep Learning models to handle face conditions, like acne.</li>
+<li>Each one of this models need at least <strong>10,000 images</strong> to reach a good accuracy.</li>
+<li>At begining, only ~500 face images of people with acne were available, wich leads to <strong>poor performance/accuracy</strong> of Deep Learning models.</li>
+</ul>
 <h2 id="task">Task</h2>
-<p>Build a Deep Learning model able to generate any amount of synthetic images of faces with acne conditions.</p>
+<p>Find or build a solution to generate any amount of synthetic images of faces with acne conditions and good quality.</p>
 <h2 id="solution">Solution</h2>
 <p>I&rsquo;ve tested the best Deep Learning models of type <a href="https://en.wikipedia.org/wiki/Generative_adversarial_network">Generative Adversarial Networks</a> and found that <a href="https://github.com/NVlabs/stylegan2-ada">StyleGAN2-ADA</a> create by NVIDIA can be trained with less than 1000 images and generate really good synthetic images.</p>
 <h4 id="how-i-did-it">How I did it</h4>
@@ -156,8 +159,8 @@ ga('create', 'UA-186704979-1', 'auto');
 </ul>
 <h2 id="results">Results</h2>
 <ul>
-<li>With the model and API deployed the client was able to generate <strong>more than 10,000 images</strong> to feed different Deep Learning models in his solution.</li>
-<li>This enables him to get better models with higher accuracy.</li>
+<li>With the model and API deployed the client was able to generate <strong>more than 10,000 images</strong> to feed his Deep Learning models.</li>
+<li>This enables him to build better models with higher accuracy and improve his solution.</li>
 </ul>
 <hr>
 <h1 id="source-code">Source code</h1>
