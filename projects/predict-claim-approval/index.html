@@ -1,0 +1,3169 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Predict claim approval by an insurance company &middot; Patrick Alves - ML Engineer </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.79.1" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cpatrickalves.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/profile.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+				  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'G-BQSK9NW8F8', 'auto');
+	  ga('send', 'pageview');
+
+</script>
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://cpatrickalves.github.io/'>
+        patrick@machinelearning ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://cpatrickalves.github.io/'>/home/patrick</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/about">~/about</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/projects">~/portfolio</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/post">~/blog</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/contact">~/contact</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://cpatrickalves.github.io/projects/predict-claim-approval/">Predict claim approval by an insurance company</a></h1>
+                <span class="post-date">2019-12-31 </span>
+                <div class="post-content">
+                    <p>This project presents a code/kernel used in a Kaggle competition promoted by <a href="https://www.datascienceacademy.com.br/">Data Science Academy</a> in December of 2019.</p>
+<p>The aim of this competition is to build a predictive model that can predict the probability that a particular claim will be approved immediately by or not insurance company based on the resources available at the beginning of the process, helping the insurance company to accelerate the payment release process and thus provide better service to the client.</p>
+<p>Competition page: <a href="https://www.kaggle.com/c/competicao-dsa-machine-learning-dec-2019">https://www.kaggle.com/c/competicao-dsa-machine-learning-dec-2019</a></p>
+<h3 id="problem">Problem</h3>
+<p>Claims should be carefully evaluated by the insurer, which may take time.
+Even simple claims need to be review by someone.</p>
+<h3 id="task">Task</h3>
+<p>Build a predictive model that can predict the probability that a particular claim will be approved immediately or not based on historical and anonymous data.</p>
+<h3 id="solution">Solution</h3>
+<p>My goal is not to predict whether a new order should be approved immediately, but to predict the probability of immediate approval of each claim. This allows the insurer to prioritize orders over 80% likely to be approved immediately, for example.</p>
+<p>I&rsquo;ve used Python to perform an <strong>Exploratory Data Analysis (EDA)</strong> using visual and quantitative methods to understand and summarize a dataset without making any assumptions about its contents. Then I&rsquo;ve performed Data Cleaning and built several <strong>Machine Learning</strong> models to compute the probability of occurrence of diabetes. The Logistic Regression model presented the best results.</p>
+<h3 id="results">Results</h3>
+<p>The evaluation metric for this competition is Log Loss (the smaller the better).</p>
+<p>In this competition my best score was <strong>0.4929</strong> and I got <strong>position 38</strong> on the <a href="https://www.kaggle.com/c/competicao-dsa-machine-learning-dec-2019/leaderboard">leaderboard</a>.</p>
+<hr>
+<h1 id="source-code">Source code</h1>
+<p>The solution is also available at Github.</p>
+<p><a href="https://github.com/cpatrickalves/kaggle-insurance-claim-classification"><img src="/github.jpg" alt="GitHub"></a></p>
+<h4 id="how-to-use">How to use</h4>
+<ul>
+<li>You will need Python 3.5+ to run the code.</li>
+<li>Python can be downloaded <a href="https://www.python.org/downloads/">here</a>.</li>
+<li>You have to install some Python packages, in command prompt/Terminal: <code>pip install -r requirements.txt</code></li>
+<li>Once you have installed the required packages, just clone/<a href="https://github.com/cpatrickalves/kaggle-insurance-claim-classification/archive/master.zip">download</a> this project:
+<code>git clone https://github.com/cpatrickalves/kaggle-insurance-claim-classification</code></li>
+<li>Access the project folder in command prompt/Terminal and run the following command:
+<code>jupyter-lab</code></li>
+</ul>
+<p>The datasets are available on the competition&rsquo;s pages.</p>
+<p>Files description:</p>
+<ul>
+<li><strong>kernel.ipynb</strong> - the Jupyter Notebook file with all project workflow (data cleaning, preparation, analysis, machine learning, etc.).</li>
+<li><strong>dataset_treino.csv</strong> - contains the training dataset with 114,321 rows (claims) and 133 columns (features).</li>
+<li><strong>dataset_teste.csv</strong> - contains the test dataset with 114,393 rows and 132 columns.</li>
+<li><strong>sample_submission.csv</strong> - a sample of the submission file.</li>
+</ul>
+<hr>
+<h1 id="predicting-immediate-approval-of-claims">Predicting immediate approval of claims</h1>
+<p>This project aims to build a predictive model that can predict the probability that a particular claim will be approved immediately or not by the insurance company.</p>
+<p>The evaluation metric is the log loss.</p>
+<p>See the <a href="https://www.kaggle.com/c/competicao-dsa-machine-learning-dec-2019/overview">competitions' page</a> for further details.</p>
+<h4 id="loading-the-datasets">Loading the datasets</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Loading useful Python packages for Data cleaning and Pre-processing</span>
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">import</span> pandas <span style="color:#f92672">as</span> pd
+<span style="color:#f92672">import</span> pandas_profiling
+<span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+<span style="color:#f92672">import</span> category_encoders <span style="color:#f92672">as</span> ce
+<span style="color:#f92672">from</span> sklearn.preprocessing <span style="color:#f92672">import</span> MinMaxScaler
+<span style="color:#f92672">from</span> sklearn.preprocessing <span style="color:#f92672">import</span> RobustScaler
+<span style="color:#f92672">from</span> sklearn.preprocessing <span style="color:#f92672">import</span> StandardScaler
+<span style="color:#f92672">import</span> seaborn <span style="color:#f92672">as</span> sns
+<span style="color:#f92672">import</span> warnings
+warnings<span style="color:#f92672">.</span>simplefilter(action<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;ignore&#39;</span>)
+pd<span style="color:#f92672">.</span>set_option(<span style="color:#e6db74">&#39;display.max_columns&#39;</span>, <span style="color:#ae81ff">150</span>)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># loading datasets</span>
+train_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;data/dataset_treino.csv&#39;</span>)
+test_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;data/dataset_teste.csv&#39;</span>)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">train_df<span style="color:#f92672">.</span>head()
+</code></pre></div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ID</th>
+      <th>target</th>
+      <th>v1</th>
+      <th>v2</th>
+      <th>v3</th>
+      <th>v4</th>
+      <th>v5</th>
+      <th>v6</th>
+      <th>v7</th>
+      <th>v8</th>
+      <th>v9</th>
+      <th>v10</th>
+      <th>v11</th>
+      <th>v12</th>
+      <th>v13</th>
+      <th>v14</th>
+      <th>v15</th>
+      <th>v16</th>
+      <th>v17</th>
+      <th>v18</th>
+      <th>v19</th>
+      <th>v20</th>
+      <th>v21</th>
+      <th>v22</th>
+      <th>v23</th>
+      <th>v24</th>
+      <th>v25</th>
+      <th>v26</th>
+      <th>v27</th>
+      <th>v28</th>
+      <th>v29</th>
+      <th>v30</th>
+      <th>v31</th>
+      <th>v32</th>
+      <th>v33</th>
+      <th>v34</th>
+      <th>v35</th>
+      <th>v36</th>
+      <th>v37</th>
+      <th>v38</th>
+      <th>v39</th>
+      <th>v40</th>
+      <th>v41</th>
+      <th>v42</th>
+      <th>v43</th>
+      <th>v44</th>
+      <th>v45</th>
+      <th>v46</th>
+      <th>v47</th>
+      <th>v48</th>
+      <th>v49</th>
+      <th>v50</th>
+      <th>v51</th>
+      <th>v52</th>
+      <th>v53</th>
+      <th>v54</th>
+      <th>v55</th>
+      <th>v56</th>
+      <th>v57</th>
+      <th>v58</th>
+      <th>v59</th>
+      <th>v60</th>
+      <th>v61</th>
+      <th>v62</th>
+      <th>v63</th>
+      <th>v64</th>
+      <th>v65</th>
+      <th>v66</th>
+      <th>v67</th>
+      <th>v68</th>
+      <th>v69</th>
+      <th>v70</th>
+      <th>v71</th>
+      <th>v72</th>
+      <th>v73</th>
+      <th>v74</th>
+      <th>v75</th>
+      <th>v76</th>
+      <th>v77</th>
+      <th>v78</th>
+      <th>v79</th>
+      <th>v80</th>
+      <th>v81</th>
+      <th>v82</th>
+      <th>v83</th>
+      <th>v84</th>
+      <th>v85</th>
+      <th>v86</th>
+      <th>v87</th>
+      <th>v88</th>
+      <th>v89</th>
+      <th>v90</th>
+      <th>v91</th>
+      <th>v92</th>
+      <th>v93</th>
+      <th>v94</th>
+      <th>v95</th>
+      <th>v96</th>
+      <th>v97</th>
+      <th>v98</th>
+      <th>v99</th>
+      <th>v100</th>
+      <th>v101</th>
+      <th>v102</th>
+      <th>v103</th>
+      <th>v104</th>
+      <th>v105</th>
+      <th>v106</th>
+      <th>v107</th>
+      <th>v108</th>
+      <th>v109</th>
+      <th>v110</th>
+      <th>v111</th>
+      <th>v112</th>
+      <th>v113</th>
+      <th>v114</th>
+      <th>v115</th>
+      <th>v116</th>
+      <th>v117</th>
+      <th>v118</th>
+      <th>v119</th>
+      <th>v120</th>
+      <th>v121</th>
+      <th>v122</th>
+      <th>v123</th>
+      <th>v124</th>
+      <th>v125</th>
+      <th>v126</th>
+      <th>v127</th>
+      <th>v128</th>
+      <th>v129</th>
+      <th>v130</th>
+      <th>v131</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3</td>
+      <td>1</td>
+      <td>1.335739</td>
+      <td>8.727474</td>
+      <td>C</td>
+      <td>3.921026</td>
+      <td>7.915266</td>
+      <td>2.599278</td>
+      <td>3.176895</td>
+      <td>0.012941</td>
+      <td>9.999999</td>
+      <td>0.503281</td>
+      <td>16.434108</td>
+      <td>6.085711</td>
+      <td>2.866830</td>
+      <td>11.636387</td>
+      <td>1.355013</td>
+      <td>8.571429</td>
+      <td>3.670350</td>
+      <td>0.106720</td>
+      <td>0.148883</td>
+      <td>18.869283</td>
+      <td>7.730923</td>
+      <td>XDX</td>
+      <td>-1.716131e-08</td>
+      <td>C</td>
+      <td>0.139412</td>
+      <td>1.720818</td>
+      <td>3.393503</td>
+      <td>0.590122</td>
+      <td>8.880867</td>
+      <td>C</td>
+      <td>A</td>
+      <td>1.083033</td>
+      <td>1.010829</td>
+      <td>7.270147</td>
+      <td>8.375452</td>
+      <td>11.326592</td>
+      <td>0.454546</td>
+      <td>0</td>
+      <td>4.012088</td>
+      <td>7.711453</td>
+      <td>7.653429</td>
+      <td>12.707581</td>
+      <td>2.015505</td>
+      <td>10.498338</td>
+      <td>9.848672</td>
+      <td>0.113561</td>
+      <td>C</td>
+      <td>12.171733</td>
+      <td>8.086643</td>
+      <td>0.899420</td>
+      <td>7.277792</td>
+      <td>G</td>
+      <td>16.747968</td>
+      <td>0.037096</td>
+      <td>1.299638</td>
+      <td>DI</td>
+      <td>3.971118</td>
+      <td>0.529802</td>
+      <td>10.890984</td>
+      <td>1.588448</td>
+      <td>15.858152</td>
+      <td>1</td>
+      <td>0.153461</td>
+      <td>6.363189</td>
+      <td>18.303925</td>
+      <td>C</td>
+      <td>9.314079</td>
+      <td>15.231789</td>
+      <td>17.142857</td>
+      <td>11.784549</td>
+      <td>F</td>
+      <td>1</td>
+      <td>1.614988</td>
+      <td>B</td>
+      <td>D</td>
+      <td>2.230940</td>
+      <td>7.292418</td>
+      <td>8.571429</td>
+      <td>E</td>
+      <td>3.000000</td>
+      <td>7.528326</td>
+      <td>8.861647</td>
+      <td>0.649820</td>
+      <td>1.299638</td>
+      <td>1.707317</td>
+      <td>0.866426</td>
+      <td>9.551836</td>
+      <td>3.321300</td>
+      <td>0.095678</td>
+      <td>0.905342</td>
+      <td>A</td>
+      <td>0.442252</td>
+      <td>5.814018</td>
+      <td>3.517720</td>
+      <td>0.462019</td>
+      <td>7.436824</td>
+      <td>5.454545</td>
+      <td>8.877414</td>
+      <td>1.191337</td>
+      <td>19.470199</td>
+      <td>8.389237</td>
+      <td>2.757375</td>
+      <td>4.374296</td>
+      <td>1.574039</td>
+      <td>0.007294</td>
+      <td>12.579184</td>
+      <td>E</td>
+      <td>2.382692</td>
+      <td>3.930922</td>
+      <td>B</td>
+      <td>0.433213</td>
+      <td>O</td>
+      <td>NaN</td>
+      <td>15.634907</td>
+      <td>2.857144</td>
+      <td>1.951220</td>
+      <td>6.592012</td>
+      <td>5.909091</td>
+      <td>-6.297423e-07</td>
+      <td>1.059603</td>
+      <td>0.803572</td>
+      <td>8.000000</td>
+      <td>1.989780</td>
+      <td>0.035754</td>
+      <td>AU</td>
+      <td>1.804126</td>
+      <td>3.113719</td>
+      <td>2.024285</td>
+      <td>0</td>
+      <td>0.636365</td>
+      <td>2.857144</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>NaN</td>
+      <td>9.191265</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2.301630</td>
+      <td>NaN</td>
+      <td>1.312910</td>
+      <td>NaN</td>
+      <td>6.507647</td>
+      <td>NaN</td>
+      <td>11.636386</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>6.763110</td>
+      <td>GUV</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>3.056144</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3.615077</td>
+      <td>NaN</td>
+      <td>14.579479</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>14.305766</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2.449959</td>
+      <td>E</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.379210</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>NaN</td>
+      <td>1.129469</td>
+      <td>NaN</td>
+      <td>DY</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2</td>
+      <td>2.544736</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>A</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>12.053353</td>
+      <td>F</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>B</td>
+      <td>D</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>D</td>
+      <td>NaN</td>
+      <td>7.277655</td>
+      <td>3.430691</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>9.848004</td>
+      <td>NaN</td>
+      <td>2.678584</td>
+      <td>NaN</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>8.303967</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.505335</td>
+      <td>NaN</td>
+      <td>B</td>
+      <td>1.825361</td>
+      <td>4.247858</td>
+      <td>A</td>
+      <td>NaN</td>
+      <td>U</td>
+      <td>G</td>
+      <td>10.308044</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>10.595357</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.598896</td>
+      <td>AF</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.957825</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5</td>
+      <td>1</td>
+      <td>0.943877</td>
+      <td>5.310079</td>
+      <td>C</td>
+      <td>4.410969</td>
+      <td>5.326159</td>
+      <td>3.979592</td>
+      <td>3.928571</td>
+      <td>0.019645</td>
+      <td>12.666667</td>
+      <td>0.765864</td>
+      <td>14.756098</td>
+      <td>6.384670</td>
+      <td>2.505589</td>
+      <td>9.603542</td>
+      <td>1.984127</td>
+      <td>5.882353</td>
+      <td>3.170847</td>
+      <td>0.244541</td>
+      <td>0.144258</td>
+      <td>17.952332</td>
+      <td>5.245035</td>
+      <td>FQ</td>
+      <td>-2.785053e-07</td>
+      <td>E</td>
+      <td>0.113997</td>
+      <td>2.244897</td>
+      <td>5.306122</td>
+      <td>0.836005</td>
+      <td>7.499999</td>
+      <td>NaN</td>
+      <td>A</td>
+      <td>1.454082</td>
+      <td>1.734693</td>
+      <td>4.043864</td>
+      <td>7.959184</td>
+      <td>12.730517</td>
+      <td>0.259740</td>
+      <td>0</td>
+      <td>7.378964</td>
+      <td>13.077201</td>
+      <td>6.173469</td>
+      <td>12.346939</td>
+      <td>2.926830</td>
+      <td>8.897561</td>
+      <td>5.343819</td>
+      <td>0.126035</td>
+      <td>C</td>
+      <td>12.711328</td>
+      <td>6.836734</td>
+      <td>0.604504</td>
+      <td>9.637627</td>
+      <td>F</td>
+      <td>15.102041</td>
+      <td>0.085573</td>
+      <td>0.765305</td>
+      <td>AS</td>
+      <td>4.030613</td>
+      <td>4.277456</td>
+      <td>9.105481</td>
+      <td>2.151361</td>
+      <td>16.075602</td>
+      <td>1</td>
+      <td>0.123643</td>
+      <td>5.517949</td>
+      <td>16.377205</td>
+      <td>A</td>
+      <td>8.367347</td>
+      <td>11.040463</td>
+      <td>5.882353</td>
+      <td>8.460654</td>
+      <td>B</td>
+      <td>3</td>
+      <td>2.413618</td>
+      <td>B</td>
+      <td>B</td>
+      <td>1.963971</td>
+      <td>5.918368</td>
+      <td>11.764705</td>
+      <td>E</td>
+      <td>3.333334</td>
+      <td>10.194433</td>
+      <td>8.266200</td>
+      <td>1.530611</td>
+      <td>1.530613</td>
+      <td>2.429906</td>
+      <td>1.071429</td>
+      <td>8.447465</td>
+      <td>3.367346</td>
+      <td>0.111388</td>
+      <td>0.811447</td>
+      <td>G</td>
+      <td>0.271480</td>
+      <td>5.156559</td>
+      <td>4.214944</td>
+      <td>0.309657</td>
+      <td>5.663265</td>
+      <td>5.974026</td>
+      <td>11.588858</td>
+      <td>0.841837</td>
+      <td>15.491329</td>
+      <td>5.879353</td>
+      <td>3.292788</td>
+      <td>5.924457</td>
+      <td>1.668401</td>
+      <td>0.008275</td>
+      <td>11.670572</td>
+      <td>C</td>
+      <td>1.375753</td>
+      <td>1.184211</td>
+      <td>B</td>
+      <td>3.367348</td>
+      <td>S</td>
+      <td>NaN</td>
+      <td>11.205561</td>
+      <td>12.941177</td>
+      <td>3.129253</td>
+      <td>3.478911</td>
+      <td>6.233767</td>
+      <td>-2.792745e-07</td>
+      <td>2.138728</td>
+      <td>2.238806</td>
+      <td>9.333333</td>
+      <td>2.477596</td>
+      <td>0.013452</td>
+      <td>AE</td>
+      <td>1.773709</td>
+      <td>3.922193</td>
+      <td>1.120468</td>
+      <td>2</td>
+      <td>0.883118</td>
+      <td>1.176472</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>6</td>
+      <td>1</td>
+      <td>0.797415</td>
+      <td>8.304757</td>
+      <td>C</td>
+      <td>4.225930</td>
+      <td>11.627438</td>
+      <td>2.097700</td>
+      <td>1.987549</td>
+      <td>0.171947</td>
+      <td>8.965516</td>
+      <td>6.542669</td>
+      <td>16.347483</td>
+      <td>9.646653</td>
+      <td>3.903302</td>
+      <td>14.094723</td>
+      <td>1.945044</td>
+      <td>5.517242</td>
+      <td>3.610789</td>
+      <td>1.224114</td>
+      <td>0.231630</td>
+      <td>18.376407</td>
+      <td>7.517125</td>
+      <td>ACUE</td>
+      <td>-4.805344e-07</td>
+      <td>D</td>
+      <td>0.148843</td>
+      <td>1.308269</td>
+      <td>2.303640</td>
+      <td>8.926662</td>
+      <td>8.874521</td>
+      <td>C</td>
+      <td>B</td>
+      <td>1.587644</td>
+      <td>1.666667</td>
+      <td>8.703550</td>
+      <td>8.898468</td>
+      <td>11.302795</td>
+      <td>0.433735</td>
+      <td>0</td>
+      <td>0.287322</td>
+      <td>11.523045</td>
+      <td>7.931035</td>
+      <td>12.935823</td>
+      <td>1.470878</td>
+      <td>12.708574</td>
+      <td>9.670823</td>
+      <td>0.108387</td>
+      <td>C</td>
+      <td>12.194855</td>
+      <td>8.591954</td>
+      <td>3.329176</td>
+      <td>4.780357</td>
+      <td>H</td>
+      <td>16.621695</td>
+      <td>0.139721</td>
+      <td>1.178161</td>
+      <td>BW</td>
+      <td>3.965517</td>
+      <td>1.732102</td>
+      <td>11.777912</td>
+      <td>1.229246</td>
+      <td>15.927390</td>
+      <td>1</td>
+      <td>0.140260</td>
+      <td>6.292979</td>
+      <td>17.011645</td>
+      <td>A</td>
+      <td>9.703065</td>
+      <td>18.568129</td>
+      <td>9.425288</td>
+      <td>13.594728</td>
+      <td>F</td>
+      <td>2</td>
+      <td>2.272541</td>
+      <td>B</td>
+      <td>D</td>
+      <td>2.188198</td>
+      <td>8.213602</td>
+      <td>13.448277</td>
+      <td>B</td>
+      <td>1.947261</td>
+      <td>4.797873</td>
+      <td>13.315819</td>
+      <td>1.681034</td>
+      <td>1.379310</td>
+      <td>1.587045</td>
+      <td>1.242817</td>
+      <td>10.747144</td>
+      <td>1.408046</td>
+      <td>0.039051</td>
+      <td>1.042425</td>
+      <td>B</td>
+      <td>0.763925</td>
+      <td>5.498902</td>
+      <td>3.423944</td>
+      <td>0.832518</td>
+      <td>7.375480</td>
+      <td>6.746988</td>
+      <td>6.942002</td>
+      <td>1.334611</td>
+      <td>18.256352</td>
+      <td>8.507281</td>
+      <td>2.503055</td>
+      <td>4.872157</td>
+      <td>2.573664</td>
+      <td>0.113967</td>
+      <td>12.554274</td>
+      <td>B</td>
+      <td>2.230754</td>
+      <td>1.990131</td>
+      <td>B</td>
+      <td>2.643678</td>
+      <td>J</td>
+      <td>NaN</td>
+      <td>13.777666</td>
+      <td>10.574713</td>
+      <td>1.511063</td>
+      <td>4.949609</td>
+      <td>7.180722</td>
+      <td>5.655086e-01</td>
+      <td>1.166281</td>
+      <td>1.956521</td>
+      <td>7.018256</td>
+      <td>1.812795</td>
+      <td>0.002267</td>
+      <td>CJ</td>
+      <td>1.415230</td>
+      <td>2.954381</td>
+      <td>1.990847</td>
+      <td>1</td>
+      <td>1.677108</td>
+      <td>1.034483</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>8</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.050328</td>
+      <td>NaN</td>
+      <td>6.320087</td>
+      <td>NaN</td>
+      <td>10.991098</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>6.414567</td>
+      <td>HIT</td>
+      <td>NaN</td>
+      <td>E</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>A</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>6.083151</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>10.138920</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>I</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.364536</td>
+      <td>NaN</td>
+      <td>H</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>F</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>B</td>
+      <td>D</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>G</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>A</td>
+      <td>NaN</td>
+      <td>T</td>
+      <td>G</td>
+      <td>14.097099</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Z</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>In the following lines, we&rsquo;ll perform several modifications in the datasets, to evaluate the impact of such modifications we&rsquo;ll save each version of the datasets as an object in a dictionary.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data <span style="color:#f92672">=</span> {}
+data[<span style="color:#e6db74">&#39;original&#39;</span>] <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;train&#39;</span>: train_df, <span style="color:#e6db74">&#39;test&#39;</span>: test_df}
+</code></pre></div><h3 id="data-cleaning">Data Cleaning</h3>
+<p>The first step before perform any kind of statistical analysis and modeling is to clean the data.</p>
+<p>Let&rsquo;s see the type of data we have.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">train_df<span style="color:#f92672">.</span>info()
+</code></pre></div><pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 114321 entries, 0 to 114320
+Columns: 133 entries, ID to v131
+dtypes: float64(108), int64(6), object(19)
+memory usage: 116.0+ MB
+</code></pre>
+<p>From the above, we can see that this data set has 114321 rows and 133 columns.</p>
+<p>Also, we have <strong>114 numerical features</strong> (columns) and <strong>19 categorical features</strong>.</p>
+<p>Let&rsquo;s see if we have null values (also know as <em>NaN</em>)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># There are null values?</span>
+train_df<span style="color:#f92672">.</span>isnull()<span style="color:#f92672">.</span>values<span style="color:#f92672">.</span>any()
+</code></pre></div><pre><code>True
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Null values amount for each column</span>
+train_df<span style="color:#f92672">.</span>isnull()<span style="color:#f92672">.</span>sum()<span style="color:#f92672">.</span>sort_values(ascending<span style="color:#f92672">=</span>False)
+</code></pre></div><pre><code>v30       60110
+v113      55304
+v102      51316
+v85       50682
+v119      50680
+v51       50678
+v123      50678
+v23       50675
+v78       49895
+v115      49895
+v69       49895
+v131      49895
+v16       49895
+v122      49851
+v80       49851
+v9        49851
+v37       49843
+v118      49843
+v130      49843
+v19       49843
+v92       49843
+v95       49843
+v97       49843
+v20       49840
+v65       49840
+v121      49840
+v11       49836
+v39       49836
+v73       49836
+v90       49836
+          ...  
+v3         3457
+v31        3457
+v21         611
+v22         500
+v112        382
+v34         111
+v40         111
+v12          86
+v50          86
+v10          84
+v125         77
+v114         30
+v14           4
+v52           3
+v91           3
+v107          3
+v24           0
+v38           0
+v47           0
+v62           0
+v66           0
+v129          0
+v71           0
+v72           0
+v74           0
+v75           0
+v79           0
+v110          0
+target        0
+ID            0
+Length: 133, dtype: int64
+</code></pre>
+<p>So, we have a lot of null values in several columns.</p>
+<p>Let&rsquo;s check the percentage of null values for each column.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">null_values <span style="color:#f92672">=</span> train_df<span style="color:#f92672">.</span>isnull()<span style="color:#f92672">.</span>sum()
+null_values <span style="color:#f92672">=</span> round((null_values<span style="color:#f92672">/</span>train_df<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>), <span style="color:#ae81ff">2</span>)
+null_values<span style="color:#f92672">.</span>sort_values(ascending<span style="color:#f92672">=</span>False)
+</code></pre></div><pre><code>v30       52.58
+v113      48.38
+v102      44.89
+v51       44.33
+v85       44.33
+v23       44.33
+v123      44.33
+v119      44.33
+v115      43.64
+v78       43.64
+v69       43.64
+v131      43.64
+v16       43.64
+v122      43.61
+v80       43.61
+v9        43.61
+v37       43.60
+v130      43.60
+v20       43.60
+v19       43.60
+v92       43.60
+v95       43.60
+v97       43.60
+v65       43.60
+v118      43.60
+v121      43.60
+v53       43.59
+v42       43.59
+v68       43.59
+v67       43.59
+          ...  
+v3         3.02
+v31        3.02
+v21        0.53
+v22        0.44
+v112       0.33
+v40        0.10
+v34        0.10
+v12        0.08
+v50        0.08
+v125       0.07
+v10        0.07
+v114       0.03
+v129       0.00
+target     0.00
+v107       0.00
+v14        0.00
+v24        0.00
+v38        0.00
+v47        0.00
+v52        0.00
+v62        0.00
+v66        0.00
+v71        0.00
+v72        0.00
+v74        0.00
+v75        0.00
+v79        0.00
+v91        0.00
+v110       0.00
+ID         0.00
+Length: 133, dtype: float64
+</code></pre>
+<p>Considering that we are dealing with anonymous data and we can&rsquo;t know the meaning of the data, I&rsquo;ll remove all columns with more than 40% of null values.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Get the names of the columns that have more than 40% of null values</span>
+high_nan_rate_columns <span style="color:#f92672">=</span> null_values[null_values <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">40</span>]<span style="color:#f92672">.</span>index
+
+<span style="color:#75715e"># Make a copy if the original datasets and remove the columns</span>
+train_df_cleaned <span style="color:#f92672">=</span> train_df<span style="color:#f92672">.</span>copy()
+test_df_cleaned <span style="color:#f92672">=</span> test_df<span style="color:#f92672">.</span>copy()
+train_df_cleaned<span style="color:#f92672">.</span>drop(high_nan_rate_columns, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, inplace<span style="color:#f92672">=</span>True)
+test_df_cleaned<span style="color:#f92672">.</span>drop(high_nan_rate_columns, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, inplace<span style="color:#f92672">=</span>True)
+
+<span style="color:#75715e"># Remove the ID column (it is not useful for modeling)</span>
+train_df_cleaned<span style="color:#f92672">.</span>drop([<span style="color:#e6db74">&#39;ID&#39;</span>], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, inplace<span style="color:#f92672">=</span>True)
+
+train_df_cleaned<span style="color:#f92672">.</span>info()
+</code></pre></div><pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 114321 entries, 0 to 114320
+Data columns (total 30 columns):
+target    114321 non-null int64
+v3        110864 non-null object
+v10       114237 non-null float64
+v12       114235 non-null float64
+v14       114317 non-null float64
+v21       113710 non-null float64
+v22       113821 non-null object
+v24       114321 non-null object
+v31       110864 non-null object
+v34       114210 non-null float64
+v38       114321 non-null int64
+v40       114210 non-null float64
+v47       114321 non-null object
+v50       114235 non-null float64
+v52       114318 non-null object
+v56       107439 non-null object
+v62       114321 non-null int64
+v66       114321 non-null object
+v71       114321 non-null object
+v72       114321 non-null int64
+v74       114321 non-null object
+v75       114321 non-null object
+v79       114321 non-null object
+v91       114318 non-null object
+v107      114318 non-null object
+v110      114321 non-null object
+v112      113939 non-null object
+v114      114291 non-null float64
+v125      114244 non-null object
+v129      114321 non-null int64
+dtypes: float64(8), int64(5), object(17)
+memory usage: 26.2+ MB
+</code></pre>
+<p>Now we have only 30 columns in the data set.</p>
+<p>But we still have null values that need to be handled.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">null_values_columns <span style="color:#f92672">=</span> train_df_cleaned<span style="color:#f92672">.</span>isnull()<span style="color:#f92672">.</span>sum()<span style="color:#f92672">.</span>sort_values(ascending<span style="color:#f92672">=</span>False)
+null_values_columns <span style="color:#f92672">=</span> null_values_columns[null_values_columns <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>]
+null_values_columns
+</code></pre></div><pre><code>v56     6882
+v31     3457
+v3      3457
+v21      611
+v22      500
+v112     382
+v40      111
+v34      111
+v50       86
+v12       86
+v10       84
+v125      77
+v114      30
+v14        4
+v91        3
+v107       3
+v52        3
+dtype: int64
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">train_df_cleaned[null_values_columns<span style="color:#f92672">.</span>index]<span style="color:#f92672">.</span>info()
+</code></pre></div><pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 114321 entries, 0 to 114320
+Data columns (total 17 columns):
+v56     107439 non-null object
+v31     110864 non-null object
+v3      110864 non-null object
+v21     113710 non-null float64
+v22     113821 non-null object
+v112    113939 non-null object
+v40     114210 non-null float64
+v34     114210 non-null float64
+v50     114235 non-null float64
+v12     114235 non-null float64
+v10     114237 non-null float64
+v125    114244 non-null object
+v114    114291 non-null float64
+v14     114317 non-null float64
+v91     114318 non-null object
+v107    114318 non-null object
+v52     114318 non-null object
+dtypes: float64(8), object(9)
+memory usage: 14.8+ MB
+</code></pre>
+<p>From the above, there are 8 numeric columns and 9 categorical columns with nulls values.</p>
+<p>For now, we will replace the null values by the MEAN value for each numeric column and for the MODE for each of the categorical columns.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">###### TRAIN DATASET ######</span>
+
+<span style="color:#75715e">##### Numerical columns</span>
+null_values_columns_train <span style="color:#f92672">=</span> train_df_cleaned<span style="color:#f92672">.</span>isnull()<span style="color:#f92672">.</span>sum()<span style="color:#f92672">.</span>sort_values(ascending<span style="color:#f92672">=</span>False)
+numerical_col_null_values <span style="color:#f92672">=</span> train_df_cleaned[null_values_columns_train<span style="color:#f92672">.</span>index]<span style="color:#f92672">.</span>select_dtypes(include<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;float64&#39;</span>, <span style="color:#e6db74">&#39;int64&#39;</span>])<span style="color:#f92672">.</span>columns
+<span style="color:#75715e"># for each column</span>
+<span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> numerical_col_null_values:
+    <span style="color:#75715e"># Get the mean</span>
+    mean <span style="color:#f92672">=</span> train_df_cleaned[c]<span style="color:#f92672">.</span>mean()
+    <span style="color:#75715e"># replace the NaN by mode</span>
+    train_df_cleaned[c]<span style="color:#f92672">.</span>fillna(mean, inplace<span style="color:#f92672">=</span>True)
+
+<span style="color:#75715e">##### Categorical columns</span>
+categ_col_null_values <span style="color:#f92672">=</span> train_df_cleaned[null_values_columns_train<span style="color:#f92672">.</span>index]<span style="color:#f92672">.</span>select_dtypes(include<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;object&#39;</span>])<span style="color:#f92672">.</span>columns
+<span style="color:#75715e"># for each column</span>
+<span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> categ_col_null_values:
+    <span style="color:#75715e"># Get the most frequent value (mode)</span>
+    mode <span style="color:#f92672">=</span> train_df_cleaned[c]<span style="color:#f92672">.</span>value_counts()<span style="color:#f92672">.</span>index[<span style="color:#ae81ff">0</span>]
+    <span style="color:#75715e"># replace the NaN by mode</span>
+    train_df_cleaned[c]<span style="color:#f92672">.</span>fillna(mode, inplace<span style="color:#f92672">=</span>True)
+    
+
+<span style="color:#75715e">###### TEST DATASET ######</span>
+
+<span style="color:#75715e">##### Numerical columns</span>
+null_values_columns_test <span style="color:#f92672">=</span> test_df_cleaned<span style="color:#f92672">.</span>isnull()<span style="color:#f92672">.</span>sum()<span style="color:#f92672">.</span>sort_values(ascending<span style="color:#f92672">=</span>False)
+<span style="color:#75715e">#print(null_values_columns_test)</span>
+numerical_col_null_values <span style="color:#f92672">=</span> list(test_df_cleaned[null_values_columns_test<span style="color:#f92672">.</span>index]<span style="color:#f92672">.</span>select_dtypes(include<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;float64&#39;</span>, <span style="color:#e6db74">&#39;int64&#39;</span>])<span style="color:#f92672">.</span>columns)
+numerical_col_null_values<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#39;ID&#39;</span>)
+<span style="color:#75715e"># for each column</span>
+<span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> numerical_col_null_values:
+    <span style="color:#75715e"># Get the mean</span>
+    mean <span style="color:#f92672">=</span> test_df_cleaned[c]<span style="color:#f92672">.</span>mean()
+    <span style="color:#75715e"># replace the NaN by mode</span>
+    test_df_cleaned[c]<span style="color:#f92672">.</span>fillna(mean, inplace<span style="color:#f92672">=</span>True)
+
+<span style="color:#75715e">##### Categorical columns</span>
+categ_col_null_values <span style="color:#f92672">=</span> test_df_cleaned[null_values_columns_test<span style="color:#f92672">.</span>index]<span style="color:#f92672">.</span>select_dtypes(include<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;object&#39;</span>])<span style="color:#f92672">.</span>columns
+<span style="color:#75715e"># for each column</span>
+<span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> categ_col_null_values:
+    <span style="color:#75715e"># Get the most frequent value (mode)</span>
+    mode <span style="color:#f92672">=</span> test_df_cleaned[c]<span style="color:#f92672">.</span>value_counts()<span style="color:#f92672">.</span>index[<span style="color:#ae81ff">0</span>]
+    <span style="color:#75715e"># replace the NaN by mode</span>
+    test_df_cleaned[c]<span style="color:#f92672">.</span>fillna(mode, inplace<span style="color:#f92672">=</span>True)
+    
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># There are null values?</span>
+<span style="color:#66d9ef">print</span>(train_df_cleaned<span style="color:#f92672">.</span>isnull()<span style="color:#f92672">.</span>values<span style="color:#f92672">.</span>any())
+<span style="color:#66d9ef">print</span>(test_df_cleaned<span style="color:#f92672">.</span>isnull()<span style="color:#f92672">.</span>values<span style="color:#f92672">.</span>any())
+</code></pre></div><pre><code>False
+False
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Save the list of current columns</span>
+selected_columns <span style="color:#f92672">=</span> list(train_df_cleaned<span style="color:#f92672">.</span>columns)
+selected_columns_test <span style="color:#f92672">=</span> selected_columns[:]
+selected_columns_test<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#39;target&#39;</span>)
+selected_columns_test<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;ID&#39;</span>)
+
+<span style="color:#75715e"># Filter the columns in the test dataset</span>
+test_df_cleaned <span style="color:#f92672">=</span> test_df_cleaned[list(selected_columns_test)]
+
+<span style="color:#75715e"># Save the datasets in dict</span>
+data[<span style="color:#e6db74">&#39;cleaned_v1&#39;</span>] <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;train&#39;</span>: train_df_cleaned<span style="color:#f92672">.</span>copy(), <span style="color:#e6db74">&#39;test&#39;</span>:test_df_cleaned<span style="color:#f92672">.</span>copy()}
+</code></pre></div><h3 id="data-analysis">Data Analysis</h3>
+<p>Now that the dataset is cleaned, let&rsquo;s compute some statistics about the data and perform the transformations.</p>
+<p>We&rsquo;ll use the <strong>Pandas Profiling</strong> library to create a report about the data.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">%%</span>time
+train_df_cleaned<span style="color:#f92672">.</span>profile_report(style<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#39;full_width&#39;</span>:True})
+</code></pre></div><p><em><strong>This procedure generate a 17 MB file with the report, to see it, download the HTML version of the kernel <a href="https://github.com/cpatrickalves/kaggle-insurance-claim-classification/blob/master/kernel.html">here</a>.</strong></em></p>
+<p>From the report, we can see some issues in the dataset.</p>
+<p>There are features highly correlated, with a lot of zero values and with high cardinality.</p>
+<p>Let&rsquo;s check each one of these issues and see if we should remove or transform these features.</p>
+<h4 id="features-highly-correlated">Features highly correlated</h4>
+<p>From report the following features are highly correlated:</p>
+<ul>
+<li><em>v12 is highly correlated with v10 (ρ = 0.9117725571)</em></li>
+<li><em>v34 is highly correlated with v114 (ρ = 0.9118410589)</em></li>
+</ul>
+<p>These high correlations could mean that the features are multicollinear.</p>
+<p>Multicollinearity happens when one predictor variable in a multiple regression model can be linearly predicted from the others with a high degree of accuracy. This can lead to model overfitting and skewed or misleading results.</p>
+<p>So, we need to remove some of these features. As we don&rsquo;t know the meaning of the features, for now, we will just remove the <strong>v12</strong> and <strong>v114</strong>.
+We can come back to this latter and change the removed features to see the impact in results.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">selected_columns <span style="color:#f92672">=</span> list(train_df_cleaned<span style="color:#f92672">.</span>columns)
+<span style="color:#75715e"># Remove the selected columns</span>
+selected_columns<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#39;v12&#39;</span>)
+selected_columns<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#39;v114&#39;</span>)
+</code></pre></div><h4 id="features-with-highly-cardinality">Features with highly cardinality</h4>
+<p>From the report, the following categorical features have high cardinality:</p>
+<ul>
+<li>v125 has a high cardinality: 90 distinct values</li>
+<li>v22 has a high cardinality: 18210 distinct values</li>
+<li>v56 has a high cardinality: 122 distinct values</li>
+<li>v112 has a high cardinality: 22 distinct values</li>
+</ul>
+<p>High cardinality means that the categorical feature has a large number of distinct values.</p>
+<p>Features with high cardinality are hard to encode.</p>
+<p>For now, we&rsquo;ll remove then.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Remove the selected columns</span>
+selected_columns<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#39;v125&#39;</span>)
+selected_columns<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#39;v22&#39;</span>)
+selected_columns<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#39;v112&#39;</span>)
+selected_columns<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#39;v56&#39;</span>)
+
+<span style="color:#75715e"># Save the list of current columns</span>
+selected_columns_test <span style="color:#f92672">=</span> selected_columns[:]
+selected_columns_test<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#39;target&#39;</span>)
+selected_columns_test<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;ID&#39;</span>)
+
+<span style="color:#75715e"># Filter the columns in the train dataset</span>
+train_df_cleaned <span style="color:#f92672">=</span> train_df_cleaned[selected_columns]<span style="color:#f92672">.</span>copy()
+<span style="color:#75715e"># Filter the columns in the test dataset</span>
+test_df_cleaned <span style="color:#f92672">=</span> test_df_cleaned[selected_columns_test]<span style="color:#f92672">.</span>copy()
+
+<span style="color:#75715e"># Save the datasets in dict</span>
+data[<span style="color:#e6db74">&#39;cleaned_v2&#39;</span>] <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;train&#39;</span>: train_df_cleaned<span style="color:#f92672">.</span>copy(), <span style="color:#e6db74">&#39;test&#39;</span>:test_df_cleaned<span style="color:#f92672">.</span>copy()}
+</code></pre></div><h4 id="features-with-many-zeros">Features with many zeros.</h4>
+<p>From the report, the following numerical features have high number of zeros:</p>
+<ul>
+<li>v129 has 90247 (78.9%) zeros</li>
+<li>v38 has 109724 (96.0%) zeros</li>
+<li>v62 has 20630 (18.0%) zeros</li>
+<li>v72 has 3355 (2.9%) zeros</li>
+</ul>
+<p>Again, we don&rsquo;t know the meaning of these features, we can&rsquo;t tell what the high number of zeros could mean.</p>
+<p>As the features <strong>v129</strong> and <strong>v38</strong> are zero for almost all rows, we&rsquo;ll remove them.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Remove the selected columns</span>
+selected_columns<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#39;v129&#39;</span>)
+selected_columns<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#39;v38&#39;</span>)
+selected_columns
+</code></pre></div><pre><code>['target',
+ 'v3',
+ 'v10',
+ 'v14',
+ 'v21',
+ 'v24',
+ 'v31',
+ 'v34',
+ 'v40',
+ 'v47',
+ 'v50',
+ 'v52',
+ 'v62',
+ 'v66',
+ 'v71',
+ 'v72',
+ 'v74',
+ 'v75',
+ 'v79',
+ 'v91',
+ 'v107',
+ 'v110']
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Save the list of current columns</span>
+selected_columns_test <span style="color:#f92672">=</span> selected_columns[:]
+selected_columns_test<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#39;target&#39;</span>)
+selected_columns_test<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;ID&#39;</span>)
+
+<span style="color:#75715e"># Filter the columns in the train dataset</span>
+train_df_cleaned <span style="color:#f92672">=</span> train_df_cleaned[selected_columns]<span style="color:#f92672">.</span>copy()
+<span style="color:#75715e"># Filter the columns in the test dataset</span>
+test_df_cleaned <span style="color:#f92672">=</span> test_df_cleaned[selected_columns_test]<span style="color:#f92672">.</span>copy()
+
+<span style="color:#75715e"># Save the datasets in dict</span>
+data[<span style="color:#e6db74">&#39;cleaned_v3&#39;</span>] <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;train&#39;</span>: train_df_cleaned<span style="color:#f92672">.</span>copy(), <span style="color:#e6db74">&#39;test&#39;</span>: test_df_cleaned<span style="color:#f92672">.</span>copy()}
+</code></pre></div><h3 id="feature-engineering">Feature Engineering</h3>
+<p>Now, it&rsquo;s time to transform our data to feed some machine learning models.</p>
+<h4 id="enconding-categorical-features">Enconding categorical features</h4>
+<p>Some ML algorithms can&rsquo;t handle categorical features (ex: Logistic Regression, SVM, etc.)</p>
+<p>Better encoding of categorical data can mean better model performance.</p>
+<p>There are different methods for encoding <strong>nominal</strong> and <strong>ordinal</strong> data. But as we don&rsquo;t know the meaning of categorical features we&rsquo;ll consider all categorical features as nominal.</p>
+<p>For nominal columns, we can use methods like OneHot, Hashing, LeaveOneOut, and Target encoding. But we should avoid OneHot for high cardinality columns and decision tree-based algorithms.</p>
+<p>First, let&rsquo;s compute the cardinality for categorical features.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">train_df_cleaned <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;cleaned_v2&#39;</span>][<span style="color:#e6db74">&#39;train&#39;</span>]<span style="color:#f92672">.</span>copy()
+test_df_cleaned <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;cleaned_v2&#39;</span>][<span style="color:#e6db74">&#39;test&#39;</span>]<span style="color:#f92672">.</span>copy()
+train_df_cleaned<span style="color:#f92672">.</span>select_dtypes(include<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;object&#39;</span>])<span style="color:#f92672">.</span>columns
+</code></pre></div><pre><code>Index(['v3', 'v24', 'v31', 'v47', 'v52', 'v66', 'v71', 'v74', 'v75', 'v79',
+       'v91', 'v107', 'v110'],
+      dtype='object')
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Before encoding categorical variables we need to convert the categorical data from &#34;object&#34; to &#34;category&#34;</span>
+<span style="color:#75715e"># Train</span>
+<span style="color:#66d9ef">for</span> col_name <span style="color:#f92672">in</span> train_df_cleaned<span style="color:#f92672">.</span>select_dtypes(include<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;object&#39;</span>])<span style="color:#f92672">.</span>columns:    
+    train_df_cleaned[col_name] <span style="color:#f92672">=</span> train_df_cleaned[col_name]<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;category&#39;</span>)
+
+<span style="color:#75715e"># Test</span>
+<span style="color:#66d9ef">for</span> col_name <span style="color:#f92672">in</span> test_df_cleaned<span style="color:#f92672">.</span>select_dtypes(include<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;object&#39;</span>])<span style="color:#f92672">.</span>columns:
+    test_df_cleaned[col_name] <span style="color:#f92672">=</span> test_df_cleaned[col_name]<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;category&#39;</span>)
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">train_df_cleaned<span style="color:#f92672">.</span>select_dtypes(include<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;category&#39;</span>])<span style="color:#f92672">.</span>describe()
+</code></pre></div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>v3</th>
+      <th>v24</th>
+      <th>v31</th>
+      <th>v47</th>
+      <th>v52</th>
+      <th>v66</th>
+      <th>v71</th>
+      <th>v74</th>
+      <th>v75</th>
+      <th>v79</th>
+      <th>v91</th>
+      <th>v107</th>
+      <th>v110</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>114321</td>
+      <td>114321</td>
+      <td>114321</td>
+      <td>114321</td>
+      <td>114321</td>
+      <td>114321</td>
+      <td>114321</td>
+      <td>114321</td>
+      <td>114321</td>
+      <td>114321</td>
+      <td>114321</td>
+      <td>114321</td>
+      <td>114321</td>
+    </tr>
+    <tr>
+      <th>unique</th>
+      <td>3</td>
+      <td>5</td>
+      <td>3</td>
+      <td>10</td>
+      <td>12</td>
+      <td>3</td>
+      <td>9</td>
+      <td>3</td>
+      <td>4</td>
+      <td>18</td>
+      <td>7</td>
+      <td>7</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>top</th>
+      <td>C</td>
+      <td>E</td>
+      <td>A</td>
+      <td>C</td>
+      <td>J</td>
+      <td>A</td>
+      <td>F</td>
+      <td>B</td>
+      <td>D</td>
+      <td>C</td>
+      <td>A</td>
+      <td>E</td>
+      <td>A</td>
+    </tr>
+    <tr>
+      <th>freq</th>
+      <td>114041</td>
+      <td>55177</td>
+      <td>91804</td>
+      <td>55425</td>
+      <td>11106</td>
+      <td>70353</td>
+      <td>75094</td>
+      <td>113560</td>
+      <td>75087</td>
+      <td>34561</td>
+      <td>27082</td>
+      <td>27082</td>
+      <td>55688</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>One of the most used encoding methods for nominal data is the <strong>OneHot</strong>, where each unique value is converted into a new column with 1 or a 0 denoting the presence or absence of this value. But, this method creates a new column for each unique value in the column, so if the cardinality is high, the number of new columns could lead us to new issues due to the number of features.</p>
+<p>The columns v47, v52, v71, v91, v107, and v79 have high cardinality, so they need special treatment.</p>
+<p>In the following lines, we&rsquo;ll split the datasets into three versions, one with the OneHot applied in all categorical columns, another version with OneHot applied to the low cardinality features and Hashing to the high cardinality variables and the last where all categorical variables are removed.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">##### VERSION 1</span>
+<span style="color:#75715e"># Encoding all categorical variables with OneHot</span>
+cat_columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;v3&#39;</span>, <span style="color:#e6db74">&#39;v24&#39;</span>,  <span style="color:#e6db74">&#39;v31&#39;</span>, <span style="color:#e6db74">&#39;v66&#39;</span>, <span style="color:#e6db74">&#39;v74&#39;</span>, <span style="color:#e6db74">&#39;v75&#39;</span>, <span style="color:#e6db74">&#39;v110&#39;</span>, <span style="color:#e6db74">&#39;v47&#39;</span>, <span style="color:#e6db74">&#39;v52&#39;</span>,<span style="color:#e6db74">&#39;v71&#39;</span>, <span style="color:#e6db74">&#39;v91&#39;</span>, <span style="color:#e6db74">&#39;v107&#39;</span>, <span style="color:#e6db74">&#39;v79&#39;</span>]
+ce_onehot <span style="color:#f92672">=</span> ce<span style="color:#f92672">.</span>OneHotEncoder(cols<span style="color:#f92672">=</span>cat_columns)
+
+<span style="color:#75715e"># For columns v47 and v79, the are some values only present in the train dataset. Thus, the enconding process create a different number of columns </span>
+<span style="color:#75715e"># in train and test dataset and prevents the model prediction. So before save the datasets I remove the extra columns &#39;v47_10&#39;, &#39;v79_18&#39;.</span>
+<span style="color:#75715e"># Apply the encoding</span>
+data[<span style="color:#e6db74">&#39;cleaned_transformed_CatgEncoded_v1&#39;</span>] <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;train&#39;</span>:ce_onehot<span style="color:#f92672">.</span>fit_transform(train_df_cleaned)<span style="color:#f92672">.</span>drop([<span style="color:#e6db74">&#39;v47_10&#39;</span>, <span style="color:#e6db74">&#39;v79_18&#39;</span>], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>), 
+                                              <span style="color:#e6db74">&#39;test&#39;</span>: ce_onehot<span style="color:#f92672">.</span>fit_transform(test_df_cleaned)}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">print</span>(data[<span style="color:#e6db74">&#39;cleaned_transformed_CatgEncoded_v1&#39;</span>][<span style="color:#e6db74">&#39;train&#39;</span>]<span style="color:#f92672">.</span>columns)
+<span style="color:#66d9ef">print</span>(data[<span style="color:#e6db74">&#39;cleaned_transformed_CatgEncoded_v1&#39;</span>][<span style="color:#e6db74">&#39;test&#39;</span>]<span style="color:#f92672">.</span>columns)
+</code></pre></div><pre><code>Index(['target', 'v3_1', 'v3_2', 'v3_3', 'v10', 'v14', 'v21', 'v24_1', 'v24_2',
+       'v24_3', 'v24_4', 'v24_5', 'v31_1', 'v31_2', 'v31_3', 'v34', 'v38',
+       'v40', 'v47_1', 'v47_2', 'v47_3', 'v47_4', 'v47_5', 'v47_6', 'v47_7',
+       'v47_8', 'v47_9', 'v50', 'v52_1', 'v52_2', 'v52_3', 'v52_4', 'v52_5',
+       'v52_6', 'v52_7', 'v52_8', 'v52_9', 'v52_10', 'v52_11', 'v52_12', 'v62',
+       'v66_1', 'v66_2', 'v66_3', 'v71_1', 'v71_2', 'v71_3', 'v71_4', 'v71_5',
+       'v71_6', 'v71_7', 'v71_8', 'v71_9', 'v72', 'v74_1', 'v74_2', 'v74_3',
+       'v75_1', 'v75_2', 'v75_3', 'v75_4', 'v79_1', 'v79_2', 'v79_3', 'v79_4',
+       'v79_5', 'v79_6', 'v79_7', 'v79_8', 'v79_9', 'v79_10', 'v79_11',
+       'v79_12', 'v79_13', 'v79_14', 'v79_15', 'v79_16', 'v79_17', 'v91_1',
+       'v91_2', 'v91_3', 'v91_4', 'v91_5', 'v91_6', 'v91_7', 'v107_1',
+       'v107_2', 'v107_3', 'v107_4', 'v107_5', 'v107_6', 'v107_7', 'v110_1',
+       'v110_2', 'v110_3', 'v129'],
+      dtype='object')
+Index(['v3_1', 'v3_2', 'v3_3', 'v10', 'v14', 'v21', 'v24_1', 'v24_2', 'v24_3',
+       'v24_4', 'v24_5', 'v31_1', 'v31_2', 'v31_3', 'v34', 'v38', 'v40',
+       'v47_1', 'v47_2', 'v47_3', 'v47_4', 'v47_5', 'v47_6', 'v47_7', 'v47_8',
+       'v47_9', 'v50', 'v52_1', 'v52_2', 'v52_3', 'v52_4', 'v52_5', 'v52_6',
+       'v52_7', 'v52_8', 'v52_9', 'v52_10', 'v52_11', 'v52_12', 'v62', 'v66_1',
+       'v66_2', 'v66_3', 'v71_1', 'v71_2', 'v71_3', 'v71_4', 'v71_5', 'v71_6',
+       'v71_7', 'v71_8', 'v71_9', 'v72', 'v74_1', 'v74_2', 'v74_3', 'v75_1',
+       'v75_2', 'v75_3', 'v75_4', 'v79_1', 'v79_2', 'v79_3', 'v79_4', 'v79_5',
+       'v79_6', 'v79_7', 'v79_8', 'v79_9', 'v79_10', 'v79_11', 'v79_12',
+       'v79_13', 'v79_14', 'v79_15', 'v79_16', 'v79_17', 'v91_1', 'v91_2',
+       'v91_3', 'v91_4', 'v91_5', 'v91_6', 'v91_7', 'v107_1', 'v107_2',
+       'v107_3', 'v107_4', 'v107_5', 'v107_6', 'v107_7', 'v110_1', 'v110_2',
+       'v110_3', 'v129', 'ID'],
+      dtype='object')
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">##### VERSION 2</span>
+<span style="color:#75715e"># Encoding categorical variables with low cardinality with OneHot</span>
+low_cardinality_columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;v3&#39;</span>, <span style="color:#e6db74">&#39;v24&#39;</span>,  <span style="color:#e6db74">&#39;v31&#39;</span>, <span style="color:#e6db74">&#39;v66&#39;</span>, <span style="color:#e6db74">&#39;v74&#39;</span>, <span style="color:#e6db74">&#39;v75&#39;</span>, <span style="color:#e6db74">&#39;v110&#39;</span>]
+ce_onehot <span style="color:#f92672">=</span> ce<span style="color:#f92672">.</span>OneHotEncoder(cols<span style="color:#f92672">=</span>low_cardinality_columns)
+
+<span style="color:#75715e"># Apply the encoding </span>
+train_df_cleaned_transformed <span style="color:#f92672">=</span> ce_onehot<span style="color:#f92672">.</span>fit_transform(train_df_cleaned)
+test_df_cleaned_transformed <span style="color:#f92672">=</span> ce_onehot<span style="color:#f92672">.</span>fit_transform(test_df_cleaned)
+</code></pre></div><p>For the categorical features with high cardinality we will use the <strong>Hashing</strong> method.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Encoding categorical variables with high cardinality with Hashing</span>
+high_cardinality_columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;v47&#39;</span>, <span style="color:#e6db74">&#39;v52&#39;</span>,<span style="color:#e6db74">&#39;v71&#39;</span>, <span style="color:#e6db74">&#39;v91&#39;</span>, <span style="color:#e6db74">&#39;v107&#39;</span>, <span style="color:#e6db74">&#39;v79&#39;</span>]
+
+<span style="color:#75715e">#train_df_cleaned_transformed[high_cardinality_columns].describe().loc[&#39;unique&#39;]</span>
+
+ce_hash <span style="color:#f92672">=</span> ce<span style="color:#f92672">.</span>HashingEncoder(max_process<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, cols <span style="color:#f92672">=</span> high_cardinality_columns, n_components<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>)
+train_df_cleaned_transformed <span style="color:#f92672">=</span> ce_hash<span style="color:#f92672">.</span>fit_transform(train_df_cleaned_transformed)
+test_df_cleaned_transformed <span style="color:#f92672">=</span> ce_hash<span style="color:#f92672">.</span>fit_transform(test_df_cleaned_transformed)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data[<span style="color:#e6db74">&#39;cleaned_transformed_CatgEncoded_v2&#39;</span>] <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;train&#39;</span>: train_df_cleaned_transformed<span style="color:#f92672">.</span>copy(), <span style="color:#e6db74">&#39;test&#39;</span>: test_df_cleaned_transformed<span style="color:#f92672">.</span>copy()}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">train_df_cleaned_transformed<span style="color:#f92672">.</span>head(<span style="color:#ae81ff">5</span>)
+</code></pre></div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col_0</th>
+      <th>col_1</th>
+      <th>col_2</th>
+      <th>col_3</th>
+      <th>col_4</th>
+      <th>col_5</th>
+      <th>col_6</th>
+      <th>col_7</th>
+      <th>col_8</th>
+      <th>col_9</th>
+      <th>col_10</th>
+      <th>col_11</th>
+      <th>target</th>
+      <th>v3_1</th>
+      <th>v3_2</th>
+      <th>v3_3</th>
+      <th>v10</th>
+      <th>v14</th>
+      <th>v21</th>
+      <th>v24_1</th>
+      <th>v24_2</th>
+      <th>v24_3</th>
+      <th>v24_4</th>
+      <th>v24_5</th>
+      <th>v31_1</th>
+      <th>v31_2</th>
+      <th>v31_3</th>
+      <th>v34</th>
+      <th>v38</th>
+      <th>v40</th>
+      <th>v50</th>
+      <th>v62</th>
+      <th>v66_1</th>
+      <th>v66_2</th>
+      <th>v66_3</th>
+      <th>v72</th>
+      <th>v74_1</th>
+      <th>v74_2</th>
+      <th>v74_3</th>
+      <th>v75_1</th>
+      <th>v75_2</th>
+      <th>v75_3</th>
+      <th>v75_4</th>
+      <th>v110_1</th>
+      <th>v110_2</th>
+      <th>v110_3</th>
+      <th>v129</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.503281</td>
+      <td>11.636387</td>
+      <td>7.730923</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7.270147</td>
+      <td>0</td>
+      <td>7.711453</td>
+      <td>0.899420</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1.312910</td>
+      <td>11.636386</td>
+      <td>6.763110</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3.615077</td>
+      <td>0</td>
+      <td>14.305766</td>
+      <td>1.379210</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.765864</td>
+      <td>9.603542</td>
+      <td>5.245035</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>4.043864</td>
+      <td>0</td>
+      <td>13.077201</td>
+      <td>0.604504</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>6.542669</td>
+      <td>14.094723</td>
+      <td>7.517125</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>8.703550</td>
+      <td>0</td>
+      <td>11.523045</td>
+      <td>3.329176</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1.050328</td>
+      <td>10.991098</td>
+      <td>6.414567</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>6.083151</td>
+      <td>0</td>
+      <td>10.138920</td>
+      <td>1.364536</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">##### VERSION 3</span>
+<span style="color:#75715e"># Removing all categorical variables with OneHot</span>
+cat_columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;v3&#39;</span>, <span style="color:#e6db74">&#39;v24&#39;</span>,  <span style="color:#e6db74">&#39;v31&#39;</span>, <span style="color:#e6db74">&#39;v66&#39;</span>, <span style="color:#e6db74">&#39;v74&#39;</span>, <span style="color:#e6db74">&#39;v75&#39;</span>, <span style="color:#e6db74">&#39;v110&#39;</span>, <span style="color:#e6db74">&#39;v47&#39;</span>, <span style="color:#e6db74">&#39;v52&#39;</span>,<span style="color:#e6db74">&#39;v71&#39;</span>, <span style="color:#e6db74">&#39;v91&#39;</span>, <span style="color:#e6db74">&#39;v107&#39;</span>, <span style="color:#e6db74">&#39;v79&#39;</span>]
+
+<span style="color:#75715e"># Apply the encoding</span>
+data[<span style="color:#e6db74">&#39;cleaned_dropCatg&#39;</span>] <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;train&#39;</span>:train_df_cleaned<span style="color:#f92672">.</span>drop(columns<span style="color:#f92672">=</span>cat_columns, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>), 
+                               <span style="color:#e6db74">&#39;test&#39;</span>: test_df_cleaned<span style="color:#f92672">.</span>drop(columns<span style="color:#f92672">=</span>cat_columns, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)}
+
+data[<span style="color:#e6db74">&#39;cleaned_dropCatg&#39;</span>][<span style="color:#e6db74">&#39;train&#39;</span>]<span style="color:#f92672">.</span>head()
+</code></pre></div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>target</th>
+      <th>v10</th>
+      <th>v14</th>
+      <th>v21</th>
+      <th>v34</th>
+      <th>v38</th>
+      <th>v40</th>
+      <th>v50</th>
+      <th>v62</th>
+      <th>v72</th>
+      <th>v129</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0.503281</td>
+      <td>11.636387</td>
+      <td>7.730923</td>
+      <td>7.270147</td>
+      <td>0</td>
+      <td>7.711453</td>
+      <td>0.899420</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1.312910</td>
+      <td>11.636386</td>
+      <td>6.763110</td>
+      <td>3.615077</td>
+      <td>0</td>
+      <td>14.305766</td>
+      <td>1.379210</td>
+      <td>2</td>
+      <td>2</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>0.765864</td>
+      <td>9.603542</td>
+      <td>5.245035</td>
+      <td>4.043864</td>
+      <td>0</td>
+      <td>13.077201</td>
+      <td>0.604504</td>
+      <td>1</td>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>6.542669</td>
+      <td>14.094723</td>
+      <td>7.517125</td>
+      <td>8.703550</td>
+      <td>0</td>
+      <td>11.523045</td>
+      <td>3.329176</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>1.050328</td>
+      <td>10.991098</td>
+      <td>6.414567</td>
+      <td>6.083151</td>
+      <td>0</td>
+      <td>10.138920</td>
+      <td>1.364536</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h4 id="transforming-numerical-features">Transforming numerical features</h4>
+<p>Let&rsquo;s check the numerical features.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">train_df_cleaned<span style="color:#f92672">.</span>select_dtypes(exclude<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;category&#39;</span>])<span style="color:#f92672">.</span>describe()
+</code></pre></div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>target</th>
+      <th>v10</th>
+      <th>v14</th>
+      <th>v21</th>
+      <th>v34</th>
+      <th>v38</th>
+      <th>v40</th>
+      <th>v50</th>
+      <th>v62</th>
+      <th>v72</th>
+      <th>v129</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>114321.000000</td>
+      <td>1.143210e+05</td>
+      <td>1.143210e+05</td>
+      <td>114321.000000</td>
+      <td>1.143210e+05</td>
+      <td>114321.000000</td>
+      <td>1.143210e+05</td>
+      <td>1.143210e+05</td>
+      <td>114321.000000</td>
+      <td>114321.000000</td>
+      <td>114321.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>0.761199</td>
+      <td>1.883046e+00</td>
+      <td>1.209428e+01</td>
+      <td>7.029740</td>
+      <td>6.406236e+00</td>
+      <td>0.090928</td>
+      <td>1.046593e+01</td>
+      <td>1.504265e+00</td>
+      <td>1.030694</td>
+      <td>1.431767</td>
+      <td>0.310144</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.426353</td>
+      <td>1.393466e+00</td>
+      <td>1.443921e+00</td>
+      <td>1.069402</td>
+      <td>2.024195e+00</td>
+      <td>0.583478</td>
+      <td>3.167644e+00</td>
+      <td>1.167890e+00</td>
+      <td>0.696244</td>
+      <td>0.922267</td>
+      <td>0.693262</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+      <td>-9.875317e-07</td>
+      <td>-9.738831e-07</td>
+      <td>0.106181</td>
+      <td>-6.707670e-07</td>
+      <td>0.000000</td>
+      <td>1.238996e-07</td>
+      <td>-9.091393e-07</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>1.000000</td>
+      <td>1.050328e+00</td>
+      <td>1.125602e+01</td>
+      <td>6.418755</td>
+      <td>5.055800e+00</td>
+      <td>0.000000</td>
+      <td>8.410390e+00</td>
+      <td>6.587924e-01</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>1.000000</td>
+      <td>1.312910e+00</td>
+      <td>1.196783e+01</td>
+      <td>7.039366</td>
+      <td>6.534434e+00</td>
+      <td>0.000000</td>
+      <td>1.033934e+01</td>
+      <td>1.211944e+00</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>1.000000</td>
+      <td>2.100657e+00</td>
+      <td>1.271577e+01</td>
+      <td>7.666522</td>
+      <td>7.701451e+00</td>
+      <td>0.000000</td>
+      <td>1.276246e+01</td>
+      <td>2.005722e+00</td>
+      <td>1.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>1.000000</td>
+      <td>1.853392e+01</td>
+      <td>2.000000e+01</td>
+      <td>19.296052</td>
+      <td>2.000000e+01</td>
+      <td>12.000000</td>
+      <td>2.000000e+01</td>
+      <td>2.000000e+01</td>
+      <td>7.000000</td>
+      <td>12.000000</td>
+      <td>11.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Plot the distribution of numerical features</span>
+
+<span style="color:#75715e"># Create fig object</span>
+fig, axes <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">5</span>, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">8</span>))
+
+numerical_columns <span style="color:#f92672">=</span> train_df_cleaned<span style="color:#f92672">.</span>select_dtypes(exclude<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;category&#39;</span>])<span style="color:#f92672">.</span>columns
+numerical_columns <span style="color:#f92672">=</span> list(numerical_columns)
+numerical_columns<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#39;target&#39;</span>)
+
+<span style="color:#75715e"># Create a plot for each feature</span>
+x,y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>
+<span style="color:#66d9ef">for</span> i, column <span style="color:#f92672">in</span> enumerate(numerical_columns):
+    
+    sns<span style="color:#f92672">.</span>distplot(train_df_cleaned[column], ax<span style="color:#f92672">=</span>axes[x,y])
+    <span style="color:#66d9ef">if</span> i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">4</span>:
+        y <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">elif</span> i<span style="color:#f92672">==</span><span style="color:#ae81ff">4</span>:
+        x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+        y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">else</span>:
+        y<span style="color:#f92672">+=</span><span style="color:#ae81ff">1</span>
+</code></pre></div><p><img src="output_files/output_48_0.png" alt="png"></p>
+<p>There are several transformations to be applied in these features, as the datasets are not that bigger, we&rsquo;ll apply MinMaxScaler(), RobustScaler(), StandardScaler().</p>
+<ul>
+<li><strong>MinMaxScaler</strong> subtracts the mimimum value in the column and then divides by the difference between the original maximum and original minimum.</li>
+<li><strong>RobustScaler</strong> standardizes a feature by removing the median and dividing each feature by the interquartile range.</li>
+<li><strong>StandardScaler</strong> standardizes a feature by removing the mean and dividing each value by the standard deviation.</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Apply all scalings methods</span>
+scaling <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;MinMaxScaler&#39;</span>: MinMaxScaler(),
+         <span style="color:#e6db74">&#39;RobustScaler&#39;</span>: RobustScaler(),
+         <span style="color:#e6db74">&#39;StandardScaler&#39;</span>: StandardScaler()
+        }
+
+<span style="color:#75715e"># Temporarily save transformed data sets</span>
+temp_dict <span style="color:#f92672">=</span> {}
+
+<span style="color:#75715e"># Save the list of the numerical columns of the original dataset</span>
+num_cols <span style="color:#f92672">=</span> list(data[<span style="color:#e6db74">&#39;original&#39;</span>][<span style="color:#e6db74">&#39;train&#39;</span>]<span style="color:#f92672">.</span>select_dtypes(exclude<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;object&#39;</span>])<span style="color:#f92672">.</span>columns)
+
+<span style="color:#75715e"># Apply all scalings in all datasets</span>
+<span style="color:#66d9ef">for</span> d <span style="color:#f92672">in</span> data<span style="color:#f92672">.</span>keys():
+    <span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#34;Scaling dataset: {d}&#34;</span>)
+    
+    <span style="color:#75715e"># Get the list of numerical columns</span>
+    cols_train <span style="color:#f92672">=</span> list(data[d][<span style="color:#e6db74">&#39;train&#39;</span>]<span style="color:#f92672">.</span>select_dtypes(exclude<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;category&#39;</span>,<span style="color:#e6db74">&#39;object&#39;</span>])<span style="color:#f92672">.</span>columns)
+    cols_test <span style="color:#f92672">=</span> list(data[d][<span style="color:#e6db74">&#39;test&#39;</span>]<span style="color:#f92672">.</span>select_dtypes(exclude<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;category&#39;</span>,<span style="color:#e6db74">&#39;object&#39;</span>])<span style="color:#f92672">.</span>columns)
+    cols_train<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#39;target&#39;</span>)
+    
+    <span style="color:#75715e"># As the encoding process of categorical features create numerical columns</span>
+    <span style="color:#75715e"># we need to filter these columns    </span>
+    cols_train <span style="color:#f92672">=</span> list(set(num_cols) <span style="color:#f92672">&amp;</span> set(cols_train))
+    cols_test <span style="color:#f92672">=</span> list(set(num_cols) <span style="color:#f92672">&amp;</span> set(cols_test))
+    cols_test<span style="color:#f92672">.</span>remove(<span style="color:#e6db74">&#39;ID&#39;</span>)
+        
+    <span style="color:#75715e"># Apply Transformations</span>
+    <span style="color:#66d9ef">for</span> s <span style="color:#f92672">in</span> scaling<span style="color:#f92672">.</span>keys():
+        <span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#34;   Applying {s}() ...&#34;</span>)    
+        
+        <span style="color:#75715e"># Make a copy of the original DFs</span>
+        train <span style="color:#f92672">=</span> data[d][<span style="color:#e6db74">&#39;train&#39;</span>]<span style="color:#f92672">.</span>copy()
+        test <span style="color:#f92672">=</span> data[d][<span style="color:#e6db74">&#39;test&#39;</span>]<span style="color:#f92672">.</span>copy()
+        <span style="color:#75715e"># Apply scaling</span>
+        train[cols_train] <span style="color:#f92672">=</span> scaling[s]<span style="color:#f92672">.</span>fit_transform(train[cols_train])
+        test[cols_test] <span style="color:#f92672">=</span> scaling[s]<span style="color:#f92672">.</span>fit_transform(test[cols_test])    
+        <span style="color:#75715e"># Save the data</span>
+        temp_dict[f<span style="color:#e6db74">&#34;{d}_{s}&#34;</span>] <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;train&#39;</span>: train<span style="color:#f92672">.</span>copy(), <span style="color:#e6db74">&#39;test&#39;</span>: test<span style="color:#f92672">.</span>copy()}
+
+<span style="color:#75715e"># Save the new datasets in data dict        </span>
+data<span style="color:#f92672">.</span>update(temp_dict)        
+<span style="color:#66d9ef">print</span>(data<span style="color:#f92672">.</span>keys())
+</code></pre></div><pre><code>Scaling dataset: original
+   Applying MinMaxScaler() ...
+   Applying RobustScaler() ...
+   Applying StandardScaler() ...
+Scaling dataset: cleaned_v1
+   Applying MinMaxScaler() ...
+   Applying RobustScaler() ...
+   Applying StandardScaler() ...
+Scaling dataset: cleaned_v2
+   Applying MinMaxScaler() ...
+   Applying RobustScaler() ...
+   Applying StandardScaler() ...
+Scaling dataset: cleaned_v3
+   Applying MinMaxScaler() ...
+   Applying RobustScaler() ...
+   Applying StandardScaler() ...
+Scaling dataset: cleaned_transformed_CatgEncoded_v1
+   Applying MinMaxScaler() ...
+   Applying RobustScaler() ...
+   Applying StandardScaler() ...
+Scaling dataset: cleaned_transformed_CatgEncoded_v2
+   Applying MinMaxScaler() ...
+   Applying RobustScaler() ...
+   Applying StandardScaler() ...
+Scaling dataset: cleaned_dropCatg
+   Applying MinMaxScaler() ...
+   Applying RobustScaler() ...
+   Applying StandardScaler() ...
+dict_keys(['original', 'cleaned_v1', 'cleaned_v2', 'cleaned_v3', 'cleaned_transformed_CatgEncoded_v1', 'cleaned_transformed_CatgEncoded_v2', 'cleaned_dropCatg', 'original_MinMaxScaler', 'original_RobustScaler', 'original_StandardScaler', 'cleaned_v1_MinMaxScaler', 'cleaned_v1_RobustScaler', 'cleaned_v1_StandardScaler', 'cleaned_v2_MinMaxScaler', 'cleaned_v2_RobustScaler', 'cleaned_v2_StandardScaler', 'cleaned_v3_MinMaxScaler', 'cleaned_v3_RobustScaler', 'cleaned_v3_StandardScaler', 'cleaned_transformed_CatgEncoded_v1_MinMaxScaler', 'cleaned_transformed_CatgEncoded_v1_RobustScaler', 'cleaned_transformed_CatgEncoded_v1_StandardScaler', 'cleaned_transformed_CatgEncoded_v2_MinMaxScaler', 'cleaned_transformed_CatgEncoded_v2_RobustScaler', 'cleaned_transformed_CatgEncoded_v2_StandardScaler', 'cleaned_dropCatg_MinMaxScaler', 'cleaned_dropCatg_RobustScaler', 'cleaned_dropCatg_StandardScaler'])
+</code></pre>
+<h1 id="machine-learning">Machine Learning</h1>
+<p>Now, let&rsquo;s fit the datasets in some machine learning models.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Importing packages</span>
+<span style="color:#f92672">from</span> sklearn.model_selection <span style="color:#f92672">import</span> train_test_split, GridSearchCV, KFold
+<span style="color:#f92672">from</span> sklearn.feature_selection <span style="color:#f92672">import</span> SelectFromModel
+<span style="color:#f92672">from</span> sklearn.metrics <span style="color:#f92672">import</span> accuracy_score, confusion_matrix, classification_report, roc_auc_score, log_loss
+<span style="color:#f92672">from</span> sklearn.model_selection <span style="color:#f92672">import</span> StratifiedShuffleSplit
+<span style="color:#f92672">from</span> sklearn.linear_model <span style="color:#f92672">import</span> LogisticRegression
+<span style="color:#f92672">from</span> sklearn.discriminant_analysis <span style="color:#f92672">import</span> LinearDiscriminantAnalysis
+<span style="color:#f92672">from</span> sklearn.naive_bayes <span style="color:#f92672">import</span> GaussianNB
+<span style="color:#f92672">from</span> sklearn.neighbors <span style="color:#f92672">import</span> KNeighborsClassifier
+<span style="color:#f92672">from</span> sklearn.svm <span style="color:#f92672">import</span> SVC
+<span style="color:#f92672">from</span> sklearn.ensemble <span style="color:#f92672">import</span> RandomForestClassifier
+<span style="color:#f92672">from</span> sklearn.ensemble <span style="color:#f92672">import</span> ExtraTreesClassifier
+<span style="color:#f92672">from</span> sklearn.calibration <span style="color:#f92672">import</span> CalibratedClassifierCV
+<span style="color:#f92672">from</span> xgboost.sklearn <span style="color:#f92672">import</span> XGBClassifier
+<span style="color:#f92672">from</span> xgboost <span style="color:#f92672">import</span> plot_importance
+<span style="color:#f92672">from</span> imblearn.over_sampling <span style="color:#f92672">import</span> SMOTE, ADASYN
+<span style="color:#f92672">from</span> numpy <span style="color:#f92672">import</span> sort
+<span style="color:#f92672">import</span> lightgbm <span style="color:#f92672">as</span> lgb
+<span style="color:#f92672">import</span> xgboost <span style="color:#f92672">as</span> xgb
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">len(data)
+</code></pre></div><pre><code>28
+</code></pre>
+<p>We have more than 20 datasets to test on the machine learning models.</p>
+<p>Not all machine learning algorithms can be used with all datasets, some of them, like SVM, required scaling the numerical data.</p>
+<p>So we&rsquo;ll filter the datasets used in training/tests.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># A function to run train and test for each model</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_model</span>(name, model, X_train, Y_train, cv_folds<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>, verbose<span style="color:#f92672">=</span>True):   
+    
+    <span style="color:#66d9ef">if</span> verbose: <span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#34;{name}&#34;</span>)
+    
+    <span style="color:#75715e"># Use Stratified ShuffleSplit cross-validator</span>
+    <span style="color:#75715e"># Provides train/test indices to split data in train/test sets.</span>
+    n_folds <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+    sss <span style="color:#f92672">=</span> StratifiedShuffleSplit(n_splits<span style="color:#f92672">=</span>cv_folds, test_size<span style="color:#f92672">=</span><span style="color:#ae81ff">0.30</span>, random_state<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+
+    <span style="color:#75715e"># Control the number of folds in cross-validation (5 folds)</span>
+    k<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+    
+    acc <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    roc <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    log_loss_score <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    
+    <span style="color:#75715e"># From the generator object gets index for series to use in train and validation</span>
+    <span style="color:#66d9ef">for</span> train_index, valid_index <span style="color:#f92672">in</span> sss<span style="color:#f92672">.</span>split(X_train, Y_train):
+
+        <span style="color:#75715e"># Saves the split train/validation combinations for each Cross-Validation fold</span>
+        X_train_cv, X_validation_cv <span style="color:#f92672">=</span> X_train<span style="color:#f92672">.</span>loc[train_index,:], X_train<span style="color:#f92672">.</span>loc[valid_index,:]
+        Y_train_cv, Y_validation_cv <span style="color:#f92672">=</span> Y_train[train_index], Y_train[valid_index]
+        
+        <span style="color:#75715e">#print(f&#34;Fold: {k}&#34;) </span>
+        <span style="color:#75715e"># Training the model</span>
+        <span style="color:#66d9ef">try</span>:
+            model<span style="color:#f92672">.</span>fit(X_train_cv, Y_train_cv, eval_set<span style="color:#f92672">=</span>[(X_train_cv, Y_train_cv), (X_validation_cv, Y_validation_cv)], eval_metric<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;logloss&#39;</span>, verbose<span style="color:#f92672">=</span>False )        
+        <span style="color:#66d9ef">except</span>:
+            <span style="color:#66d9ef">try</span>: 
+                model<span style="color:#f92672">.</span>fit(X_train_cv, Y_train_cv, eval_set<span style="color:#f92672">=</span>[(X_train_cv, Y_train_cv), (X_validation_cv, Y_validation_cv)], verbose<span style="color:#f92672">=</span>False)        
+            <span style="color:#66d9ef">except</span>:
+                <span style="color:#66d9ef">try</span>:
+                    model<span style="color:#f92672">.</span>fit(X_train_cv, Y_train_cv, verbose<span style="color:#f92672">=</span>False)
+                <span style="color:#66d9ef">except</span>:
+                    model<span style="color:#f92672">.</span>fit(X_train_cv, Y_train_cv)
+                        
+        <span style="color:#75715e"># Get the class probabilities of the input samples        </span>
+        train_pred <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>predict(X_validation_cv)
+        train_pred_prob <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>predict_proba(X_validation_cv)[:,<span style="color:#ae81ff">1</span>]
+       
+        acc <span style="color:#f92672">+=</span> accuracy_score(Y_validation_cv, train_pred)
+        roc <span style="color:#f92672">+=</span> roc_auc_score(Y_validation_cv, train_pred_prob)
+        log_loss_score <span style="color:#f92672">+=</span> log_loss(Y_validation_cv, train_pred_prob)   
+                
+        k <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+    
+    <span style="color:#75715e"># Compute the mean</span>
+    <span style="color:#66d9ef">if</span> verbose:
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Accuracy : </span><span style="color:#e6db74">%.4g</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (acc<span style="color:#f92672">/</span>(k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)))
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;AUC Score: </span><span style="color:#e6db74">%f</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (roc<span style="color:#f92672">/</span>(k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)))
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Log Loss: </span><span style="color:#e6db74">%f</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (log_loss_score<span style="color:#f92672">/</span>(k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)))
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;-&#34;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">30</span>)
+
+    <span style="color:#75715e"># Return the last version </span>
+    <span style="color:#66d9ef">return</span> (model, log_loss_score<span style="color:#f92672">/</span>(k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">print</span>(list(data<span style="color:#f92672">.</span>keys()))
+</code></pre></div><pre><code>['original', 'cleaned_v1', 'cleaned_v2', 'cleaned_v3', 'cleaned_transformed_CatgEncoded_v1', 'cleaned_transformed_CatgEncoded_v2', 'cleaned_dropCatg', 'original_MinMaxScaler', 'original_RobustScaler', 'original_StandardScaler', 'cleaned_v1_MinMaxScaler', 'cleaned_v1_RobustScaler', 'cleaned_v1_StandardScaler', 'cleaned_v2_MinMaxScaler', 'cleaned_v2_RobustScaler', 'cleaned_v2_StandardScaler', 'cleaned_v3_MinMaxScaler', 'cleaned_v3_RobustScaler', 'cleaned_v3_StandardScaler', 'cleaned_transformed_CatgEncoded_v1_MinMaxScaler', 'cleaned_transformed_CatgEncoded_v1_RobustScaler', 'cleaned_transformed_CatgEncoded_v1_StandardScaler', 'cleaned_transformed_CatgEncoded_v2_MinMaxScaler', 'cleaned_transformed_CatgEncoded_v2_RobustScaler', 'cleaned_transformed_CatgEncoded_v2_StandardScaler', 'cleaned_dropCatg_MinMaxScaler', 'cleaned_dropCatg_RobustScaler', 'cleaned_dropCatg_StandardScaler']
+</code></pre>
+<p>We&rsquo;ll choose all datasets with scaled and cleaned data and will try several classification models as described below.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">models <span style="color:#f92672">=</span> {}
+
+<span style="color:#75715e"># From previous analysis I see that KNN, Random Forest and Extra Trees had poor results and SVM took to long to run, I&#39;ll remove them from the models list</span>
+
+models[<span style="color:#e6db74">&#39;LogisticRegression&#39;</span>] <span style="color:#f92672">=</span> LogisticRegression()
+models[<span style="color:#e6db74">&#39;LinearDiscriminantAnalysis&#39;</span>] <span style="color:#f92672">=</span> LinearDiscriminantAnalysis()
+<span style="color:#75715e">#models[&#39;KNeighborsClassifier&#39;] = KNeighborsClassifier(n_jobs=-1)</span>
+<span style="color:#75715e">#models[&#39;SVM&#39;] = SVC(probability=True)</span>
+<span style="color:#75715e">#models[&#39;RandomForestClassifier&#39;] = RandomForestClassifier(n_jobs=-1)</span>
+<span style="color:#75715e">#models[&#39;ExtraTreesClassifier&#39;] = ExtraTreesClassifier(n_jobs=-1)</span>
+models[<span style="color:#e6db74">&#39;LGBMClassifier&#39;</span>] <span style="color:#f92672">=</span> lgb<span style="color:#f92672">.</span>LGBMClassifier(objective<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;binary&#39;</span>, 
+                                              is_unbalance<span style="color:#f92672">=</span>True, 
+                                              max_depth<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>, 
+                                              learning_rate<span style="color:#f92672">=</span><span style="color:#ae81ff">0.05</span>, 
+                                              n_estimators<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>, 
+                                              num_leaves<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>,
+                                             verbose <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>)
+
+<span style="color:#75715e"># The model parameters were taken from https://www.kaggle.com/rodrigolima82/kernel-xgboost-otimizado</span>
+<span style="color:#75715e"># Thanks Rodrigo Lima for sharing his kernel</span>
+models[<span style="color:#e6db74">&#39;XGBClassifier&#39;</span>] <span style="color:#f92672">=</span> XGBClassifier(learning_rate <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>,
+                          n_estimators <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>,
+                          max_depth <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>,
+                          min_child_weight <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>,
+                          gamma <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>,
+                          subsample <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>,
+                          colsample_bytree <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>,
+                          objective <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;binary:logistic&#39;</span>,
+                          n_jobs <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,
+                          scale_pos_weight <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>,
+                          verbose <span style="color:#f92672">=</span> False,
+                          seed <span style="color:#f92672">=</span> <span style="color:#ae81ff">32</span>)
+
+
+<span style="color:#75715e"># When performing classification you often want to predict not only the class label, but also the associated probability. </span>
+<span style="color:#75715e"># This probability gives you some kind of confidence on the prediction. </span>
+<span style="color:#75715e"># However, not all classifiers provide well-calibrated probabilities, some being over-confident while others being under-confident. </span>
+<span style="color:#75715e"># Thus, a separate calibration of predicted probabilities is often desirable as a postprocessing.</span>
+<span style="color:#75715e">#models[&#39;Calibrated_LogisticRegression&#39;] = CalibratedClassifierCV(LogisticRegression())</span>
+<span style="color:#75715e">#models[&#39;Calibrated_LinearDiscriminantAnalysis&#39;] = CalibratedClassifierCV(LinearDiscriminantAnalysis())</span>
+<span style="color:#75715e">#models[&#39;Calibrated_KNeighborsClassifier&#39;] = CalibratedClassifierCV(KNeighborsClassifier(n_jobs=-1))</span>
+<span style="color:#75715e">#models[&#39;Calibrated_SVM&#39;] = CalibratedClassifierCV(models[&#39;SVM&#39;])</span>
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Splitting features and targets for train data</span>
+datasets <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;cleaned_transformed_CatgEncoded_v1_MinMaxScaler&#39;</span>, <span style="color:#e6db74">&#39;cleaned_transformed_CatgEncoded_v1_RobustScaler&#39;</span>, 
+            <span style="color:#e6db74">&#39;cleaned_transformed_CatgEncoded_v1_StandardScaler&#39;</span>, <span style="color:#e6db74">&#39;cleaned_transformed_CatgEncoded_v2_MinMaxScaler&#39;</span>, 
+            <span style="color:#e6db74">&#39;cleaned_transformed_CatgEncoded_v2_RobustScaler&#39;</span>, <span style="color:#e6db74">&#39;cleaned_transformed_CatgEncoded_v2_StandardScaler&#39;</span>, 
+            <span style="color:#e6db74">&#39;cleaned_dropCatg_MinMaxScaler&#39;</span>, <span style="color:#e6db74">&#39;cleaned_dropCatg_RobustScaler&#39;</span>, <span style="color:#e6db74">&#39;cleaned_dropCatg_StandardScaler&#39;</span>]
+
+results <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;Dataset&#39;</span>, <span style="color:#e6db74">&#39;Model&#39;</span>, <span style="color:#e6db74">&#39;Logloss&#39;</span>])
+
+<span style="color:#75715e"># loop through all datasets and ML models</span>
+<span style="color:#66d9ef">for</span> d <span style="color:#f92672">in</span> datasets:
+    train <span style="color:#f92672">=</span> data[d][<span style="color:#e6db74">&#39;train&#39;</span>]
+    train_x <span style="color:#f92672">=</span> train<span style="color:#f92672">.</span>drop([<span style="color:#e6db74">&#39;target&#39;</span>], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+    train_y <span style="color:#f92672">=</span> train[<span style="color:#e6db74">&#39;target&#39;</span>]
+    
+    <span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#39;###### DATASET: {d} ######&#39;</span>)
+    
+    <span style="color:#66d9ef">for</span> m <span style="color:#f92672">in</span> models<span style="color:#f92672">.</span>keys():
+        <span style="color:#75715e"># Train and test the model</span>
+        models[m], log_loss_result <span style="color:#f92672">=</span> run_model(m, models[m], train_x, train_y)  
+        
+        <span style="color:#75715e"># Save Results</span>
+        results <span style="color:#f92672">=</span> results<span style="color:#f92672">.</span>append({<span style="color:#e6db74">&#39;Dataset&#39;</span> : d , <span style="color:#e6db74">&#39;Model&#39;</span> : m, <span style="color:#e6db74">&#39;Logloss&#39;</span>: log_loss_result} , ignore_index<span style="color:#f92672">=</span>True)
+</code></pre></div><pre><code>###### DATASET: cleaned_transformed_CatgEncoded_v1_MinMaxScaler ######
+LogisticRegression
+Accuracy : 0.7744
+AUC Score: 0.729911
+Log Loss: 0.487398
+------------------------------
+LinearDiscriminantAnalysis
+Accuracy : 0.7702
+AUC Score: 0.723778
+Log Loss: 0.490958
+------------------------------
+LGBMClassifier
+Accuracy : 0.6692
+AUC Score: 0.748472
+Log Loss: 0.573621
+------------------------------
+XGBClassifier
+Accuracy : 0.7816
+AUC Score: 0.749879
+Log Loss: 0.468973
+------------------------------
+###### DATASET: cleaned_transformed_CatgEncoded_v1_RobustScaler ######
+LogisticRegression
+Accuracy : 0.7753
+AUC Score: 0.730191
+Log Loss: 0.487333
+------------------------------
+LinearDiscriminantAnalysis
+Accuracy : 0.7702
+AUC Score: 0.723778
+Log Loss: 0.490958
+------------------------------
+LGBMClassifier
+Accuracy : 0.6685
+AUC Score: 0.748429
+Log Loss: 0.573623
+------------------------------
+XGBClassifier
+Accuracy : 0.7817
+AUC Score: 0.749515
+Log Loss: 0.469239
+------------------------------
+###### DATASET: cleaned_transformed_CatgEncoded_v1_StandardScaler ######
+LogisticRegression
+Accuracy : 0.7752
+AUC Score: 0.730168
+Log Loss: 0.487344
+------------------------------
+LinearDiscriminantAnalysis
+Accuracy : 0.7702
+AUC Score: 0.723778
+Log Loss: 0.490958
+------------------------------
+LGBMClassifier
+Accuracy : 0.6692
+AUC Score: 0.748610
+Log Loss: 0.573528
+------------------------------
+XGBClassifier
+Accuracy : 0.7817
+AUC Score: 0.749643
+Log Loss: 0.469190
+------------------------------
+###### DATASET: cleaned_transformed_CatgEncoded_v2_MinMaxScaler ######
+LogisticRegression
+Accuracy : 0.7742
+AUC Score: 0.729582
+Log Loss: 0.487827
+------------------------------
+LinearDiscriminantAnalysis
+Accuracy : 0.7693
+AUC Score: 0.723832
+Log Loss: 0.491422
+------------------------------
+LGBMClassifier
+Accuracy : 0.6692
+AUC Score: 0.748208
+Log Loss: 0.573921
+------------------------------
+XGBClassifier
+Accuracy : 0.7817
+AUC Score: 0.749010
+Log Loss: 0.469626
+------------------------------
+###### DATASET: cleaned_transformed_CatgEncoded_v2_RobustScaler ######
+LogisticRegression
+Accuracy : 0.7753
+AUC Score: 0.729843
+Log Loss: 0.487758
+------------------------------
+LinearDiscriminantAnalysis
+Accuracy : 0.7693
+AUC Score: 0.723832
+Log Loss: 0.491422
+------------------------------
+LGBMClassifier
+Accuracy : 0.6687
+AUC Score: 0.748150
+Log Loss: 0.573849
+------------------------------
+XGBClassifier
+Accuracy : 0.7813
+AUC Score: 0.748885
+Log Loss: 0.469714
+------------------------------
+###### DATASET: cleaned_transformed_CatgEncoded_v2_StandardScaler ######
+LogisticRegression
+Accuracy : 0.7753
+AUC Score: 0.729860
+Log Loss: 0.487754
+------------------------------
+LinearDiscriminantAnalysis
+Accuracy : 0.7693
+AUC Score: 0.723832
+Log Loss: 0.491422
+------------------------------
+LGBMClassifier
+Accuracy : 0.669
+AUC Score: 0.748118
+Log Loss: 0.573951
+------------------------------
+XGBClassifier
+Accuracy : 0.7814
+AUC Score: 0.748688
+Log Loss: 0.469767
+------------------------------
+###### DATASET: cleaned_dropCatg_MinMaxScaler ######
+LogisticRegression
+Accuracy : 0.7613
+AUC Score: 0.704112
+Log Loss: 0.503248
+------------------------------
+LinearDiscriminantAnalysis
+Accuracy : 0.7612
+AUC Score: 0.700375
+Log Loss: 0.506688
+------------------------------
+LGBMClassifier
+Accuracy : 0.6533
+AUC Score: 0.719685
+Log Loss: 0.601128
+------------------------------
+XGBClassifier
+Accuracy : 0.7745
+AUC Score: 0.721859
+Log Loss: 0.489468
+------------------------------
+###### DATASET: cleaned_dropCatg_RobustScaler ######
+LogisticRegression
+Accuracy : 0.7615
+AUC Score: 0.704325
+Log Loss: 0.503206
+------------------------------
+LinearDiscriminantAnalysis
+Accuracy : 0.7612
+AUC Score: 0.700375
+Log Loss: 0.506688
+------------------------------
+LGBMClassifier
+Accuracy : 0.6531
+AUC Score: 0.720171
+Log Loss: 0.600992
+------------------------------
+XGBClassifier
+Accuracy : 0.7743
+AUC Score: 0.721641
+Log Loss: 0.489606
+------------------------------
+###### DATASET: cleaned_dropCatg_StandardScaler ######
+LogisticRegression
+Accuracy : 0.7615
+AUC Score: 0.704326
+Log Loss: 0.503205
+------------------------------
+LinearDiscriminantAnalysis
+Accuracy : 0.7612
+AUC Score: 0.700375
+Log Loss: 0.506688
+------------------------------
+LGBMClassifier
+Accuracy : 0.6531
+AUC Score: 0.720022
+Log Loss: 0.600825
+------------------------------
+XGBClassifier
+Accuracy : 0.7742
+AUC Score: 0.721771
+Log Loss: 0.489667
+------------------------------
+</code></pre>
+<p>Let&rsquo;s check the results:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">results<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;Logloss&#39;</span>])
+</code></pre></div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Dataset</th>
+      <th>Model</th>
+      <th>Logloss</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>cleaned_transformed_CatgEncoded_v1_MinMaxScaler</td>
+      <td>XGBClassifier</td>
+      <td>0.468973</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>cleaned_transformed_CatgEncoded_v1_StandardScaler</td>
+      <td>XGBClassifier</td>
+      <td>0.469190</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>cleaned_transformed_CatgEncoded_v1_RobustScaler</td>
+      <td>XGBClassifier</td>
+      <td>0.469239</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>cleaned_transformed_CatgEncoded_v2_MinMaxScaler</td>
+      <td>XGBClassifier</td>
+      <td>0.469626</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>cleaned_transformed_CatgEncoded_v2_RobustScaler</td>
+      <td>XGBClassifier</td>
+      <td>0.469714</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>cleaned_transformed_CatgEncoded_v2_StandardScaler</td>
+      <td>XGBClassifier</td>
+      <td>0.469767</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>cleaned_transformed_CatgEncoded_v1_RobustScaler</td>
+      <td>LogisticRegression</td>
+      <td>0.487333</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>cleaned_transformed_CatgEncoded_v1_StandardScaler</td>
+      <td>LogisticRegression</td>
+      <td>0.487344</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>cleaned_transformed_CatgEncoded_v1_MinMaxScaler</td>
+      <td>LogisticRegression</td>
+      <td>0.487398</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>cleaned_transformed_CatgEncoded_v2_StandardScaler</td>
+      <td>LogisticRegression</td>
+      <td>0.487754</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>cleaned_transformed_CatgEncoded_v2_RobustScaler</td>
+      <td>LogisticRegression</td>
+      <td>0.487758</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>cleaned_transformed_CatgEncoded_v2_MinMaxScaler</td>
+      <td>LogisticRegression</td>
+      <td>0.487827</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>cleaned_dropCatg_MinMaxScaler</td>
+      <td>XGBClassifier</td>
+      <td>0.489468</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>cleaned_dropCatg_RobustScaler</td>
+      <td>XGBClassifier</td>
+      <td>0.489606</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>cleaned_dropCatg_StandardScaler</td>
+      <td>XGBClassifier</td>
+      <td>0.489667</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>cleaned_transformed_CatgEncoded_v1_RobustScaler</td>
+      <td>LinearDiscriminantAnalysis</td>
+      <td>0.490958</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>cleaned_transformed_CatgEncoded_v1_StandardScaler</td>
+      <td>LinearDiscriminantAnalysis</td>
+      <td>0.490958</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>cleaned_transformed_CatgEncoded_v1_MinMaxScaler</td>
+      <td>LinearDiscriminantAnalysis</td>
+      <td>0.490958</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>cleaned_transformed_CatgEncoded_v2_RobustScaler</td>
+      <td>LinearDiscriminantAnalysis</td>
+      <td>0.491422</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>cleaned_transformed_CatgEncoded_v2_StandardScaler</td>
+      <td>LinearDiscriminantAnalysis</td>
+      <td>0.491422</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>cleaned_transformed_CatgEncoded_v2_MinMaxScaler</td>
+      <td>LinearDiscriminantAnalysis</td>
+      <td>0.491422</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>cleaned_dropCatg_StandardScaler</td>
+      <td>LogisticRegression</td>
+      <td>0.503205</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>cleaned_dropCatg_RobustScaler</td>
+      <td>LogisticRegression</td>
+      <td>0.503206</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>cleaned_dropCatg_MinMaxScaler</td>
+      <td>LogisticRegression</td>
+      <td>0.503248</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>cleaned_dropCatg_RobustScaler</td>
+      <td>LinearDiscriminantAnalysis</td>
+      <td>0.506688</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>cleaned_dropCatg_StandardScaler</td>
+      <td>LinearDiscriminantAnalysis</td>
+      <td>0.506688</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>cleaned_dropCatg_MinMaxScaler</td>
+      <td>LinearDiscriminantAnalysis</td>
+      <td>0.506688</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>cleaned_transformed_CatgEncoded_v1_StandardScaler</td>
+      <td>LGBMClassifier</td>
+      <td>0.573528</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>cleaned_transformed_CatgEncoded_v1_MinMaxScaler</td>
+      <td>LGBMClassifier</td>
+      <td>0.573621</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>cleaned_transformed_CatgEncoded_v1_RobustScaler</td>
+      <td>LGBMClassifier</td>
+      <td>0.573623</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>cleaned_transformed_CatgEncoded_v2_RobustScaler</td>
+      <td>LGBMClassifier</td>
+      <td>0.573849</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>cleaned_transformed_CatgEncoded_v2_MinMaxScaler</td>
+      <td>LGBMClassifier</td>
+      <td>0.573921</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>cleaned_transformed_CatgEncoded_v2_StandardScaler</td>
+      <td>LGBMClassifier</td>
+      <td>0.573951</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>cleaned_dropCatg_StandardScaler</td>
+      <td>LGBMClassifier</td>
+      <td>0.600825</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>cleaned_dropCatg_RobustScaler</td>
+      <td>LGBMClassifier</td>
+      <td>0.600992</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>cleaned_dropCatg_MinMaxScaler</td>
+      <td>LGBMClassifier</td>
+      <td>0.601128</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>As we can see, the best is from the <strong>cleaned_transformed_CatgEncoded_v1_MinMaxScaler</strong> dataset and <strong>XGBClassifier</strong> model.</p>
+<p>Let&rsquo;s see the models with best results</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#sns.stripplot(x = &#39;Model&#39;, y = &#39;Logloss&#39;, data = results, jitter = True)</span>
+
+plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">7</span>))
+chart <span style="color:#f92672">=</span> sns<span style="color:#f92672">.</span>stripplot(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Model&#39;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Logloss&#39;</span>, data <span style="color:#f92672">=</span> results)
+chart<span style="color:#f92672">.</span>set_xticklabels(chart<span style="color:#f92672">.</span>get_xticklabels(), rotation<span style="color:#f92672">=</span><span style="color:#ae81ff">55</span>)
+plt<span style="color:#f92672">.</span>show(); 
+</code></pre></div><p><img src="output_files/output_63_0.png" alt="png"></p>
+<p>Let&rsquo;s check the results for each dataset:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">7</span>))
+chart <span style="color:#f92672">=</span> sns<span style="color:#f92672">.</span>stripplot(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Dataset&#39;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Logloss&#39;</span>, data <span style="color:#f92672">=</span> results)
+chart<span style="color:#f92672">.</span>set_xticklabels(chart<span style="color:#f92672">.</span>get_xticklabels(), rotation<span style="color:#f92672">=</span><span style="color:#ae81ff">55</span>)
+plt<span style="color:#f92672">.</span>show(); 
+
+</code></pre></div><p><img src="output_files/output_65_0.png" alt="png"></p>
+<h2 id="feature-selection">Feature Selection</h2>
+<p>Our model has a lot of features, let&rsquo;s see the importance of each feature in the prediction process.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">train <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;cleaned_transformed_CatgEncoded_v1_MinMaxScaler&#39;</span>][<span style="color:#e6db74">&#39;train&#39;</span>]
+train_x <span style="color:#f92672">=</span> train<span style="color:#f92672">.</span>drop([<span style="color:#e6db74">&#39;target&#39;</span>], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+train_y <span style="color:#f92672">=</span> train[<span style="color:#e6db74">&#39;target&#39;</span>]
+
+<span style="color:#75715e"># train model</span>
+best_model <span style="color:#f92672">=</span> XGBClassifier(learning_rate <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>,
+                    n_estimators <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>,
+                    max_depth <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>,
+                    min_child_weight <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>,
+                    gamma <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>,
+                    subsample <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>,
+                    colsample_bytree <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>,
+                    objective <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;binary:logistic&#39;</span>,
+                    n_jobs <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,
+                    scale_pos_weight <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>,
+                    verbose <span style="color:#f92672">=</span> False,
+                    seed <span style="color:#f92672">=</span> <span style="color:#ae81ff">32</span>)
+     
+best_model<span style="color:#f92672">.</span>fit(train_x, train_y, eval_metric<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;logloss&#39;</span>, verbose<span style="color:#f92672">=</span>False )        
+
+fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">17</span>,<span style="color:#ae81ff">15</span>))
+plot_importance(best_model, ax<span style="color:#f92672">=</span>ax)
+plt<span style="color:#f92672">.</span>show()
+</code></pre></div><p><img src="output_files/output_67_0.png" alt="png"></p>
+<p>Now, that we know the importance of each feature, let&rsquo;s evaluate the results when removing the less important features.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Fit model using each importance as a threshold</span>
+thresholds <span style="color:#f92672">=</span> sort(best_model<span style="color:#f92672">.</span>feature_importances_)
+
+<span style="color:#75715e"># Split the dataset</span>
+X_train, X_test, y_train, y_test <span style="color:#f92672">=</span> train_test_split(train_x, train_y, test_size<span style="color:#f92672">=</span><span style="color:#ae81ff">0.3</span>, random_state<span style="color:#f92672">=</span><span style="color:#ae81ff">7</span>)
+
+<span style="color:#75715e"># Evaluate the result for several thresholds (different number of features)</span>
+<span style="color:#66d9ef">for</span> thresh <span style="color:#f92672">in</span> sort(list(set(thresholds))):
+    <span style="color:#75715e"># select features using threshold</span>
+    selection <span style="color:#f92672">=</span> SelectFromModel(best_model, threshold<span style="color:#f92672">=</span>thresh, prefit<span style="color:#f92672">=</span>True)
+    select_X_train <span style="color:#f92672">=</span> selection<span style="color:#f92672">.</span>transform(X_train)
+    
+    <span style="color:#75715e"># train model</span>
+    selection_model <span style="color:#f92672">=</span> XGBClassifier(learning_rate <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>,
+                    n_estimators <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>,
+                    max_depth <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>,
+                    min_child_weight <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>,
+                    gamma <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>,
+                    subsample <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>,
+                    colsample_bytree <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>,
+                    objective <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;binary:logistic&#39;</span>,
+                    n_jobs <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,
+                    scale_pos_weight <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>,
+                    verbose <span style="color:#f92672">=</span> False,
+                    seed <span style="color:#f92672">=</span> <span style="color:#ae81ff">32</span>)
+     
+    selection_model<span style="color:#f92672">.</span>fit(select_X_train, y_train, eval_metric<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;logloss&#39;</span>, verbose<span style="color:#f92672">=</span>False )        
+    
+    <span style="color:#75715e"># eval model    </span>
+    select_X_test <span style="color:#f92672">=</span> selection<span style="color:#f92672">.</span>transform(X_test)
+    y_pred <span style="color:#f92672">=</span> selection_model<span style="color:#f92672">.</span>predict(select_X_test)        
+    train_pred_prob <span style="color:#f92672">=</span> selection_model<span style="color:#f92672">.</span>predict_proba(select_X_test)[:,<span style="color:#ae81ff">1</span>]    
+    log_loss_score <span style="color:#f92672">=</span> log_loss(y_test, train_pred_prob)   
+    
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Thresh=</span><span style="color:#e6db74">%.3f</span><span style="color:#e6db74">, n=</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">, logloss: </span><span style="color:#e6db74">%.6f</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (thresh, select_X_train<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>], log_loss_score))
+
+</code></pre></div><pre><code>Thresh=0.000, n=95, logloss: 0.468835
+Thresh=0.001, n=82, logloss: 0.469082
+Thresh=0.002, n=81, logloss: 0.468746
+Thresh=0.002, n=80, logloss: 0.469428
+Thresh=0.002, n=79, logloss: 0.469242
+Thresh=0.002, n=78, logloss: 0.469183
+Thresh=0.003, n=77, logloss: 0.469433
+Thresh=0.003, n=76, logloss: 0.469526
+Thresh=0.003, n=75, logloss: 0.469013
+Thresh=0.003, n=74, logloss: 0.469127
+Thresh=0.003, n=73, logloss: 0.468770
+Thresh=0.003, n=72, logloss: 0.468592
+Thresh=0.004, n=71, logloss: 0.468956
+Thresh=0.004, n=70, logloss: 0.468822
+Thresh=0.004, n=69, logloss: 0.469150
+Thresh=0.004, n=68, logloss: 0.469049
+Thresh=0.004, n=67, logloss: 0.469318
+Thresh=0.004, n=66, logloss: 0.468910
+Thresh=0.004, n=65, logloss: 0.468939
+Thresh=0.004, n=64, logloss: 0.469407
+Thresh=0.004, n=63, logloss: 0.469481
+Thresh=0.004, n=62, logloss: 0.469235
+Thresh=0.004, n=61, logloss: 0.469256
+Thresh=0.004, n=60, logloss: 0.469047
+Thresh=0.004, n=59, logloss: 0.469205
+Thresh=0.004, n=58, logloss: 0.468930
+Thresh=0.004, n=57, logloss: 0.469266
+Thresh=0.004, n=56, logloss: 0.469182
+Thresh=0.005, n=55, logloss: 0.469258
+Thresh=0.005, n=54, logloss: 0.469349
+Thresh=0.005, n=53, logloss: 0.469363
+Thresh=0.005, n=52, logloss: 0.469306
+Thresh=0.005, n=51, logloss: 0.469264
+Thresh=0.005, n=50, logloss: 0.469304
+Thresh=0.005, n=49, logloss: 0.468915
+Thresh=0.005, n=48, logloss: 0.468851
+Thresh=0.005, n=47, logloss: 0.469583
+Thresh=0.005, n=46, logloss: 0.468976
+Thresh=0.005, n=45, logloss: 0.469182
+Thresh=0.005, n=44, logloss: 0.469065
+Thresh=0.005, n=43, logloss: 0.469279
+Thresh=0.005, n=42, logloss: 0.469422
+Thresh=0.005, n=41, logloss: 0.469245
+Thresh=0.006, n=40, logloss: 0.469786
+Thresh=0.006, n=39, logloss: 0.469703
+Thresh=0.006, n=38, logloss: 0.469336
+Thresh=0.006, n=37, logloss: 0.469417
+Thresh=0.006, n=36, logloss: 0.469500
+Thresh=0.006, n=35, logloss: 0.469238
+Thresh=0.006, n=34, logloss: 0.469542
+Thresh=0.006, n=33, logloss: 0.469481
+Thresh=0.006, n=32, logloss: 0.469458
+Thresh=0.006, n=31, logloss: 0.469541
+Thresh=0.006, n=30, logloss: 0.469725
+Thresh=0.006, n=29, logloss: 0.469861
+Thresh=0.007, n=28, logloss: 0.469833
+Thresh=0.007, n=27, logloss: 0.471707
+Thresh=0.007, n=26, logloss: 0.471710
+Thresh=0.007, n=25, logloss: 0.471684
+Thresh=0.007, n=24, logloss: 0.472283
+Thresh=0.008, n=23, logloss: 0.472345
+Thresh=0.008, n=22, logloss: 0.472347
+Thresh=0.008, n=21, logloss: 0.472441
+Thresh=0.008, n=20, logloss: 0.472578
+Thresh=0.009, n=19, logloss: 0.472788
+Thresh=0.010, n=18, logloss: 0.473171
+Thresh=0.010, n=17, logloss: 0.473237
+Thresh=0.011, n=16, logloss: 0.473219
+Thresh=0.012, n=15, logloss: 0.474140
+Thresh=0.012, n=14, logloss: 0.475123
+Thresh=0.013, n=13, logloss: 0.475140
+Thresh=0.013, n=12, logloss: 0.475730
+Thresh=0.015, n=11, logloss: 0.475717
+Thresh=0.017, n=10, logloss: 0.477280
+Thresh=0.019, n=9, logloss: 0.477533
+Thresh=0.031, n=8, logloss: 0.477939
+Thresh=0.038, n=7, logloss: 0.477914
+Thresh=0.044, n=6, logloss: 0.484224
+Thresh=0.046, n=5, logloss: 0.484473
+Thresh=0.049, n=4, logloss: 0.516446
+Thresh=0.072, n=3, logloss: 0.516690
+Thresh=0.096, n=2, logloss: 0.527583
+Thresh=0.178, n=1, logloss: 0.531174
+</code></pre>
+<p>As we see in the results, the removal of the lessen important features does not improve the results.
+Let&rsquo;s keep all the current features.</p>
+<h1 id="imbalanced-datasets">Imbalanced datasets</h1>
+<p>Most machine learning algorithms work better when the number of instances of each class are roughly equal.</p>
+<p>Let&rsquo;s see the class distribution for the training dataset.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">train <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;cleaned_transformed_CatgEncoded_v1_MinMaxScaler&#39;</span>][<span style="color:#e6db74">&#39;train&#39;</span>]
+<span style="color:#66d9ef">print</span>(train<span style="color:#f92672">.</span>target<span style="color:#f92672">.</span>value_counts())
+train<span style="color:#f92672">.</span>target<span style="color:#f92672">.</span>value_counts()<span style="color:#f92672">.</span>plot(kind<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bar&#39;</span>, title<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Count (target)&#39;</span>);
+</code></pre></div><pre><code>1    87021
+0    27300
+Name: target, dtype: int64
+</code></pre>
+<p><img src="output_files/output_73_1.png" alt="png"></p>
+<p>The training dataset is imbalanced.</p>
+<h3 id="smote">SMOTE</h3>
+<p>Let&rsquo;s use the Synthetic Minority Oversampling Technique (SMOTE) to improve the class distribution.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">train_x <span style="color:#f92672">=</span> train<span style="color:#f92672">.</span>drop([<span style="color:#e6db74">&#39;target&#39;</span>], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+train_y <span style="color:#f92672">=</span> train[<span style="color:#e6db74">&#39;target&#39;</span>]
+x_train, x_val, y_train, y_val <span style="color:#f92672">=</span> train_test_split(train_x, train_y,
+                                                  test_size <span style="color:#f92672">=</span> <span style="color:#f92672">.</span><span style="color:#ae81ff">3</span>,
+                                                  random_state<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>)
+
+sm <span style="color:#f92672">=</span> SMOTE(random_state<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>, sampling_strategy<span style="color:#f92672">=</span><span style="color:#ae81ff">0.9</span>)<span style="color:#75715e">#{1: 10, 0: 10})</span>
+x_train_res, y_train_res <span style="color:#f92672">=</span> sm<span style="color:#f92672">.</span>fit_sample(x_train, y_train)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">y_train_res<span style="color:#f92672">.</span>value_counts()<span style="color:#f92672">.</span>plot(kind<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bar&#39;</span>)
+</code></pre></div><pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x21094eae048&gt;
+</code></pre>
+<p><img src="output_files/output_76_1.png" alt="png"></p>
+<p>The training dataset is balanced, let&rsquo;s see if the results are improved.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># train model</span>
+selection_model <span style="color:#f92672">=</span> XGBClassifier(learning_rate <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>,
+                    n_estimators <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>,
+                    max_depth <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>,
+                    min_child_weight <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>,
+                    gamma <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>,
+                    subsample <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>,
+                    colsample_bytree <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>,
+                    objective <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;binary:logistic&#39;</span>,
+                    n_jobs <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,
+                    scale_pos_weight <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>,
+                    verbose <span style="color:#f92672">=</span> False,
+                    seed <span style="color:#f92672">=</span> <span style="color:#ae81ff">32</span>)
+     
+selection_model<span style="color:#f92672">.</span>fit(x_train_res, y_train_res, eval_metric<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;logloss&#39;</span>, verbose<span style="color:#f92672">=</span>False )        
+
+<span style="color:#75715e"># eval model    </span>
+train_pred_prob <span style="color:#f92672">=</span> selection_model<span style="color:#f92672">.</span>predict_proba(x_val)[:,<span style="color:#ae81ff">1</span>]    
+log_loss_score <span style="color:#f92672">=</span> log_loss(y_val, train_pred_prob)   
+<span style="color:#66d9ef">print</span>(log_loss_score)
+</code></pre></div><pre><code>0.5107384842840859
+</code></pre>
+<p>There was no improvement after the use of SMOTE.</p>
+<p>Let&rsquo;s keep the previus version of the dataset and generate the submission file.</p>
+<h1 id="submission">Submission</h1>
+<p>Now let&rsquo;s build the final model using the best combination of dataset and ML algorithm and create the submission file.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Train with the model that had the best result</span>
+selection_model <span style="color:#f92672">=</span> XGBClassifier(learning_rate <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>,
+                    n_estimators <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>,
+                    max_depth <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>,
+                    min_child_weight <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>,
+                    gamma <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>,
+                    subsample <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>,
+                    colsample_bytree <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>,
+                    objective <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;binary:logistic&#39;</span>,
+                    n_jobs <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,
+                    scale_pos_weight <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>,
+                    verbose <span style="color:#f92672">=</span> False,
+                    seed <span style="color:#f92672">=</span> <span style="color:#ae81ff">32</span>)
+
+train <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;cleaned_transformed_CatgEncoded_v1_MinMaxScaler&#39;</span>][<span style="color:#e6db74">&#39;train&#39;</span>]
+train_x <span style="color:#f92672">=</span> train<span style="color:#f92672">.</span>drop([<span style="color:#e6db74">&#39;target&#39;</span>], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+train_y <span style="color:#f92672">=</span> train[<span style="color:#e6db74">&#39;target&#39;</span>]
+
+final_model <span style="color:#f92672">=</span> selection_model<span style="color:#f92672">.</span>fit(train_x, train_y, eval_metric<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;logloss&#39;</span>, verbose<span style="color:#f92672">=</span>False )        
+
+<span style="color:#75715e"># Test data for submission</span>
+test  <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;cleaned_transformed_CatgEncoded_v1_MinMaxScaler&#39;</span>][<span style="color:#e6db74">&#39;test&#39;</span>]
+test_x <span style="color:#f92672">=</span> test<span style="color:#f92672">.</span>drop([<span style="color:#e6db74">&#39;ID&#39;</span>], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+
+<span style="color:#75715e"># Performing predictions</span>
+test_pred_prob <span style="color:#f92672">=</span> final_model<span style="color:#f92672">.</span>predict_proba(test_x)[:,<span style="color:#ae81ff">1</span>]
+submission <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;ID&#39;</span>: test[<span style="color:#e6db74">&#34;ID&#34;</span>], <span style="color:#e6db74">&#39;PredictedProb&#39;</span>: test_pred_prob<span style="color:#f92672">.</span>reshape((test_pred_prob<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]))})
+<span style="color:#66d9ef">print</span>(submission<span style="color:#f92672">.</span>head(<span style="color:#ae81ff">10</span>))
+</code></pre></div><pre><code>   ID  PredictedProb
+0   0       0.434640
+1   1       0.930129
+2   2       0.868351
+3   7       0.749811
+4  10       0.788460
+5  11       0.611152
+6  13       0.956794
+7  14       0.580155
+8  15       0.890578
+9  16       0.885386
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">submission<span style="color:#f92672">.</span>to_csv(<span style="color:#e6db74">&#39;submission.csv&#39;</span>, index<span style="color:#f92672">=</span>False)
+</code></pre></div>
+                </div>
+                
+                <div class="post-comments">
+                    
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Patrick Alves -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

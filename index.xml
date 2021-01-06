@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Patrick Alves - ML Engineer</title>
+    <link>https://cpatrickalves.github.io/</link>
+    <description>Recent content on Patrick Alves - ML Engineer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 20 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://cpatrickalves.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Real-time face detection</title>
+      <link>https://cpatrickalves.github.io/projects/real-time-face-detection/</link>
+      <pubDate>Sun, 20 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://cpatrickalves.github.io/projects/real-time-face-detection/</guid>
+      <description>In this project, I&amp;rsquo;ve use OpenCV and Viola-Jones Algorithm to build a simple face detection system that works in real-time.
+Problem I need to detect faces on images and from a webcam in real-time.
+Task Build a algorithm or machine learning model to detect faces on images.
+Solution I&amp;rsquo;ve used Python, OpenCV and the Viola-Jones Algorithm to build a solution to detect faces fast.
+Results The solution has a good accuracy and can detect faces really fast.</description>
+    </item>
+    
+    <item>
+      <title>Predict claim approval by an insurance company</title>
+      <link>https://cpatrickalves.github.io/projects/predict-claim-approval/</link>
+      <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cpatrickalves.github.io/projects/predict-claim-approval/</guid>
+      <description>This project presents a code/kernel used in a Kaggle competition promoted by Data Science Academy in December of 2019.
+The aim of this competition is to build a predictive model that can predict the probability that a particular claim will be approved immediately by or not insurance company based on the resources available at the beginning of the process, helping the insurance company to accelerate the payment release process and thus provide better service to the client.</description>
+    </item>
+    
+    <item>
+      <title>Classify the floor surface to help a robot</title>
+      <link>https://cpatrickalves.github.io/projects/classify-the-floor-surface/</link>
+      <pubDate>Mon, 30 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cpatrickalves.github.io/projects/classify-the-floor-surface/</guid>
+      <description>This project presents a code/kernel used in a Kaggle competition promoted by Data Science Academy in September of 2019.
+The goal of the competition was to create a Machine Learning model to help a robot to classify the floor surface on which it is using data collected by Inertial Measurement Units (IMU) sensors.
+About the project: The data used in this competition was collected by the Tampere University Signal Processing Department in Finland.</description>
+    </item>
+    
+    <item>
+      <title>Scraping the dentist&#39;s data from findadentist.ada.org</title>
+      <link>https://cpatrickalves.github.io/projects/scraping-dentist-data/</link>
+      <pubDate>Wed, 03 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cpatrickalves.github.io/projects/scraping-dentist-data/</guid>
+      <description>This project describes how a solve a client problem that needs to get the dentist&amp;rsquo;s data fast from findadentist.ada.org.
+Problem A client needed a lot of information about dentists available on findadentist.ada.org. The process of obtaining the data manually was very repetitive and impracticable given the number of dentists required.
+Task Create a bot to automate the collection (scraping) of website data.
+Solution I&amp;rsquo;ve used Python to create a bot that sends requests to the findadentist.</description>
+    </item>
+    
+    <item>
+      <title>Predict the occurrence of diabetes</title>
+      <link>https://cpatrickalves.github.io/projects/predict-diabetes/</link>
+      <pubDate>Wed, 13 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cpatrickalves.github.io/projects/predict-diabetes/</guid>
+      <description>This project presents a code/kernel used in a Kaggle competition promoted by Data Science Academy in January of 2019.
+The goal of the competition was to create a Machine Learning model to predict the occurrence of diabetes.
+Data source: National Institute of Diabetes and Digestive and Kidney Diseases
+Competition page: https://www.kaggle.com/c/competicao-dsa-machine-learning-jan-2019/
+Problem Predict the probability of the occurrence of diabetes from patient data.
+Task Create a Machine Learning model to estimate the probability of the occurrence of diabetes.</description>
+    </item>
+    
+    <item>
+      <title>Scraping products from etsy.com</title>
+      <link>https://cpatrickalves.github.io/projects/scraping-etsy/</link>
+      <pubDate>Mon, 21 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cpatrickalves.github.io/projects/scraping-etsy/</guid>
+      <description>This project was built using Scrapy (Scraping and Web Crawling Framework).
+It contains a set of Spiders to gather product&amp;rsquo;s data from Etsy Website.
+Problem The client needs data (product_id, url, price, rating, number_of_reviews, product_options, count_of_images, images_urls, favorited_by, store_name and description) from thousands of products of etsy.com to perfom data analysis.
+Task Create an automated and fast solution to navigate the website, find the products by a search text, extract all the data, and save it in a user-friendly format (CSV and XLSX).</description>
+    </item>
+    
+    <item>
+      <title>Data Analysis of used cars on eBay</title>
+      <link>https://cpatrickalves.github.io/projects/ebay-cars-data-analysis/</link>
+      <pubDate>Wed, 12 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://cpatrickalves.github.io/projects/ebay-cars-data-analysis/</guid>
+      <description>This project presents an exploratory data analysis of a database provided by Kaggle.
+The dataset contains over 370,000 used cars scraped from eBay Kleinanzeigen.
+The dataset can be downloaded from https://www.kaggle.com/orgesleka/used-cars-database
+The analysis was drive by several questions, that were answered through tables or graphs.
+Problem Answers questions about cars sold on eBay Kleinanzeigen.
+Questions:
+ What is the distribution of vehicles by the year of registration? What is the Variation of the price range by type of vehicle?</description>
+    </item>
+    
+    <item>
+      <title>Scraping products from eBay</title>
+      <link>https://cpatrickalves.github.io/projects/scraping-ebay/</link>
+      <pubDate>Tue, 18 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://cpatrickalves.github.io/projects/scraping-ebay/</guid>
+      <description>This project contains a set of scripts used to scrape Ebay&amp;rsquo;s products data using Scrapy Web Crawling Framework.
+Problem The client needs data (name, status, price, stars, ratings) from thousands of products of ebay.com to perfom data analysis.
+Task Create an automated and fast solution to navigate the website, find the products by a search text, extract all the data, and save it in a user-friendly format (CSV or JSON).</description>
+    </item>
+    
+    <item>
+      <title>Scraping products from testmart.com</title>
+      <link>https://cpatrickalves.github.io/projects/scraping-testmart/</link>
+      <pubDate>Sun, 16 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://cpatrickalves.github.io/projects/scraping-testmart/</guid>
+      <description>In this project, I&amp;rsquo;ve built a Scraper/Bot to get equipment data from testmart.com using Scrapy Web Crawling Framework.
+Problem The client needs data from thousands of equipment of National Instruments corporation type from testmart.com to perfom data analysis.
+Task Create an automated and fast solution to navigate the website, extract all the data of the National Instruments corporation type, and save it in a user-friendly format (CSV, JSON and XML).</description>
+    </item>
+    
+    <item>
+      <title>Scraping and Data Analysis of local businesses from yelp.com</title>
+      <link>https://cpatrickalves.github.io/post/scraping-yelp/</link>
+      <pubDate>Wed, 05 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://cpatrickalves.github.io/post/scraping-yelp/</guid>
+      <description>Yelp is a web application created to connect people with great local businesses. It is useful for finding restaurants, bars, and various types of services. The site features reviews of an active and well-informed local community.
+In this post, I&amp;rsquo;ll describe a scraping script that extracts information about the restaurants in San Francisco from Yelp.
+Also, I present a data cleaning process and data analysis of restaurants by location.
+Scraping data from yelp.</description>
+    </item>
+    
+    <item>
+      <title>About Patrick</title>
+      <link>https://cpatrickalves.github.io/about/</link>
+      <pubDate>Sun, 03 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://cpatrickalves.github.io/about/</guid>
+      <description>I am an Engineer I am an experienced Researcher and Machine Learning Engineer with a Ph.D. in Electrical Engineering (Applied Computing) with more than 5 years of practical work in design and build of scalable machine learning solutions on top of the open source and enterprise products.
+My specialties are:
+ Machine Learning Operations (MLOps) to unify the release cycle for machine learning and software application. Build data and ML pipelines with Airflow and Kubeflow; Automated testing of machine learning artifacts (e.</description>
+    </item>
+    
+    <item>
+      <title>Contact</title>
+      <link>https://cpatrickalves.github.io/contact/</link>
+      <pubDate>Sun, 03 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://cpatrickalves.github.io/contact/</guid>
+      <description>I&amp;rsquo;d love to hear from you:
+         E-mail: cpatrickalves@gmail.com   Twitter: https://twitter.com/cpatrickalves   LinkedIn: https://www.linkedin.com/in/cpatrickalves/?locale=en_US   GitHub: https://github.com/cpatrickalves    Hire me at Upwork   -- I am a TOP RATED Freelancer at Upwork with 100% Job success score in 15 projects.
+
+If you don&amp;rsquo;t have an Upwork account, please use this link to create one (I&amp;rsquo;ll get a fee discount in our first project).</description>
+    </item>
+    
+  </channel>
+</rss>

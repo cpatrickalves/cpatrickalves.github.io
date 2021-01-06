@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en-us">
-	<head>
-		<title> Patrick Alves - ML Engineer </title>
+<html>
 
-		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <head>
+        <title> Scraping products from testmart.com &middot; Patrick Alves - ML Engineer </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <meta name="generator" content="Hugo 0.79.1" />
 
@@ -47,10 +48,10 @@ ga('create', 'G-BQSK9NW8F8', 'auto');
 
 
 
+    </head>
 
-	</head>
-	<body>
-		<header>
+    <body>
+        <header>
 <nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -108,73 +109,46 @@ ga('create', 'G-BQSK9NW8F8', 'auto');
 </nav>
 </header>
 
-		<div class="flex-wrapper">
-			<div class="container wrapper">
-				
-				<div class="row">
-					<div class="col-sm-3 col-centered">
-						<img alt="profile-picture" class="img-responsive img-circle user-picture center-block" src="/profile.jpg">
-					</div>
-				</div>
-				
-				<div class="row">
-					<div class="col-xs-12 user-profile text-center">
-						<h1 id="user-name">Patrick Alves</h1>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-12 user-social text-center">
-					
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://cpatrickalves.github.io/projects/scraping-testmart/">Scraping products from testmart.com</a></h1>
+                <span class="post-date">2018-09-16 </span>
+                <div class="post-content">
+                    <p>In this project, I&rsquo;ve built a Scraper/Bot to get equipment data from <a href="testmart.com">testmart.com</a> using <a href="https://scrapy.org/">Scrapy Web Crawling Framework</a>.</p>
+<h3 id="problem">Problem</h3>
+<p>The client needs data from thousands of equipment of National Instruments corporation type from testmart.com to perfom data analysis.</p>
+<h3 id="task">Task</h3>
+<p>Create an automated and fast solution to navigate the website, extract all the data of the National Instruments corporation type, and save it in a user-friendly format (CSV, JSON and XML).</p>
+<h3 id="solution">Solution</h3>
+<p>I&rsquo;ve used the Scrapy Web Crawling Framework to build a Python script to scrape (extract) the data of all equipment found in the National Instruments corporation type.</p>
+<h3 id="results">Results</h3>
+<p>The client was able to quickly download the data of almost 50,000 equipments from testmart.com.</p>
+<p><img src="/scraping-testmart/testmart-example.png" alt="Testmart Example"></p>
+<p><strong>The data was used for data analysis and add great value to the client business.</strong></p>
+<hr>
+<h1 id="source-code">Source code</h1>
+<p>The solution is available at Github.</p>
+<p><a href="https://github.com/cpatrickalves/scraping-gsamart"><img src="/github.jpg" alt="GitHub"></a></p>
+<h3 id="how-to-use">How to use</h3>
+<p>You will need Python 3.5+ to run the scripts. Python can be downloaded <a href="https://www.python.org/downloads/">here</a>.</p>
+<p>You have to install the Scrapy framework and other required packages:</p>
+<ul>
+<li>In command prompt/Terminal: <code>pip install -r requirments.txt</code></li>
+</ul>
+<p>Once you have installed Scrapy framework, just clone/download this project:</p>
+<p><code>git clone https://github.com/cpatrickalves/scraping-gsamart.git</code></p>
+<p>Access the folder in command prompt/Terminal and run the following command:</p>
+<p><code>scrapy crawl gsamart_nic -o equipaments.csv</code></p>
+<p>You can change the output format to JSON or XML by change the output file extension (ex: equipaments.json).</p>
 
-
-
-
-<a href="https://twitter.com/cpatrickalves" rel="me" title="Twitter"><i class="fab fa-twitter fa-3x" aria-hidden="true"></i></a>
-
-
-
-
-
-
-<a href="https://github.com/cpatrickalves" rel="me" title="GitHub"><i class="fab fa-github fa-3x" aria-hidden="true"></i></a>
-
-
-<a href="https://gitlab.com/cpatrickalves" rel="me" title="GitLab"><i class="fab fa-gitlab fa-3x" aria-hidden="true"></i></a>
-
-
-
-<a href="https://linkedin.com/in/cpatrickalves" rel="me" title="LinkedIn"><i class="fab fa-linkedin fa-3x" aria-hidden="true"></i></a>
-
-
-
-
-
-
-
-<a href="https://t.me/cpatrickalves" rel="me" title="Telegram"><i class="fab fa-telegram fa-3x" aria-hidden="true"></i></a>
-
-
-
-<a href="mailto:cpatrickalves@gmail.com" title="Email"><i class="fas fa-envelope fa-3x" aria-hidden="true"></i></a>
-
-
-
-
-
-
-
-
-					</div>
-				</div>
-				
-				<div class="row">
-					<div class="col-md-4 col-md-offset-4 user-description text-center">
-						<p>I help people to leverage machine learning to create innovative products through an end-to-end machine learning development process that design, build, and manage reproducible, testable, and evolvable ML-powered software.</p>
-					</div>
-				</div>
-				
-			</div>
-			<footer class="footer text-center">
+                </div>
+                
+                <div class="post-comments">
+                    
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
 <p>Copyright &copy; 2021 Patrick Alves -
 <span class="credit">
 	Powered by
@@ -184,6 +158,5 @@ ga('create', 'G-BQSK9NW8F8', 'auto');
 </p>
 </footer>
 
-		</div>
-	</body>
-</html>
+        </div>
+    </body>

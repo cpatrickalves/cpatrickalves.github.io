@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Patrick Alves - ML Engineer</title>
+    <link>https://cpatrickalves.github.io/post/</link>
+    <description>Recent content in Posts on Patrick Alves - ML Engineer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 05 Sep 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://cpatrickalves.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Scraping and Data Analysis of local businesses from yelp.com</title>
+      <link>https://cpatrickalves.github.io/post/scraping-yelp/</link>
+      <pubDate>Wed, 05 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://cpatrickalves.github.io/post/scraping-yelp/</guid>
+      <description>Yelp is a web application created to connect people with great local businesses. It is useful for finding restaurants, bars, and various types of services. The site features reviews of an active and well-informed local community.
+In this post, I&amp;rsquo;ll describe a scraping script that extracts information about the restaurants in San Francisco from Yelp.
+Also, I present a data cleaning process and data analysis of restaurants by location.
+Scraping data from yelp.</description>
+    </item>
+    
+  </channel>
+</rss>

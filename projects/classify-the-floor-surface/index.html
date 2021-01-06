@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Classify the floor surface to help a robot &middot; Patrick Alves - ML Engineer </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.79.1" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cpatrickalves.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/profile.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+				  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'G-BQSK9NW8F8', 'auto');
+	  ga('send', 'pageview');
+
+</script>
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://cpatrickalves.github.io/'>
+        patrick@machinelearning ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://cpatrickalves.github.io/'>/home/patrick</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/about">~/about</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/projects">~/portfolio</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/post">~/blog</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/contact">~/contact</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://cpatrickalves.github.io/projects/classify-the-floor-surface/">Classify the floor surface to help a robot</a></h1>
+                <span class="post-date">2019-09-30 </span>
+                <div class="post-content">
+                    <p>This project presents a code/kernel used in a Kaggle competition promoted by <a href="https://www.datascienceacademy.com.br/">Data Science Academy</a> in September of 2019.</p>
+<p>The goal of the competition was to create a Machine Learning model to help a robot to classify the floor surface on which it is using data collected by Inertial Measurement Units (IMU) sensors.</p>
+<p><strong>About the project:</strong> The data used in this competition was collected by the <strong>Tampere University Signal Processing Department</strong> in Finland. Data collection was performed with a small <strong>mobile robot</strong> equipped with IMU sensors on different floor surfaces at the university premises. The task is to predict which of the nine-floor types (carpet, tiles, concrete, etc.) the robot is using sensor data such as acceleration and velocity. The success of this competition will help improve the navigation of autonomous robots on many different surfaces.</p>
+<p>Competition page: <a href="https://www.kaggle.com/c/competicao-dsa-machine-learning-sep-2019">https://www.kaggle.com/c/competicao-dsa-machine-learning-sep-2019</a></p>
+<h3 id="problem">Problem</h3>
+<p>A small <strong>mobile robot</strong> equipped with IMU sensors needs to know the current floor surface it is to improve the navigation.</p>
+<h3 id="task">Task</h3>
+<p>Predict which of the nine-floor types (carpet, tiles, concrete, etc.) the robot is using sensor data such as acceleration and velocity.</p>
+<h3 id="solution">Solution</h3>
+<p>Build a Machine Learning model to classify the current floor surface based on sensor data.</p>
+<p>I&rsquo;ve used Python to perform an <strong>Exploratory Data Analysis (EDA)</strong> using visual and quantitative methods to understand and summarize a dataset without making any assumptions about its contents. Then I&rsquo;ve performed Data Cleaning and built several <strong>Machine Learning</strong> models to classify the current floor surface based on sensor data. The final model was a Stacking of LightGBM, Random Forest, and Extra Trees with the Logistic Regression model as a meta classifier.</p>
+<h3 id="results">Results</h3>
+<p>The evaluation metric for this competition was the Multiclass Accuracy, which is simply the average rating number with the correct label.</p>
+<p>In this competition, my best score was <strong>62.2%</strong> and I&rsquo;ve got <strong>position 26</strong> on the <a href="https://www.kaggle.com/c/competicao-dsa-machine-learning-sep-2019/leaderboard">leaderboard</a>.</p>
+<hr>
+<h1 id="source-code">Source code</h1>
+<p>The solution is also available at Github.</p>
+<p><a href="https://github.com/cpatrickalves/kaggle-floor-surface-classification"><img src="/github.jpg" alt="GitHub"></a></p>
+<h4 id="how-to-use">How to use</h4>
+<ul>
+<li>You will need Python 3.5+ to run the code.</li>
+<li>Python can be downloaded <a href="https://www.python.org/downloads/">here</a>.</li>
+<li>You have to install some Python packages, in command prompt/Terminal: <code>pip install -r requirements.txt</code></li>
+<li>Once you have installed the required packages, just clone/<a href="https://github.com/cpatrickalves/kaggle-insurance-claim-classification/archive/master.zip">download</a> this project:
+<code>git clone https://github.com/cpatrickalves/kaggle-floor-surface-classification</code></li>
+<li>Access the project folder in command prompt/Terminal and run the following command:
+<code>jupyter-lab</code></li>
+</ul>
+<p>The datasets are available on the competition&rsquo;s pages.</p>
+<p>Files description:</p>
+<ul>
+<li><strong>X_treino.csv</strong> - contains the training dataset with 487,680 rows and 13 columns.</li>
+<li><strong>X_teste.csv</strong> - contains the test dataset with 488,448 rows and 13 columns.</li>
+<li><strong>y_treino.csv</strong> - the surfaces for the training set.</li>
+<li><strong>sample_submission.csv</strong> - a sample submission file in the correct format.</li>
+</ul>
+<hr>
+<h1 id="classifying-the-type-of-flooring-surface-using-data-collected-by-inertial-measurement-units-sensors">Classifying the type of flooring surface using data collected by Inertial Measurement Units sensors</h1>
+<h2 id="exploratory-data-analysis">Exploratory Data Analysis</h2>
+<p>The sensor data collected includes accelerometer data, gyroscope data (angular
+rate) and internally estimated orientation. Specifically:</p>
+<ul>
+<li>Orientation: 4 attitude quaternion (a mathematical notation used to represent orientations and rotations in a 3D space) channels, 3 for vector part and one for scalar part;</li>
+<li>Angular rate: 3 channels, corresponding to the 3 IMU coordinate axes X, Y, and Z;</li>
+<li>Acceleration: 3 channels, specific force corresponding to 3 IMU coordinate axes X, Y, and Z.</li>
+</ul>
+<p>Each data point includes the measures described above of orientation, velocity and acceleration, resulting in a feature vector of length 10 for each point.</p>
+<p>There are 128 measurements per time series plus three identification columns:</p>
+<ul>
+<li><em><strong>row_id</strong></em>: The ID for the row.</li>
+<li><em><strong>series_id</strong></em>: a number that identify the measurement series. It is also the foreign key to <strong>y_train</strong> and sample_submission.</li>
+<li><em><strong>measurement_number</strong></em>: measurement number within the series.</li>
+</ul>
+<h4 id="loading-the-data">Loading the data</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># If you will use tqdm</span>
+<span style="color:#75715e">#!pip install ipywidgets</span>
+<span style="color:#75715e">#!jupyter nbextension enable --py widgetsnbextension</span>
+<span style="color:#75715e">#!pip install -r requirements.txt</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pandas <span style="color:#f92672">as</span> pd
+<span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+<span style="color:#f92672">import</span> seaborn <span style="color:#f92672">as</span> sns
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">from</span> tqdm <span style="color:#f92672">import</span> tqdm_notebook <span style="color:#66d9ef">as</span> tqdm
+<span style="color:#f92672">%</span>matplotlib inline
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Folder with datasets</span>
+data_folder <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;data/&#34;</span>
+
+<span style="color:#75715e"># Running on kaggle?</span>
+kaggle <span style="color:#f92672">=</span> False
+
+<span style="color:#66d9ef">if</span> kaggle:
+    data_folder <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;../input/&#34;</span>
+
+<span style="color:#75715e"># Load the data for training ML models</span>
+xtrain <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(data_folder <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;X_treino.csv&#34;</span>)
+ytrain <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(data_folder <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;y_treino.csv&#34;</span>) <span style="color:#75715e"># Target</span>
+train_data <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>merge(xtrain, ytrain, how <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;left&#34;</span>, on <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;series_id&#34;</span>)
+
+<span style="color:#75715e">#Load the Test dataset to predict the results (used for submission)</span>
+xtest <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(data_folder <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;X_teste.csv&#34;</span>)
+test_data <span style="color:#f92672">=</span> xtest
+
+<span style="color:#75715e"># Submission data</span>
+submission <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(data_folder <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;sample_submission.csv&#34;</span>)
+
+<span style="color:#75715e"># Showing the number of samples and columns for each dataset</span>
+<span style="color:#66d9ef">print</span>(train_data<span style="color:#f92672">.</span>shape)
+<span style="color:#66d9ef">print</span>(test_data<span style="color:#f92672">.</span>shape)
+</code></pre></div><pre><code>(487680, 15)
+(488448, 13)
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">train_data<span style="color:#f92672">.</span>head()
+</code></pre></div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>row_id</th>
+      <th>series_id</th>
+      <th>measurement_number</th>
+      <th>orientation_X</th>
+      <th>orientation_Y</th>
+      <th>orientation_Z</th>
+      <th>orientation_W</th>
+      <th>angular_velocity_X</th>
+      <th>angular_velocity_Y</th>
+      <th>angular_velocity_Z</th>
+      <th>linear_acceleration_X</th>
+      <th>linear_acceleration_Y</th>
+      <th>linear_acceleration_Z</th>
+      <th>group_id</th>
+      <th>surface</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0_0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-0.75853</td>
+      <td>-0.63435</td>
+      <td>-0.10488</td>
+      <td>-0.10597</td>
+      <td>0.107650</td>
+      <td>0.017561</td>
+      <td>0.000767</td>
+      <td>-0.74857</td>
+      <td>2.1030</td>
+      <td>-9.7532</td>
+      <td>13</td>
+      <td>fine_concrete</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0_1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>-0.75853</td>
+      <td>-0.63434</td>
+      <td>-0.10490</td>
+      <td>-0.10600</td>
+      <td>0.067851</td>
+      <td>0.029939</td>
+      <td>0.003385</td>
+      <td>0.33995</td>
+      <td>1.5064</td>
+      <td>-9.4128</td>
+      <td>13</td>
+      <td>fine_concrete</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0_2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>-0.75853</td>
+      <td>-0.63435</td>
+      <td>-0.10492</td>
+      <td>-0.10597</td>
+      <td>0.007275</td>
+      <td>0.028934</td>
+      <td>-0.005978</td>
+      <td>-0.26429</td>
+      <td>1.5922</td>
+      <td>-8.7267</td>
+      <td>13</td>
+      <td>fine_concrete</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0_3</td>
+      <td>0</td>
+      <td>3</td>
+      <td>-0.75852</td>
+      <td>-0.63436</td>
+      <td>-0.10495</td>
+      <td>-0.10597</td>
+      <td>-0.013053</td>
+      <td>0.019448</td>
+      <td>-0.008974</td>
+      <td>0.42684</td>
+      <td>1.0993</td>
+      <td>-10.0960</td>
+      <td>13</td>
+      <td>fine_concrete</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0_4</td>
+      <td>0</td>
+      <td>4</td>
+      <td>-0.75852</td>
+      <td>-0.63435</td>
+      <td>-0.10495</td>
+      <td>-0.10596</td>
+      <td>0.005135</td>
+      <td>0.007652</td>
+      <td>0.005245</td>
+      <td>-0.50969</td>
+      <td>1.4689</td>
+      <td>-10.4410</td>
+      <td>13</td>
+      <td>fine_concrete</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">test_data<span style="color:#f92672">.</span>head()
+</code></pre></div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>row_id</th>
+      <th>series_id</th>
+      <th>measurement_number</th>
+      <th>orientation_X</th>
+      <th>orientation_Y</th>
+      <th>orientation_Z</th>
+      <th>orientation_W</th>
+      <th>angular_velocity_X</th>
+      <th>angular_velocity_Y</th>
+      <th>angular_velocity_Z</th>
+      <th>linear_acceleration_X</th>
+      <th>linear_acceleration_Y</th>
+      <th>linear_acceleration_Z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0_0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-0.025773</td>
+      <td>-0.98864</td>
+      <td>-0.14801</td>
+      <td>0.003350</td>
+      <td>-0.006524</td>
+      <td>-0.001071</td>
+      <td>-0.027390</td>
+      <td>0.10043</td>
+      <td>4.2061</td>
+      <td>-5.5439</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0_1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>-0.025683</td>
+      <td>-0.98862</td>
+      <td>-0.14816</td>
+      <td>0.003439</td>
+      <td>-0.113960</td>
+      <td>0.083987</td>
+      <td>-0.060590</td>
+      <td>-0.70889</td>
+      <td>3.9905</td>
+      <td>-8.0273</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0_2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>-0.025617</td>
+      <td>-0.98861</td>
+      <td>-0.14826</td>
+      <td>0.003571</td>
+      <td>-0.080518</td>
+      <td>0.114860</td>
+      <td>-0.037177</td>
+      <td>1.45710</td>
+      <td>2.2828</td>
+      <td>-11.2990</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0_3</td>
+      <td>0</td>
+      <td>3</td>
+      <td>-0.025566</td>
+      <td>-0.98862</td>
+      <td>-0.14817</td>
+      <td>0.003609</td>
+      <td>0.070067</td>
+      <td>0.033820</td>
+      <td>-0.035904</td>
+      <td>0.71096</td>
+      <td>1.8582</td>
+      <td>-12.2270</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0_4</td>
+      <td>0</td>
+      <td>4</td>
+      <td>-0.025548</td>
+      <td>-0.98866</td>
+      <td>-0.14792</td>
+      <td>0.003477</td>
+      <td>0.152050</td>
+      <td>-0.029016</td>
+      <td>-0.015314</td>
+      <td>3.39960</td>
+      <td>2.7881</td>
+      <td>-10.4100</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h4 id="frequency-distribution">Frequency Distribution</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Check unique values</span>
+train_count_series <span style="color:#f92672">=</span> len(train_data<span style="color:#f92672">.</span>series_id<span style="color:#f92672">.</span>unique())
+test_count_series <span style="color:#f92672">=</span> len(test_data<span style="color:#f92672">.</span>series_id<span style="color:#f92672">.</span>unique())
+train_freq_distribution_surfaces <span style="color:#f92672">=</span> train_data<span style="color:#f92672">.</span>surface<span style="color:#f92672">.</span>value_counts()
+
+<span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#34;Number of time series in train dataset: {train_count_series}&#34;</span>)
+<span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#34;Number of time series in test dataset: {test_count_series}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+
+<span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#34;Surfaces frequency distribution in train dataset:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">{train_freq_distribution_surfaces}&#34;</span>)
+train_freq_distribution_surfaces<span style="color:#f92672">.</span>plot(kind<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;barh&#34;</span>, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">5</span>))
+plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#34;Sample distribution by class&#34;</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#34;Number of time series&#34;</span>)
+plt<span style="color:#f92672">.</span>show()
+</code></pre></div><pre><code>Number of time series in train dataset: 3810
+Number of time series in test dataset: 3816
+
+Surfaces frequency distribution in train dataset:
+concrete                  99712
+soft_pvc                  93696
+wood                      77696
+tiled                     65792
+fine_concrete             46464
+hard_tiles_large_space    39424
+soft_tiles                38016
+carpet                    24192
+hard_tiles                 2688
+Name: surface, dtype: int64
+</code></pre>
+<p><img src="/classify-the-floor-surface/output_9_1.png" alt="png"></p>
+<p>So, the train data set contains 3810 labeled time series samples, with the corresponding surface type annotation.</p>
+<p>Most of the samples are for the concrete surface. The <em>hard_tiles</em> has only 2688 samples, this may be insufficient to build a robust model for this type of surface.</p>
+<p>Furthermore, the classes are not balanced so we need to be careful because simple accuracy score is not enough to evaluate the model performance.</p>
+<h4 id="frequency-distribution-for-each-column">Frequency distribution for each column</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">plt<span style="color:#f92672">.</span>subplots_adjust(top<span style="color:#f92672">=</span><span style="color:#ae81ff">0.8</span>)
+<span style="color:#66d9ef">for</span> i, col <span style="color:#f92672">in</span> enumerate(xtrain<span style="color:#f92672">.</span>columns[<span style="color:#ae81ff">3</span>:]):
+    g <span style="color:#f92672">=</span> sns<span style="color:#f92672">.</span>FacetGrid(train_data, col<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;surface&#34;</span>, col_wrap<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>, height<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, aspect<span style="color:#f92672">=</span><span style="color:#ae81ff">1.1</span>)
+    g <span style="color:#f92672">=</span> g<span style="color:#f92672">.</span>map(sns<span style="color:#f92672">.</span>distplot, col)
+    g<span style="color:#f92672">.</span>fig<span style="color:#f92672">.</span>suptitle(col, y<span style="color:#f92672">=</span><span style="color:#ae81ff">1.09</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">23</span>)
+</code></pre></div><p><img src="/classify-the-floor-surface/output_12_1.png" alt="png"></p>
+<p><img src="/classify-the-floor-surface/output_12_2.png" alt="png"></p>
+<p><img src="/classify-the-floor-surface/output_12_3.png" alt="png"></p>
+<p><img src="/classify-the-floor-surface/output_12_4.png" alt="png"></p>
+<p><img src="/classify-the-floor-surface/output_12_5.png" alt="png"></p>
+<p><img src="/classify-the-floor-surface/output_12_6.png" alt="png"></p>
+<p><img src="/classify-the-floor-surface/output_12_7.png" alt="png"></p>
+<p><img src="/classify-the-floor-surface/output_12_8.png" alt="png"></p>
+<p><img src="/classify-the-floor-surface/output_12_9.png" alt="png"></p>
+<p><img src="/classify-the-floor-surface/output_12_10.png" alt="png"></p>
+<p>From the above plots, we can see that:</p>
+<ul>
+<li><strong>orientation X</strong> and <strong>orientation Y</strong> have values around -1.0 to 1.0</li>
+<li><strong>orientation Z</strong> and <strong>orientation W</strong> have values around -0.15 to 0.15</li>
+<li>For orientation X, Y, Z and W <strong>hard_tiles</strong> have different distribution as compared to others.</li>
+<li><strong>angular_velocity_x</strong> forms a perfect Normal distribution</li>
+<li><strong>angular_velocity_y</strong> and <strong>angular_velocity_z</strong> have distributions close to a Normal for most surfaces, excepts for <strong>hard_tiles</strong>, <strong>carpet</strong> and <strong>wood</strong>.</li>
+<li><strong>linear_acceleration_X</strong>, <strong>linear_acceleration_Y</strong> and <strong>linear_acceleration_Z</strong> forms a Normal distribution for all surfaces.</li>
+</ul>
+<h2 id="feature-engineering">Feature Engineering</h2>
+<p>To build the ML model we&rsquo;ll convert each time series values to the following metrics:</p>
+<ul>
+<li>Mean</li>
+<li>Standard Deviation</li>
+<li>Min and Max values</li>
+<li>Kurtosis Coefficient</li>
+<li>Skewness Coefficient</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Function that performs all data transformation and pre-processing</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">data_preprocessing</span>(df, labeled<span style="color:#f92672">=</span>False):
+
+    <span style="color:#75715e"># New dataframe that will saves the tranformed data</span>
+    X <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame()
+
+    <span style="color:#75715e"># This list will save the type of surface for each series ID</span>
+    Y <span style="color:#f92672">=</span> []
+
+    <span style="color:#75715e"># The selected attributes used in training</span>
+    selected_attributes <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;orientation_X&#39;</span>, <span style="color:#e6db74">&#39;orientation_Y&#39;</span>, <span style="color:#e6db74">&#39;orientation_Z&#39;</span>, <span style="color:#e6db74">&#39;orientation_W&#39;</span>,
+                           <span style="color:#e6db74">&#39;angular_velocity_X&#39;</span>, <span style="color:#e6db74">&#39;angular_velocity_Y&#39;</span>, <span style="color:#e6db74">&#39;angular_velocity_Z&#39;</span>, <span style="color:#e6db74">&#39;linear_acceleration_X&#39;</span>,
+                           <span style="color:#e6db74">&#39;linear_acceleration_Y&#39;</span>, <span style="color:#e6db74">&#39;linear_acceleration_Z&#39;</span>]
+
+    <span style="color:#75715e"># The total number of series in training data</span>
+    total_test_series <span style="color:#f92672">=</span> len(df<span style="color:#f92672">.</span>series_id<span style="color:#f92672">.</span>unique())
+
+    <span style="color:#66d9ef">for</span> series <span style="color:#f92672">in</span> tqdm(range(total_test_series)):
+    <span style="color:#75715e">#for series in range(total_test_series):</span>
+
+        <span style="color:#75715e"># Filter the series id in the DataFrame</span>
+        _filter <span style="color:#f92672">=</span> (df<span style="color:#f92672">.</span>series_id <span style="color:#f92672">==</span> series)
+
+        <span style="color:#75715e"># If data with labels</span>
+        <span style="color:#66d9ef">if</span> labeled:
+            <span style="color:#75715e"># Saves the type of surface (label) for each series ID</span>
+            Y<span style="color:#f92672">.</span>append((df<span style="color:#f92672">.</span>loc[_filter, <span style="color:#e6db74">&#39;surface&#39;</span>])<span style="color:#f92672">.</span>values[<span style="color:#ae81ff">0</span>])
+
+        <span style="color:#75715e"># Compute new values for each attribute</span>
+        <span style="color:#66d9ef">for</span> attr <span style="color:#f92672">in</span> selected_attributes:
+
+            <span style="color:#75715e"># Compute a new attribute for each series and save in the X DataFrame</span>
+            X<span style="color:#f92672">.</span>loc[series, attr <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;_mean&#39;</span>] <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>loc[_filter, attr]<span style="color:#f92672">.</span>mean()
+            X<span style="color:#f92672">.</span>loc[series, attr <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;_std&#39;</span>] <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>loc[_filter, attr]<span style="color:#f92672">.</span>std()
+            X<span style="color:#f92672">.</span>loc[series, attr <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;_min&#39;</span>] <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>loc[_filter, attr]<span style="color:#f92672">.</span>min()
+            X<span style="color:#f92672">.</span>loc[series, attr <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;_max&#39;</span>] <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>loc[_filter, attr]<span style="color:#f92672">.</span>max()
+            X<span style="color:#f92672">.</span>loc[series, attr <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;_kur&#39;</span>] <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>loc[_filter, attr]<span style="color:#f92672">.</span>kurtosis()
+            X<span style="color:#f92672">.</span>loc[series, attr <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;_skew&#39;</span>] <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>loc[_filter,attr]<span style="color:#f92672">.</span>skew()
+
+
+    <span style="color:#66d9ef">return</span> X,Y
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Apply the Pre-Processing to train data</span>
+X_train, Y_train <span style="color:#f92672">=</span> data_preprocessing(train_data, labeled<span style="color:#f92672">=</span>True)
+
+<span style="color:#75715e"># Here is the result DataFrame</span>
+X_train<span style="color:#f92672">.</span>head()
+</code></pre></div><pre><code>HBox(children=(IntProgress(value=0, max=3810), HTML(value='')))
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>orientation_X_mean</th>
+      <th>orientation_X_std</th>
+      <th>orientation_X_min</th>
+      <th>orientation_X_max</th>
+      <th>orientation_X_kur</th>
+      <th>orientation_X_skew</th>
+      <th>orientation_Y_mean</th>
+      <th>orientation_Y_std</th>
+      <th>orientation_Y_min</th>
+      <th>orientation_Y_max</th>
+      <th>...</th>
+      <th>linear_acceleration_Y_min</th>
+      <th>linear_acceleration_Y_max</th>
+      <th>linear_acceleration_Y_kur</th>
+      <th>linear_acceleration_Y_skew</th>
+      <th>linear_acceleration_Z_mean</th>
+      <th>linear_acceleration_Z_std</th>
+      <th>linear_acceleration_Z_min</th>
+      <th>linear_acceleration_Z_max</th>
+      <th>linear_acceleration_Z_kur</th>
+      <th>linear_acceleration_Z_skew</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-0.758666</td>
+      <td>0.000363</td>
+      <td>-0.75953</td>
+      <td>-0.75822</td>
+      <td>-0.646196</td>
+      <td>-0.659082</td>
+      <td>-0.634008</td>
+      <td>0.000471</td>
+      <td>-0.63456</td>
+      <td>-0.63306</td>
+      <td>...</td>
+      <td>0.075417</td>
+      <td>5.3864</td>
+      <td>-1.075352</td>
+      <td>-0.364964</td>
+      <td>-9.320391</td>
+      <td>1.095040</td>
+      <td>-12.512</td>
+      <td>-6.2681</td>
+      <td>0.532135</td>
+      <td>0.067391</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-0.958606</td>
+      <td>0.000151</td>
+      <td>-0.95896</td>
+      <td>-0.95837</td>
+      <td>-0.642996</td>
+      <td>-0.397289</td>
+      <td>0.241867</td>
+      <td>0.000499</td>
+      <td>0.24074</td>
+      <td>0.24270</td>
+      <td>...</td>
+      <td>-2.149200</td>
+      <td>6.6850</td>
+      <td>-0.575238</td>
+      <td>-0.183139</td>
+      <td>-9.388899</td>
+      <td>2.123065</td>
+      <td>-16.928</td>
+      <td>-2.7449</td>
+      <td>1.356800</td>
+      <td>-0.126848</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.512057</td>
+      <td>0.001377</td>
+      <td>-0.51434</td>
+      <td>-0.50944</td>
+      <td>-1.052580</td>
+      <td>0.151971</td>
+      <td>-0.846171</td>
+      <td>0.000785</td>
+      <td>-0.84779</td>
+      <td>-0.84490</td>
+      <td>...</td>
+      <td>-1.254000</td>
+      <td>6.2105</td>
+      <td>-0.584675</td>
+      <td>-0.266815</td>
+      <td>-9.395783</td>
+      <td>1.140267</td>
+      <td>-12.499</td>
+      <td>-5.7442</td>
+      <td>0.446304</td>
+      <td>0.085877</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.939169</td>
+      <td>0.000227</td>
+      <td>-0.93968</td>
+      <td>-0.93884</td>
+      <td>-1.078090</td>
+      <td>-0.096106</td>
+      <td>0.310140</td>
+      <td>0.000453</td>
+      <td>0.30943</td>
+      <td>0.31147</td>
+      <td>...</td>
+      <td>-5.825100</td>
+      <td>11.7430</td>
+      <td>-0.900409</td>
+      <td>-0.117380</td>
+      <td>-9.451164</td>
+      <td>3.478530</td>
+      <td>-19.845</td>
+      <td>-0.5591</td>
+      <td>0.670500</td>
+      <td>-0.210103</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-0.891301</td>
+      <td>0.002955</td>
+      <td>-0.89689</td>
+      <td>-0.88673</td>
+      <td>-1.165941</td>
+      <td>-0.226700</td>
+      <td>0.428144</td>
+      <td>0.006165</td>
+      <td>0.41646</td>
+      <td>0.43740</td>
+      <td>...</td>
+      <td>0.342070</td>
+      <td>4.8181</td>
+      <td>-0.657740</td>
+      <td>-0.534365</td>
+      <td>-9.349988</td>
+      <td>0.812585</td>
+      <td>-10.975</td>
+      <td>-7.4490</td>
+      <td>-0.486618</td>
+      <td>0.106132</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 60 columns</p>
+</div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Transform the Y list in an array</span>
+Y_train<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>array(Y_train)
+
+<span style="color:#75715e"># Print the size</span>
+X_train<span style="color:#f92672">.</span>shape, Y_train<span style="color:#f92672">.</span>shape
+</code></pre></div><pre><code>((3810, 60), (3810,))
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Apply the Pre-Processing to test data</span>
+X_test, _ <span style="color:#f92672">=</span> data_preprocessing(test_data, labeled<span style="color:#f92672">=</span>False)
+
+X_test<span style="color:#f92672">.</span>head()
+</code></pre></div><pre><code>HBox(children=(IntProgress(value=0, max=3816), HTML(value='')))
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>orientation_X_mean</th>
+      <th>orientation_X_std</th>
+      <th>orientation_X_min</th>
+      <th>orientation_X_max</th>
+      <th>orientation_X_kur</th>
+      <th>orientation_X_skew</th>
+      <th>orientation_Y_mean</th>
+      <th>orientation_Y_std</th>
+      <th>orientation_Y_min</th>
+      <th>orientation_Y_max</th>
+      <th>...</th>
+      <th>linear_acceleration_Y_min</th>
+      <th>linear_acceleration_Y_max</th>
+      <th>linear_acceleration_Y_kur</th>
+      <th>linear_acceleration_Y_skew</th>
+      <th>linear_acceleration_Z_mean</th>
+      <th>linear_acceleration_Z_std</th>
+      <th>linear_acceleration_Z_min</th>
+      <th>linear_acceleration_Z_max</th>
+      <th>linear_acceleration_Z_kur</th>
+      <th>linear_acceleration_Z_skew</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-0.025810</td>
+      <td>0.000284</td>
+      <td>-0.026418</td>
+      <td>-0.025156</td>
+      <td>-0.690757</td>
+      <td>-0.389316</td>
+      <td>-0.988644</td>
+      <td>0.000039</td>
+      <td>-0.98873</td>
+      <td>-0.98854</td>
+      <td>...</td>
+      <td>0.20204</td>
+      <td>6.3266</td>
+      <td>0.018061</td>
+      <td>0.125563</td>
+      <td>-9.325264</td>
+      <td>2.267268</td>
+      <td>-16.3620</td>
+      <td>-3.9960</td>
+      <td>0.033811</td>
+      <td>-0.047728</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-0.932288</td>
+      <td>0.000564</td>
+      <td>-0.933720</td>
+      <td>-0.931480</td>
+      <td>-0.393465</td>
+      <td>-0.763507</td>
+      <td>0.330271</td>
+      <td>0.001654</td>
+      <td>0.32661</td>
+      <td>0.33227</td>
+      <td>...</td>
+      <td>-1.42470</td>
+      <td>6.5591</td>
+      <td>-1.062457</td>
+      <td>-0.389972</td>
+      <td>-9.345727</td>
+      <td>1.283607</td>
+      <td>-13.2470</td>
+      <td>-3.6473</td>
+      <td>3.938843</td>
+      <td>0.686782</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.230186</td>
+      <td>0.001054</td>
+      <td>-0.231410</td>
+      <td>-0.227130</td>
+      <td>-0.208219</td>
+      <td>0.935914</td>
+      <td>0.961448</td>
+      <td>0.000260</td>
+      <td>0.96109</td>
+      <td>0.96217</td>
+      <td>...</td>
+      <td>-0.92920</td>
+      <td>7.9789</td>
+      <td>-0.319975</td>
+      <td>0.095312</td>
+      <td>-9.456413</td>
+      <td>2.780109</td>
+      <td>-15.9460</td>
+      <td>-2.1986</td>
+      <td>-0.334135</td>
+      <td>0.134209</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.164661</td>
+      <td>0.001182</td>
+      <td>0.163320</td>
+      <td>0.167500</td>
+      <td>-0.595330</td>
+      <td>0.762830</td>
+      <td>0.975293</td>
+      <td>0.000182</td>
+      <td>0.97485</td>
+      <td>0.97551</td>
+      <td>...</td>
+      <td>2.32610</td>
+      <td>3.7314</td>
+      <td>-0.357765</td>
+      <td>0.085074</td>
+      <td>-9.357768</td>
+      <td>0.525308</td>
+      <td>-10.5090</td>
+      <td>-7.8266</td>
+      <td>0.117266</td>
+      <td>0.467818</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-0.253600</td>
+      <td>0.009763</td>
+      <td>-0.269380</td>
+      <td>-0.236370</td>
+      <td>-1.226878</td>
+      <td>0.084989</td>
+      <td>0.955712</td>
+      <td>0.002578</td>
+      <td>0.95150</td>
+      <td>0.96018</td>
+      <td>...</td>
+      <td>1.39390</td>
+      <td>4.1428</td>
+      <td>-0.637648</td>
+      <td>0.126542</td>
+      <td>-9.396443</td>
+      <td>0.212280</td>
+      <td>-9.8543</td>
+      <td>-8.9277</td>
+      <td>-0.544805</td>
+      <td>0.369715</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 60 columns</p>
+</div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">print</span>(X_test<span style="color:#f92672">.</span>shape)
+</code></pre></div><pre><code>(3816, 60)
+</code></pre>
+<h2 id="modeling">Modeling</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Importing packages</span>
+<span style="color:#f92672">from</span> sklearn.model_selection <span style="color:#f92672">import</span> StratifiedShuffleSplit
+<span style="color:#f92672">from</span> sklearn.metrics <span style="color:#f92672">import</span> f1_score
+<span style="color:#f92672">from</span> sklearn.metrics <span style="color:#f92672">import</span> accuracy_score
+<span style="color:#f92672">from</span> sklearn.ensemble <span style="color:#f92672">import</span> RandomForestClassifier
+<span style="color:#f92672">from</span> sklearn.ensemble <span style="color:#f92672">import</span> ExtraTreesClassifier
+<span style="color:#f92672">from</span> sklearn.preprocessing <span style="color:#f92672">import</span> LabelEncoder
+<span style="color:#f92672">import</span> lightgbm <span style="color:#f92672">as</span> lgb
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Get the labels (concrete, tiled, wood, etc.)</span>
+unique_labels<span style="color:#f92672">=</span>list(train_data<span style="color:#f92672">.</span>surface<span style="color:#f92672">.</span>unique())
+
+<span style="color:#75715e"># Encode the train labels with value between 0 and n_classes-1 to use in Random Forest Classifier.</span>
+le <span style="color:#f92672">=</span> LabelEncoder()
+Y_train_encoded <span style="color:#f92672">=</span> le<span style="color:#f92672">.</span>fit_transform(Y_train)
+Y_train_encoded
+</code></pre></div><pre><code>array([2, 1, 1, ..., 2, 7, 5], dtype=int64)
+</code></pre>
+<h3 id="using-gradient-boosting-lightgbm">Using Gradient Boosting (LightGBM)</h3>
+<p>LightGBM is a gradient boosting framework that uses tree based learning algorithms.</p>
+<p>Documentation: <a href="https://lightgbm.readthedocs.io/en/latest/Python-Intro.html">https://lightgbm.readthedocs.io/en/latest/Python-Intro.html</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Function to perform all training steps for LGBM</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">train_lgbm_model</span>(X_train, Y_train, X_test):
+
+    <span style="color:#75715e"># Variables that save the probabilities of each class </span>
+    predicted <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((X_test<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>],<span style="color:#ae81ff">9</span>))
+    measured<span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((X_train<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>],<span style="color:#ae81ff">9</span>))
+
+    <span style="color:#75715e"># Create a dictionary that saves the model create in each fold</span>
+    models <span style="color:#f92672">=</span> {}
+
+    <span style="color:#75715e"># Used to compute model accuracy</span>
+    all_scores <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+
+    <span style="color:#75715e"># Use Stratified ShuffleSplit cross-validator</span>
+    <span style="color:#75715e"># Provides train/test indices to split data in train/test sets.</span>
+    n_folds <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+    sss <span style="color:#f92672">=</span> StratifiedShuffleSplit(n_splits<span style="color:#f92672">=</span>n_folds, test_size<span style="color:#f92672">=</span><span style="color:#ae81ff">0.30</span>, random_state<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+
+    <span style="color:#75715e"># Control the number of folds in cross-validation (5 folds)</span>
+    k<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+
+    <span style="color:#75715e"># From the generator object gets index for series to use in train and validation</span>
+    <span style="color:#66d9ef">for</span> train_index, valid_index <span style="color:#f92672">in</span> sss<span style="color:#f92672">.</span>split(X_train, Y_train):
+
+        <span style="color:#75715e"># Saves the split train/validation combinations for each Cross-Validation fold</span>
+        X_train_cv, X_validation_cv <span style="color:#f92672">=</span> X_train<span style="color:#f92672">.</span>loc[train_index,:], X_train<span style="color:#f92672">.</span>loc[valid_index,:]
+        Y_train_cv, Y_validation_cv <span style="color:#f92672">=</span> Y_train[train_index], Y_train[valid_index]
+
+        <span style="color:#75715e"># Create the model</span>
+        lgbm <span style="color:#f92672">=</span> lgb<span style="color:#f92672">.</span>LGBMClassifier(objective<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;multiclass&#39;</span>, is_unbalance<span style="color:#f92672">=</span>True, max_depth<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>,
+                               learning_rate<span style="color:#f92672">=</span><span style="color:#ae81ff">0.05</span>, n_estimators<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>, num_leaves<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>)
+
+        <span style="color:#75715e"># Training the model</span>
+        <span style="color:#75715e"># eval gets the tuple pairs to use as validation sets</span>
+        lgbm<span style="color:#f92672">.</span>fit(X_train_cv, Y_train_cv,
+            eval_set<span style="color:#f92672">=</span>[(X_train_cv, Y_train_cv), (X_validation_cv, Y_validation_cv)],
+            early_stopping_rounds<span style="color:#f92672">=</span><span style="color:#ae81ff">60</span>, <span style="color:#75715e"># stops if 60 consequent rounds without decrease of error</span>
+            verbose<span style="color:#f92672">=</span>False, eval_metric<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;multi_error&#39;</span>)
+
+        <span style="color:#75715e"># Get the class probabilities of the input samples</span>
+        <span style="color:#75715e"># Save the probabilities for submission</span>
+        y_pred <span style="color:#f92672">=</span> lgbm<span style="color:#f92672">.</span>predict_proba(X_test)
+        predicted <span style="color:#f92672">+=</span> y_pred
+
+        <span style="color:#75715e"># Save the probabilities of validation</span>
+        measured[valid_index] <span style="color:#f92672">=</span> lgbm<span style="color:#f92672">.</span>predict_proba(X_validation_cv)
+
+        <span style="color:#75715e"># Cumulative sum of the score</span>
+        score <span style="color:#f92672">=</span> lgbm<span style="color:#f92672">.</span>score(X_validation_cv,Y_validation_cv)
+        all_scores <span style="color:#f92672">+=</span> score
+
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Fold: {} - LGBM Score: {}&#34;</span><span style="color:#f92672">.</span>format(k, score))
+
+        <span style="color:#75715e"># Saving the model</span>
+        models[k] <span style="color:#f92672">=</span> lgbm
+        k <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+
+    <span style="color:#75715e"># Compute the mean probability</span>
+    predicted <span style="color:#f92672">/=</span> n_folds
+    <span style="color:#75715e"># Save the mean score value</span>
+    mean_score <span style="color:#f92672">=</span> all_scores<span style="color:#f92672">/</span>n_folds
+    <span style="color:#75715e"># Save the first trained model</span>
+    trained_model <span style="color:#f92672">=</span> models[<span style="color:#ae81ff">1</span>]
+
+
+    <span style="color:#66d9ef">return</span> measured, predicted, mean_score, trained_model
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Models is a dict that saves the model create in each fold in cross-validation</span>
+measured_lgb, predicted_lgb, accuracy_lgb, model_lgb <span style="color:#f92672">=</span> train_lgbm_model(X_train, Y_train_encoded, X_test)
+<span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Mean accuracy for LGBM: {accuracy_lgb}&#34;</span>)
+</code></pre></div><pre><code>Fold: 1 - LGBM Score: 0.8451443569553806
+Fold: 2 - LGBM Score: 0.8512685914260717
+Fold: 3 - LGBM Score: 0.8398950131233596
+Fold: 4 - LGBM Score: 0.8591426071741033
+Fold: 5 - LGBM Score: 0.8722659667541557
+
+Mean accuracy for LGBM: 0.8535433070866141
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Plot the Feature Importance for the first model created</span>
+plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">30</span>))
+ax<span style="color:#f92672">=</span>plt<span style="color:#f92672">.</span>axes()
+lgb<span style="color:#f92672">.</span>plot_importance(model_lgb, height<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>, ax<span style="color:#f92672">=</span>ax)
+plt<span style="color:#f92672">.</span>show()
+</code></pre></div><p><img src="/classify-the-floor-surface/output_27_0.png" alt="png"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Removing features with a importance score bellow 400</span>
+<span style="color:#75715e"># The 400 values was chosen from several tests</span>
+features_to_remove <span style="color:#f92672">=</span> []
+feat_imp_threshold <span style="color:#f92672">=</span> <span style="color:#ae81ff">400</span>
+
+<span style="color:#75715e"># A list of features and importance scores</span>
+feat_imp <span style="color:#f92672">=</span> []
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(X_train<span style="color:#f92672">.</span>columns)):
+    feat_imp<span style="color:#f92672">.</span>append((X_train<span style="color:#f92672">.</span>columns[i], model_lgb<span style="color:#f92672">.</span>feature_importances_[i]))
+
+<span style="color:#66d9ef">for</span> fi <span style="color:#f92672">in</span> feat_imp:
+    <span style="color:#66d9ef">if</span> fi[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">&lt;</span> feat_imp_threshold:
+        features_to_remove<span style="color:#f92672">.</span>append(fi[<span style="color:#ae81ff">0</span>])
+
+<span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#34;Number of feature to be remove: {len(features_to_remove)}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+<span style="color:#66d9ef">print</span>(features_to_remove)
+</code></pre></div><pre><code>Number of feature to be remove: 25
+
+['orientation_X_kur', 'orientation_X_skew', 'orientation_Y_kur', 'orientation_Y_skew', 'orientation_Z_std', 'orientation_Z_kur', 'orientation_Z_skew', 'orientation_W_kur', 'orientation_W_skew', 'angular_velocity_X_std', 'angular_velocity_X_min', 'angular_velocity_X_max', 'angular_velocity_X_kur', 'angular_velocity_X_skew', 'angular_velocity_Y_mean', 'angular_velocity_Y_skew', 'angular_velocity_Z_mean', 'angular_velocity_Z_kur', 'angular_velocity_Z_skew', 'linear_acceleration_X_kur', 'linear_acceleration_X_skew', 'linear_acceleration_Y_kur', 'linear_acceleration_Y_skew', 'linear_acceleration_Z_max', 'linear_acceleration_Z_skew']
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Removing features</span>
+X_train_v2 <span style="color:#f92672">=</span> X_train<span style="color:#f92672">.</span>copy()
+X_test_v2 <span style="color:#f92672">=</span> X_test<span style="color:#f92672">.</span>copy()
+
+<span style="color:#66d9ef">for</span> f <span style="color:#f92672">in</span> features_to_remove:
+    <span style="color:#66d9ef">del</span> X_train_v2[f]
+    <span style="color:#66d9ef">del</span> X_test_v2[f]
+
+X_train_v2<span style="color:#f92672">.</span>shape, X_test_v2<span style="color:#f92672">.</span>shape
+</code></pre></div><pre><code>((3810, 35), (3816, 35))
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Train a new set of models</span>
+measured_lgb, predicted_lgb, accuracy_lgb, lgbm_model <span style="color:#f92672">=</span> train_lgbm_model(X_train_v2, Y_train_encoded, X_test_v2)
+<span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Mean accuracy for LGBM: {accuracy_lgb}&#34;</span>)
+</code></pre></div><pre><code>Fold: 1 - LGBM Score: 0.8617672790901137
+Fold: 2 - LGBM Score: 0.8565179352580927
+Fold: 3 - LGBM Score: 0.8442694663167104
+Fold: 4 - LGBM Score: 0.8766404199475065
+Fold: 5 - LGBM Score: 0.8836395450568679
+
+Mean accuracy for LGBM: 0.8645669291338584
+</code></pre>
+<p>Using the new set of features the mean score was improved in just 1.1%.</p>
+<h3 id="using-random-forest-classifier-rfc">Using Random Forest Classifier (RFC)</h3>
+<p>A random forest is a meta estimator that fits a number of decision tree classifiers on various sub-samples of the dataset and uses averaging to improve the predictive accuracy and control over-fitting.</p>
+<p>Documentation: <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html">https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Function to perform all training steps</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">train_rfc</span>(X_train, Y_train, X_test):
+
+    <span style="color:#75715e"># Create a dictionary that saves the model create in each fold</span>
+    models <span style="color:#f92672">=</span> {}
+
+    <span style="color:#75715e"># Variables that save the probabilities of each class</span>
+    predicted <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((X_test<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>],<span style="color:#ae81ff">9</span>))
+    measured <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((X_train<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>],<span style="color:#ae81ff">9</span>))
+
+    <span style="color:#75715e"># Use Stratified ShuffleSplit cross-validator</span>
+    <span style="color:#75715e"># Provides train/test indices to split data in train/test sets.</span>
+    n_folds <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+    sss <span style="color:#f92672">=</span> StratifiedShuffleSplit(n_splits<span style="color:#f92672">=</span>n_folds, test_size<span style="color:#f92672">=</span><span style="color:#ae81ff">0.30</span>, random_state<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+
+    <span style="color:#75715e"># Control the number of folds in cross-validation (5 folds)</span>
+    k<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+
+    <span style="color:#75715e"># Used to compute model accuracy</span>
+    all_scores <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+
+    <span style="color:#75715e"># From the generator object gets index for series to use in train and validation</span>
+    <span style="color:#66d9ef">for</span> train_index, valid_index <span style="color:#f92672">in</span> sss<span style="color:#f92672">.</span>split(X_train, Y_train):
+
+        <span style="color:#75715e"># Saves the split train/validation combinations for each Cross-Validation fold</span>
+        X_train_cv, X_validation_cv <span style="color:#f92672">=</span> X_train<span style="color:#f92672">.</span>loc[train_index,:], X_train<span style="color:#f92672">.</span>loc[valid_index,:]
+        Y_train_cv, Y_validation_cv <span style="color:#f92672">=</span> Y_train[train_index], Y_train[valid_index]
+
+        <span style="color:#75715e"># Training the model</span>
+        rfc <span style="color:#f92672">=</span> RandomForestClassifier(n_estimators<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>, min_samples_leaf <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, max_depth<span style="color:#f92672">=</span> None, n_jobs<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>, random_state<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>)
+        rfc<span style="color:#f92672">.</span>fit(X_train_cv,Y_train_cv)
+
+        <span style="color:#75715e"># Get the class probabilities of the input samples</span>
+        <span style="color:#75715e"># Save the probabilities for submission</span>
+        y_pred <span style="color:#f92672">=</span> rfc<span style="color:#f92672">.</span>predict_proba(X_test)
+        predicted <span style="color:#f92672">+=</span> y_pred
+
+        <span style="color:#75715e"># Save the probabilities of validation</span>
+        measured[valid_index] <span style="color:#f92672">=</span> rfc<span style="color:#f92672">.</span>predict_proba(X_validation_cv)
+
+        <span style="color:#75715e"># Cumulative sum of the score</span>
+        score <span style="color:#f92672">=</span> rfc<span style="color:#f92672">.</span>score(X_validation_cv,Y_validation_cv)
+        all_scores <span style="color:#f92672">+=</span> score
+
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Fold: {} - RF Score: {}&#34;</span><span style="color:#f92672">.</span>format(k, score))
+
+        <span style="color:#75715e"># Saving the model</span>
+        models[k] <span style="color:#f92672">=</span> rfc
+        k <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+
+    <span style="color:#75715e"># Compute the mean probability</span>
+    predicted <span style="color:#f92672">/=</span> n_folds
+    <span style="color:#75715e"># Save the mean score value</span>
+    mean_score <span style="color:#f92672">=</span> all_scores<span style="color:#f92672">/</span>n_folds
+    <span style="color:#75715e"># Save the first trained model</span>
+    trained_model <span style="color:#f92672">=</span> models[<span style="color:#ae81ff">1</span>]
+
+
+    <span style="color:#66d9ef">return</span> measured, predicted, mean_score, trained_model
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">measured_rf, predicted_rf, accuracy_rf, model_rf <span style="color:#f92672">=</span> train_rfc(X_train_v2, Y_train, X_test_v2)
+<span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Mean accuracy for RF: {accuracy_rf}&#34;</span>)
+</code></pre></div><pre><code>Fold: 1 - RF Score: 0.863517060367454
+Fold: 2 - RF Score: 0.8757655293088364
+Fold: 3 - RF Score: 0.8556430446194225
+Fold: 4 - RF Score: 0.8775153105861767
+Fold: 5 - RF Score: 0.889763779527559
+
+Mean accuracy for RF: 0.8724409448818896
+</code></pre>
+<h3 id="using-extra-trees-classifier">Using Extra-Trees Classifier</h3>
+<p>The main difference between random forests and extra trees (usually called extreme random forests) lies in the fact that, instead of computing the locally optimal feature/split combination (for the random forest), for each feature under consideration, a random value is selected for the split (for the extra trees).</p>
+<p>This leads to more diversified trees and less splitters to evaluate when training an extremly random forest.</p>
+<p>Documentation: <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html">https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Function to perform all training steps</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">train_etc</span>(X_train, Y_train, X_test):
+
+    <span style="color:#75715e"># Create a dictionary that saves the model create in each fold</span>
+    models <span style="color:#f92672">=</span> {}
+
+    <span style="color:#75715e"># Variables that save the probabilities of each class</span>
+    predicted <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((X_test<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>],<span style="color:#ae81ff">9</span>))
+    measured <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((X_train<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>],<span style="color:#ae81ff">9</span>))
+
+    <span style="color:#75715e"># Use Stratified ShuffleSplit cross-validator</span>
+    <span style="color:#75715e"># Provides train/test indices to split data in train/test sets.</span>
+    n_folds <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+    sss <span style="color:#f92672">=</span> StratifiedShuffleSplit(n_splits<span style="color:#f92672">=</span>n_folds, test_size<span style="color:#f92672">=</span><span style="color:#ae81ff">0.30</span>, random_state<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+
+    <span style="color:#75715e"># Control the number of folds in cross-validation (5 folds)</span>
+    k<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+    all_scores <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+
+    <span style="color:#75715e"># From the generator object gets index for series to use in train and validation</span>
+    <span style="color:#66d9ef">for</span> train_index, valid_index <span style="color:#f92672">in</span> sss<span style="color:#f92672">.</span>split(X_train, Y_train):
+
+        <span style="color:#75715e"># Saves the split train/validation combinations for each Cross-Validation fold</span>
+        X_train_cv, X_validation_cv <span style="color:#f92672">=</span> X_train<span style="color:#f92672">.</span>loc[train_index,:], X_train<span style="color:#f92672">.</span>loc[valid_index,:]
+        Y_train_cv, Y_validation_cv <span style="color:#f92672">=</span> Y_train[train_index], Y_train[valid_index]
+
+        <span style="color:#75715e"># Training the model</span>
+        etc <span style="color:#f92672">=</span> ExtraTreesClassifier(n_estimators<span style="color:#f92672">=</span><span style="color:#ae81ff">400</span>, max_depth<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>, min_samples_leaf<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, n_jobs<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>, random_state<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>)
+        etc<span style="color:#f92672">.</span>fit(X_train_cv,Y_train_cv)
+
+        <span style="color:#75715e"># Get the class probabilities of the input samples</span>
+        <span style="color:#75715e"># Save the probabilities for submission</span>
+        y_pred <span style="color:#f92672">=</span> etc<span style="color:#f92672">.</span>predict_proba(X_test)
+        predicted <span style="color:#f92672">+=</span> y_pred
+
+        <span style="color:#75715e"># Save the probabilities of validation</span>
+        measured[valid_index] <span style="color:#f92672">=</span> etc<span style="color:#f92672">.</span>predict_proba(X_validation_cv)
+
+        <span style="color:#75715e"># Cumulative sum of the score</span>
+        score <span style="color:#f92672">=</span> etc<span style="color:#f92672">.</span>score(X_validation_cv,Y_validation_cv)
+        all_scores <span style="color:#f92672">+=</span> score
+
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Fold: {} - ET Score: {}&#34;</span><span style="color:#f92672">.</span>format(k, score))
+
+        <span style="color:#75715e"># Saving the model</span>
+        models[k] <span style="color:#f92672">=</span> etc
+        k <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+
+    <span style="color:#75715e"># Compute the mean probability</span>
+    predicted <span style="color:#f92672">/=</span> n_folds
+    <span style="color:#75715e"># Save the mean score value</span>
+    mean_score <span style="color:#f92672">=</span> all_scores<span style="color:#f92672">/</span>n_folds
+    <span style="color:#75715e"># Save the first trained model</span>
+    trained_model <span style="color:#f92672">=</span> models[<span style="color:#ae81ff">1</span>]
+
+
+    <span style="color:#66d9ef">return</span> measured, predicted, mean_score, trained_model
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">measured_et, predicted_et, accuracy_et, model_et <span style="color:#f92672">=</span> train_rfc(X_train_v2, Y_train, X_test_v2)
+<span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Mean accuracy for ET: {accuracy_et}&#34;</span>)
+</code></pre></div><pre><code>Fold: 1 - RF Score: 0.863517060367454
+Fold: 2 - RF Score: 0.8757655293088364
+Fold: 3 - RF Score: 0.8556430446194225
+Fold: 4 - RF Score: 0.8775153105861767
+Fold: 5 - RF Score: 0.889763779527559
+
+Mean accuracy for ET: 0.8724409448818896
+</code></pre>
+<h3 id="overall-results">Overall results</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#34;LGBM accuracy: {accuracy_lgb}&#34;</span>)
+<span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#34;RF accuracy: {accuracy_rf}&#34;</span>)
+<span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#34;ET accuracy: {accuracy_et}&#34;</span>)
+</code></pre></div><pre><code>LGBM accuracy: 0.8645669291338584
+RF accuracy: 0.8724409448818896
+ET accuracy: 0.8724409448818896
+</code></pre>
+<p>For all algorithms used, the mean accuracy was the same.</p>
+<p>Let&rsquo;s combine them together to build a new powerful model.</p>
+<h2 id="stacking">Stacking</h2>
+<p>Stacking is an ensemble learning technique that combines multiple classification or regression models via a meta-classifier or a meta-regressor. The base level models are trained based on a complete training set, then the meta-model is trained on the outputs of the base level model as features.</p>
+<p>The idea of stacking is to learn several different weak learners (heterogeneous learners) and combine them by training a meta-model to output predictions based on the multiple predictions returned by these weak models.</p>
+<p>So, we need to define two things in order to build our stacking model: the L learners we want to fit and the meta-model that combines them.</p>
+<p>In our case, the L learns are: LightGBM, Random Forest and Extra Trees.
+The meta classifier wil be a Logistic Regression model.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Creatin train and test datasets</span>
+x_train <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>concatenate((measured_et, measured_rf, measured_lgb), axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+x_test <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>concatenate((predicted_et, predicted_rf, predicted_lgb), axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+
+<span style="color:#66d9ef">print</span>(x_train<span style="color:#f92672">.</span>shape, x_test<span style="color:#f92672">.</span>shape)
+</code></pre></div><pre><code>(3810, 27) (3816, 27)
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Training the model</span>
+<span style="color:#f92672">from</span> sklearn.linear_model <span style="color:#f92672">import</span> LogisticRegression
+stacker <span style="color:#f92672">=</span> LogisticRegression(solver<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lbfgs&#34;</span>, multi_class<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;auto&#34;</span>)
+stacker<span style="color:#f92672">.</span>fit(x_train,Y_train)
+
+<span style="color:#75715e"># Perform predictions</span>
+stacker_pred <span style="color:#f92672">=</span> stacker<span style="color:#f92672">.</span>predict_proba(x_test)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Creating submission file</span>
+submission[<span style="color:#e6db74">&#39;surface&#39;</span>] <span style="color:#f92672">=</span>  le<span style="color:#f92672">.</span>inverse_transform(stacker_pred<span style="color:#f92672">.</span>argmax(<span style="color:#ae81ff">1</span>))
+submission<span style="color:#f92672">.</span>to_csv(<span style="color:#e6db74">&#39;submission_stack.csv&#39;</span>, index<span style="color:#f92672">=</span>False)
+submission<span style="color:#f92672">.</span>head()
+</code></pre></div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>series_id</th>
+      <th>surface</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>hard_tiles_large_space</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>carpet</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>tiled</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>soft_tiles</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>soft_tiles</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://www.researchgate.net/publication/332799607_Surface_Type_Classification_for_Autonomous_Robot_Indoor_Navigation">https://www.researchgate.net/publication/332799607_Surface_Type_Classification_for_Autonomous_Robot_Indoor_Navigation</a></li>
+<li><a href="https://www.kaggle.com/c/career-con-2019/overview">https://www.kaggle.com/c/career-con-2019/overview</a></li>
+<li><a href="http://mariofilho.com/tutorial-aumentando-o-poder-preditivo-de-seus-modelos-de-machine-learning-com-stacking-ensembles/">http://mariofilho.com/tutorial-aumentando-o-poder-preditivo-de-seus-modelos-de-machine-learning-com-stacking-ensembles/</a></li>
+<li><a href="https://blog.statsbot.co/ensemble-learning-d1dcd548e936">https://blog.statsbot.co/ensemble-learning-d1dcd548e936</a></li>
+</ul>
+
+                </div>
+                
+                <div class="post-comments">
+                    
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Patrick Alves -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Scraping products from etsy.com &middot; Patrick Alves - ML Engineer </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.79.1" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cpatrickalves.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/profile.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+				  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'G-BQSK9NW8F8', 'auto');
+	  ga('send', 'pageview');
+
+</script>
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://cpatrickalves.github.io/'>
+        patrick@machinelearning ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://cpatrickalves.github.io/'>/home/patrick</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/about">~/about</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/projects">~/portfolio</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/post">~/blog</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/contact">~/contact</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://cpatrickalves.github.io/projects/scraping-etsy/">Scraping products from etsy.com</a></h1>
+                <span class="post-date">2019-01-21 </span>
+                <div class="post-content">
+                    <p>This project was built using <a href="https://scrapy.org/">Scrapy</a> (Scraping and Web Crawling Framework).</p>
+<p>It contains a set of Spiders to gather product&rsquo;s data from <a href="https://www.etsy.com">Etsy Website</a>.</p>
+<h3 id="problem">Problem</h3>
+<p>The client needs data (product_id, url, price, rating, number_of_reviews, product_options, count_of_images, images_urls, favorited_by, store_name and description) from thousands of products of etsy.com to perfom data analysis.</p>
+<h3 id="task">Task</h3>
+<p>Create an automated and fast solution to navigate the website, find the products by a search text, extract all the data, and save it in a user-friendly format (CSV and XLSX).</p>
+<h3 id="solution">Solution</h3>
+<p>I&rsquo;ve used the Scrapy Web Crawling Framework to build a Python script to search and scrape (extract) the data of products found in Etsy.</p>
+<h3 id="results">Results</h3>
+<p>The client was able to quickly download the data in CSV and Excel format of more than 100,000 products from etsy.com.</p>
+<p><img src="/scraping-etsy/output-example.png" alt="Testmart Example"></p>
+<p><strong>The data was used for data analysis and add great value to the client business.</strong></p>
+<hr>
+<h1 id="source-code">Source code</h1>
+<p>The solution is available at Github.</p>
+<p><a href="https://github.com/cpatrickalves/scraping-etsy"><img src="/github.jpg" alt="GitHub"></a></p>
+<h3 id="how-to-use">How to use</h3>
+<p>You will need Python 3.6+ to run the scripts. Python can be downloaded <a href="https://www.python.org/downloads/">here</a>.</p>
+<p>You have to install the Scrapy framework and other required packages:</p>
+<ul>
+<li>In command prompt/Terminal: <code>pip install -r requirments.txt</code></li>
+</ul>
+<p>Once you have installed Scrapy framework, just clone/download this project:</p>
+<p><code>git clone https://github.com/cpatrickalves/scraping-etsy</code></p>
+<h3 id="usage">Usage</h3>
+<h4 id="spider-search_productspy">Spider: search_products.py</h4>
+<p>This Spider access the Etsy website and search for products based on a given search string.</p>
+<p>Supported parameters:</p>
+<ul>
+<li><em>search</em> - set the search string</li>
+<li><em>count_max</em> - limit the number of items/products to be scraped</li>
+<li><em>reviews_option</em> - set the method to get the product&rsquo;s reviews</li>
+</ul>
+<p>For example, to search for &lsquo;3d printed&rsquo; products go to the project&rsquo;s folder and run:</p>
+<pre><code>scrapy crawl search_products -a search='3d printed' 
+</code></pre><p>To save the results, use -o parameter:</p>
+<pre><code>scrapy crawl search_products -a search='3d printed' -o products.csv
+</code></pre><p>The Spider will create a CSV and Excel files.</p>
+<p>To limit the number of products scraped, use the <em>count_max</em> parameter:</p>
+<pre><code>scrapy crawl search_products -a search='3d printed' -a count_max=10 -o products.csv
+</code></pre><p>The <em>product reviews</em> data can be obtained in three ways:</p>
+<ul>
+<li>1 - Spider will get only the reviews in the product&rsquo;s page, that is, 4 reviews. This is the default and fastest option for scraping.</li>
+<li>2 - Spider will produce an Ajax request to get all reviews in the product&rsquo;s page (simulate the click in the <em>+More</em> button to load more reviews). In this option, the Spider will usually get 10 reviews.</li>
+<li>3 - Spider will visit the page with all store reviews (click in the <em>Read All Reviews</em> button) and get all the reviews for this specific product. As the Spider will visit several pages to get the reviews, this is the slower scraping option and there is a chance to get temporarily blocked by Etsy because of the high number of requests.</li>
+</ul>
+<p>To choose the option to scraping the reviews use the <em>-a reviews_option</em> parameter:</p>
+<pre><code>scrapy crawl search_products -a search='3d printed' -a reviews_option=3 -o products.csv
+</code></pre><h2 id="scraping-speed">Scraping speed</h2>
+<p>You can change the number of concurrent requests performed by Scrapy in the <em>setting.py</em> file.</p>
+<pre><code>CONCURRENT_REQUESTS = 10
+</code></pre><p>Change this if you want to decrease the number of requests to avoid get blocking by Etsy.</p>
+<p>If you only need the products URLS, the scraping can be faster, just use the <code>urls_only</code> flag:</p>
+<pre><code>scrapy crawl search_products -a search='xbox controller elite' -o products.csv -a urls_only=true
+</code></pre>
+                </div>
+                
+                <div class="post-comments">
+                    
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Patrick Alves -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

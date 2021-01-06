@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Predict the occurrence of diabetes &middot; Patrick Alves - ML Engineer </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.79.1" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cpatrickalves.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/profile.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+				  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'G-BQSK9NW8F8', 'auto');
+	  ga('send', 'pageview');
+
+</script>
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://cpatrickalves.github.io/'>
+        patrick@machinelearning ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://cpatrickalves.github.io/'>/home/patrick</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/about">~/about</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/projects">~/portfolio</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/post">~/blog</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/contact">~/contact</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://cpatrickalves.github.io/projects/predict-diabetes/">Predict the occurrence of diabetes</a></h1>
+                <span class="post-date">2019-02-13 </span>
+                <div class="post-content">
+                    <p>This project presents a code/kernel used in a Kaggle competition promoted by <a href="https://www.datascienceacademy.com.br/">Data Science Academy</a> in January of 2019.</p>
+<p>The goal of the competition was to create a Machine Learning model to predict the occurrence of diabetes.</p>
+<p>Data source: National Institute of Diabetes and Digestive and Kidney Diseases</p>
+<p>Competition page: <a href="https://www.kaggle.com/c/competicao-dsa-machine-learning-jan-2019/">https://www.kaggle.com/c/competicao-dsa-machine-learning-jan-2019/</a></p>
+<h3 id="problem">Problem</h3>
+<p>Predict the probability of the occurrence of diabetes from patient data.</p>
+<h3 id="task">Task</h3>
+<p>Create a Machine Learning model to estimate the probability of the occurrence of diabetes.</p>
+<h3 id="solution">Solution</h3>
+<p>I&rsquo;ve used Python to perform an <strong>Exploratory Data Analysis (EDA)</strong> using visual and quantitative methods to understand and summarize a dataset without making any assumptions about its contents. Then I&rsquo;ve performed Data Cleaning and built several <strong>Machine Learning</strong> models to compute the probability of occurrence of diabetes. The Logistic Regression model presented the best results.</p>
+<h3 id="results">Results</h3>
+<p>In this competition, I&rsquo;ve reached the accuracy of <strong>76.27%</strong> and I got <strong>position 41 on the leaderboard</strong>.</p>
+<hr>
+<h1 id="source-code">Source code</h1>
+<p>The solution is also available at Github.</p>
+<p><a href="https://github.com/cpatrickalves/kaggle-diabetes-prediction"><img src="/github.jpg" alt="GitHub"></a></p>
+<h4 id="how-to-use">How to use</h4>
+<ul>
+<li>
+<p>You will need Python 3.5+ to run the code.</p>
+</li>
+<li>
+<p>Python can be downloaded <a href="https://www.python.org/downloads/">here</a>.</p>
+</li>
+<li>
+<p>You have to install some Python packages, in command prompt/Terminal: <code>pip install jupyter-lab scikit-learn pandas seaborn matplotlib</code></p>
+</li>
+<li>
+<p>Once you have installed the required packages, just clone/download this project:
+<code>git clone https://github.com/cpatrickalves/kaggle-diabetes-prediction</code></p>
+</li>
+<li>
+<p>Access the project folder in command prompt/Terminal and run the following command:
+<code>jupyter-lab</code></p>
+</li>
+<li>
+<p>Then open the <strong>kernel</strong> file.</p>
+</li>
+</ul>
+<hr>
+<h1 id="predict-the-occurrence-of-diabetes">Predict the occurrence of diabetes</h1>
+<p>Above the EDA is presented with the source code used to perform the data pre-processing, data transformation, and create the machine learning models.</p>
+<h2 id="exploratory-data-analysis">Exploratory Data Analysis</h2>
+<p>Data fields:</p>
+<ul>
+<li>num_gestacoes - Number of times pregnant</li>
+<li>glicose - Plasma glucose concentration in oral glucose tolerance test</li>
+<li>pressao_sanguinea - Diastolic blood pressure in mm Hg</li>
+<li>grossura_pele - Thickness of the triceps skin fold in mm</li>
+<li>insulina - Insulin (mu U / ml)</li>
+<li>bmi - Body mass index measured by weight in kg / (height in m) ^ 2</li>
+<li>indice_historico - Diabetes History Index (Pedigree Function)</li>
+<li>idade - Age in years</li>
+<li>classe - Class (0 - did not develop disease / 1 - developed disease)</li>
+</ul>
+<h3 id="loading-the-data">Loading the data</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Importing packages</span>
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np 
+<span style="color:#f92672">import</span> pandas <span style="color:#f92672">as</span> pd 
+<span style="color:#f92672">import</span> seaborn <span style="color:#f92672">as</span> sns
+<span style="color:#f92672">from</span> scipy <span style="color:#f92672">import</span> stats
+<span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+<span style="color:#f92672">import</span> warnings
+warnings<span style="color:#f92672">.</span>filterwarnings(<span style="color:#e6db74">&#34;ignore&#34;</span>, category<span style="color:#f92672">=</span><span style="color:#a6e22e">FutureWarning</span>)
+<span style="color:#f92672">%</span>matplotlib inline
+
+<span style="color:#75715e"># Loading the data</span>
+data <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;data/dataset_treino.csv&#39;</span>)
+test_data <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;data/dataset_teste.csv&#39;</span>)
+data<span style="color:#f92672">.</span>head(<span style="color:#ae81ff">5</span>)
+</code></pre></div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>num_gestacoes</th>
+      <th>glicose</th>
+      <th>pressao_sanguinea</th>
+      <th>grossura_pele</th>
+      <th>insulina</th>
+      <th>bmi</th>
+      <th>indice_historico</th>
+      <th>idade</th>
+      <th>classe</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>6</td>
+      <td>148</td>
+      <td>72</td>
+      <td>35</td>
+      <td>0</td>
+      <td>33.6</td>
+      <td>0.627</td>
+      <td>50</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>85</td>
+      <td>66</td>
+      <td>29</td>
+      <td>0</td>
+      <td>26.6</td>
+      <td>0.351</td>
+      <td>31</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>8</td>
+      <td>183</td>
+      <td>64</td>
+      <td>0</td>
+      <td>0</td>
+      <td>23.3</td>
+      <td>0.672</td>
+      <td>32</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>89</td>
+      <td>66</td>
+      <td>23</td>
+      <td>94</td>
+      <td>28.1</td>
+      <td>0.167</td>
+      <td>21</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0</td>
+      <td>137</td>
+      <td>40</td>
+      <td>35</td>
+      <td>168</td>
+      <td>43.1</td>
+      <td>2.288</td>
+      <td>33</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="data-overview">Data overview</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># General statistics</span>
+data<span style="color:#f92672">.</span>info()
+</code></pre></div><pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 600 entries, 0 to 599
+Data columns (total 10 columns):
+id                   600 non-null int64
+num_gestacoes        600 non-null int64
+glicose              600 non-null int64
+pressao_sanguinea    600 non-null int64
+grossura_pele        600 non-null int64
+insulina             600 non-null int64
+bmi                  600 non-null float64
+indice_historico     600 non-null float64
+idade                600 non-null int64
+classe               600 non-null int64
+dtypes: float64(2), int64(8)
+memory usage: 47.0 KB
+</code></pre>
+<p>All 10 predictors variables (features) are quantitative (numerical) and we have 600 observations to build the prediction model.</p>
+<p>The only qualitative column is the labels, where:</p>
+<ul>
+<li>0 - do not have the disease</li>
+<li>1 - have the disease</li>
+</ul>
+<h3 id="data-cleaning">Data Cleaning</h3>
+<h4 id="checking-if-there-is-missing-values">Checking if there is missing values</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># If the result is False, there is no missing value</span>
+data<span style="color:#f92672">.</span>isnull()<span style="color:#f92672">.</span>values<span style="color:#f92672">.</span>any()
+</code></pre></div><pre><code>False
+</code></pre>
+<h4 id="computing-statistics-for-each-column">Computing statistics for each column</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data<span style="color:#f92672">.</span>describe()
+</code></pre></div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>num_gestacoes</th>
+      <th>glicose</th>
+      <th>pressao_sanguinea</th>
+      <th>grossura_pele</th>
+      <th>insulina</th>
+      <th>bmi</th>
+      <th>indice_historico</th>
+      <th>idade</th>
+      <th>classe</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>600.000000</td>
+      <td>600.000000</td>
+      <td>600.000000</td>
+      <td>600.000000</td>
+      <td>600.000000</td>
+      <td>600.000000</td>
+      <td>600.000000</td>
+      <td>600.000000</td>
+      <td>600.000000</td>
+      <td>600.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>300.500000</td>
+      <td>3.820000</td>
+      <td>120.135000</td>
+      <td>68.681667</td>
+      <td>20.558333</td>
+      <td>79.528333</td>
+      <td>31.905333</td>
+      <td>0.481063</td>
+      <td>33.278333</td>
+      <td>0.346667</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>173.349358</td>
+      <td>3.362009</td>
+      <td>32.658246</td>
+      <td>19.360226</td>
+      <td>16.004588</td>
+      <td>116.490583</td>
+      <td>8.009638</td>
+      <td>0.337284</td>
+      <td>11.822315</td>
+      <td>0.476306</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.078000</td>
+      <td>21.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>150.750000</td>
+      <td>1.000000</td>
+      <td>99.000000</td>
+      <td>64.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>27.075000</td>
+      <td>0.248000</td>
+      <td>24.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>300.500000</td>
+      <td>3.000000</td>
+      <td>116.000000</td>
+      <td>70.000000</td>
+      <td>23.000000</td>
+      <td>36.500000</td>
+      <td>32.000000</td>
+      <td>0.384000</td>
+      <td>29.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>450.250000</td>
+      <td>6.000000</td>
+      <td>140.000000</td>
+      <td>80.000000</td>
+      <td>32.000000</td>
+      <td>122.750000</td>
+      <td>36.525000</td>
+      <td>0.647000</td>
+      <td>40.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>600.000000</td>
+      <td>17.000000</td>
+      <td>198.000000</td>
+      <td>122.000000</td>
+      <td>99.000000</td>
+      <td>846.000000</td>
+      <td>67.100000</td>
+      <td>2.420000</td>
+      <td>81.000000</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>From the table above, we can see the zero values in almost all columns.
+For some of these columns, zero makes sense, like for Pregnancies and Outcome. But for some of the others, like BloodPressure or BMI, zero definitely doesn&rsquo;t make sense.</p>
+<p>After read some papers about the variables in the dataset, I see that some columns can have a value very close to zero (e.g. <em>grossura_pele</em>), but others can&rsquo;t have a zero value.</p>
+<p>The columns that can not have a zero value.</p>
+<ul>
+<li>glicose</li>
+<li>pressao_sanguinea</li>
+<li>bmi</li>
+</ul>
+<p>Let&rsquo;s see the number of the occurrences of zero values for all columns:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Compute the number of occurrences of a zero value </span>
+features <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;num_gestacoes&#39;</span>, <span style="color:#e6db74">&#39;glicose&#39;</span>, <span style="color:#e6db74">&#39;pressao_sanguinea&#39;</span>, <span style="color:#e6db74">&#39;grossura_pele&#39;</span>, <span style="color:#e6db74">&#39;insulina&#39;</span>, <span style="color:#e6db74">&#39;bmi&#39;</span>, <span style="color:#e6db74">&#39;indice_historico&#39;</span>, <span style="color:#e6db74">&#39;idade&#39;</span>]
+<span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> features:
+    counter <span style="color:#f92672">=</span> len(data[data[c] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>])    
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;{} - {}&#39;</span><span style="color:#f92672">.</span>format(c, counter))    
+</code></pre></div><pre><code>num_gestacoes - 93
+glicose - 5
+pressao_sanguinea - 28
+grossura_pele - 175
+insulina - 289
+bmi - 9
+indice_historico - 0
+idade - 0
+</code></pre>
+<p>We can also see that the column <em>insulina</em> has 289 values, wich correspond to 48% of the training data.</p>
+<p>Let&rsquo;s remove these observations from the selected columns.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Removing observations with zero value</span>
+data_cleaned <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>copy()   
+<span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> [<span style="color:#e6db74">&#39;glicose&#39;</span>, <span style="color:#e6db74">&#39;pressao_sanguinea&#39;</span>, <span style="color:#e6db74">&#39;bmi&#39;</span>]:
+    data_cleaned <span style="color:#f92672">=</span> data_cleaned[data_cleaned[c] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>]
+
+data_cleaned<span style="color:#f92672">.</span>shape
+</code></pre></div><pre><code>(564, 10)
+</code></pre>
+<p>The final number of observations was 564.</p>
+<p>Let&rsquo;s see the compute some statistics again:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data_cleaned<span style="color:#f92672">.</span>describe()
+</code></pre></div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>num_gestacoes</th>
+      <th>glicose</th>
+      <th>pressao_sanguinea</th>
+      <th>grossura_pele</th>
+      <th>insulina</th>
+      <th>bmi</th>
+      <th>indice_historico</th>
+      <th>idade</th>
+      <th>classe</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>564.000000</td>
+      <td>564.000000</td>
+      <td>564.000000</td>
+      <td>564.000000</td>
+      <td>564.000000</td>
+      <td>564.000000</td>
+      <td>564.000000</td>
+      <td>564.000000</td>
+      <td>564.000000</td>
+      <td>564.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>300.664894</td>
+      <td>3.845745</td>
+      <td>121.354610</td>
+      <td>72.049645</td>
+      <td>21.432624</td>
+      <td>84.406028</td>
+      <td>32.367199</td>
+      <td>0.483294</td>
+      <td>33.448582</td>
+      <td>0.340426</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>173.410435</td>
+      <td>3.349287</td>
+      <td>31.130992</td>
+      <td>12.261552</td>
+      <td>15.809953</td>
+      <td>118.432015</td>
+      <td>6.974710</td>
+      <td>0.337668</td>
+      <td>11.868844</td>
+      <td>0.474273</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>44.000000</td>
+      <td>24.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>18.200000</td>
+      <td>0.078000</td>
+      <td>21.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>150.750000</td>
+      <td>1.000000</td>
+      <td>99.000000</td>
+      <td>64.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>27.300000</td>
+      <td>0.250500</td>
+      <td>24.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>298.500000</td>
+      <td>3.000000</td>
+      <td>116.000000</td>
+      <td>72.000000</td>
+      <td>23.500000</td>
+      <td>49.000000</td>
+      <td>32.000000</td>
+      <td>0.389000</td>
+      <td>29.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>450.250000</td>
+      <td>6.000000</td>
+      <td>141.250000</td>
+      <td>80.000000</td>
+      <td>33.000000</td>
+      <td>130.000000</td>
+      <td>36.600000</td>
+      <td>0.648250</td>
+      <td>41.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>600.000000</td>
+      <td>17.000000</td>
+      <td>198.000000</td>
+      <td>122.000000</td>
+      <td>99.000000</td>
+      <td>846.000000</td>
+      <td>67.100000</td>
+      <td>2.420000</td>
+      <td>81.000000</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h4 id="checking-outliers">Checking outliers</h4>
+<p>Let&rsquo;s check if there is ouliers in the data.</p>
+<p>First, we&rsquo;ll use a set of boxplots, one for each column.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fig, axes <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">4</span>, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">8</span>))
+
+x,y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>
+<span style="color:#66d9ef">for</span> i, column <span style="color:#f92672">in</span> enumerate(data_cleaned<span style="color:#f92672">.</span>columns[<span style="color:#ae81ff">1</span>:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]):    
+    sns<span style="color:#f92672">.</span>boxplot(x<span style="color:#f92672">=</span>data_cleaned[column], ax<span style="color:#f92672">=</span>axes[x,y])
+    <span style="color:#66d9ef">if</span> i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>:
+        y <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">elif</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>: 
+        x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+        y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">else</span>:
+        y <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</code></pre></div><p><img src="/predict-diabetes/output_18_0.png" alt="png"></p>
+<p>We can see some possible outliers for almost all columns (separated points in the plots).</p>
+<p>The outliers can either be a mistake or just variance. For now, let&rsquo;s consider all of than as a mistakes.</p>
+<p>To remove these outliers we can use Z-Score or IQR (Interquartile Range).</p>
+<p>The Z-score is the signed number of standard deviations by which the value of an observation or data point is above the mean value of what is being observed or measured. Z-score is finding the distribution of data where mean is 0 and standard deviation is 1. While calculating the Z-score we re-scale and center the data and look for data points which are too far from zero. These data points which are way too far from zero will be treated as the outliers. In most of the cases a threshold of 3 or -3 is used i.e if the Z-score value is greater than or less than 3 or -3 respectively, that data point will be identified as outliers.</p>
+<p>Let&rsquo;s use Z-score function defined in scipy library to detect the outliers:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Compute the Z-Score for each columns</span>
+
+<span style="color:#66d9ef">print</span>(data_cleaned<span style="color:#f92672">.</span>shape)
+
+z <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>abs(stats<span style="color:#f92672">.</span>zscore(data_cleaned))    
+data_cleaned <span style="color:#f92672">=</span> data_cleaned[(z <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>)<span style="color:#f92672">.</span>all(axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)]   
+
+<span style="color:#66d9ef">print</span>(data_cleaned<span style="color:#f92672">.</span>shape)    
+</code></pre></div><pre><code>(564, 10)
+(531, 10)
+</code></pre>
+<p>Using Z-Score, 33 observations where removed.</p>
+<p>Let&rsquo;s see the boxplots again:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fig, axes <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">4</span>, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">8</span>))
+
+x,y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>
+<span style="color:#66d9ef">for</span> i, column <span style="color:#f92672">in</span> enumerate(data_cleaned<span style="color:#f92672">.</span>columns[<span style="color:#ae81ff">1</span>:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]):    
+    sns<span style="color:#f92672">.</span>boxplot(x<span style="color:#f92672">=</span>data_cleaned[column], ax<span style="color:#f92672">=</span>axes[x,y], palette<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Set2&#34;</span>)
+    <span style="color:#66d9ef">if</span> i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>:
+        y <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">elif</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>: 
+        x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+        y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">else</span>:
+        y <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</code></pre></div><p><img src="/predict-diabetes/output_22_0.png" alt="png"></p>
+<p>The data was much cleaner now. Still, there are some points in the boxplots, but some of them are not outliers, like the <em>insulina</em> values higher than 400, which is acceptable in people with diabetes.</p>
+<h4 id="checking-the-balance-of-the-dataset">Checking the balance of the dataset</h4>
+<p>Let&rsquo;s checking the distribuitions of examples for each label:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data_cleaned<span style="color:#f92672">.</span>classe<span style="color:#f92672">.</span>value_counts()<span style="color:#f92672">.</span>plot(kind<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bar&#39;</span>);
+</code></pre></div><p><img src="/predict-diabetes/output_25_0.png" alt="png"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data_cleaned<span style="color:#f92672">.</span>classe<span style="color:#f92672">.</span>value_counts(normalize<span style="color:#f92672">=</span>True)
+</code></pre></div><pre><code>0    0.676083
+1    0.323917
+Name: classe, dtype: float64
+</code></pre>
+<p>From the figure above, we see most of our examples are of people that do not have the disease. More specifically, 67% of the data are for healthy people.</p>
+<p>As the dataset is unbalanced, let&rsquo;s use some methods to reduce the unbalance of the classes.</p>
+<p>I use the over-sampling SMOTE method.
+SMOTE (Synthetic Minority Oversampling TEchnique) consists of synthesizing elements for the minority class, based on those that already exist. It works randomly picking a point from the minority class and computing the k-nearest neighbors for this point. The synthetic points are added between the chosen point and its neighbors.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> imblearn.over_sampling <span style="color:#f92672">import</span> SMOTE
+
+<span style="color:#75715e"># Select the columns with features</span>
+features <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;num_gestacoes&#39;</span>, <span style="color:#e6db74">&#39;glicose&#39;</span>, <span style="color:#e6db74">&#39;pressao_sanguinea&#39;</span>, <span style="color:#e6db74">&#39;grossura_pele&#39;</span>, <span style="color:#e6db74">&#39;insulina&#39;</span>, <span style="color:#e6db74">&#39;bmi&#39;</span>, <span style="color:#e6db74">&#39;indice_historico&#39;</span>, <span style="color:#e6db74">&#39;idade&#39;</span>]
+X <span style="color:#f92672">=</span> data_cleaned[features]
+<span style="color:#75715e"># Select the columns with labels</span>
+Y <span style="color:#f92672">=</span> data_cleaned[<span style="color:#e6db74">&#39;classe&#39;</span>]
+
+smote <span style="color:#f92672">=</span> SMOTE(sampling_strategy<span style="color:#f92672">=</span><span style="color:#ae81ff">1.0</span>, k_neighbors<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>)
+X_sm, y_sm <span style="color:#f92672">=</span> smote<span style="color:#f92672">.</span>fit_sample(X, Y)
+
+<span style="color:#66d9ef">print</span>(X_sm<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">-</span> X<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>], <span style="color:#e6db74">&#39;new random picked points&#39;</span>)
+data_cleaned_oversampled <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(X_sm, columns<span style="color:#f92672">=</span>data<span style="color:#f92672">.</span>columns[<span style="color:#ae81ff">1</span>:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>])
+data_cleaned_oversampled[<span style="color:#e6db74">&#39;classe&#39;</span>] <span style="color:#f92672">=</span> y_sm
+data_cleaned_oversampled[<span style="color:#e6db74">&#39;id&#39;</span>] <span style="color:#f92672">=</span> range(<span style="color:#ae81ff">1</span>,len(y_sm)<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)
+
+<span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> [<span style="color:#e6db74">&#39;num_gestacoes&#39;</span>, <span style="color:#e6db74">&#39;glicose&#39;</span>, <span style="color:#e6db74">&#39;pressao_sanguinea&#39;</span>, <span style="color:#e6db74">&#39;grossura_pele&#39;</span>, <span style="color:#e6db74">&#39;insulina&#39;</span>, <span style="color:#e6db74">&#39;idade&#39;</span>]:
+    data_cleaned_oversampled[c] <span style="color:#f92672">=</span> data_cleaned_oversampled[c]<span style="color:#f92672">.</span>apply(<span style="color:#66d9ef">lambda</span> x: int(x))
+
+data_cleaned_oversampled<span style="color:#f92672">.</span>classe<span style="color:#f92672">.</span>value_counts()<span style="color:#f92672">.</span>plot(kind<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bar&#39;</span>);
+</code></pre></div><pre><code>187 new random picked points
+</code></pre>
+<p><img src="/predict-diabetes/output_28_1.png" alt="png"></p>
+<h2 id="training-the-model">Training the Model</h2>
+<p>Now that data is cleaned, let&rsquo;s use a machine learning model to predict whether or not a person has diabetes.</p>
+<p>The metric used in this competition is the <strong>accuracy score</strong>.</p>
+<h3 id="using-decision-tree">Using Decision Tree</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> sklearn.model_selection <span style="color:#f92672">import</span> train_test_split
+<span style="color:#f92672">from</span> sklearn.metrics <span style="color:#f92672">import</span> accuracy_score
+<span style="color:#f92672">from</span> sklearn.metrics <span style="color:#f92672">import</span> confusion_matrix
+<span style="color:#f92672">from</span> sklearn <span style="color:#f92672">import</span> tree
+
+<span style="color:#75715e"># Select the columns with features</span>
+features <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;num_gestacoes&#39;</span>, <span style="color:#e6db74">&#39;glicose&#39;</span>, <span style="color:#e6db74">&#39;pressao_sanguinea&#39;</span>, <span style="color:#e6db74">&#39;grossura_pele&#39;</span>, <span style="color:#e6db74">&#39;insulina&#39;</span>, <span style="color:#e6db74">&#39;bmi&#39;</span>, <span style="color:#e6db74">&#39;indice_historico&#39;</span>, <span style="color:#e6db74">&#39;idade&#39;</span>]
+X <span style="color:#f92672">=</span> data_cleaned_oversampled[features]
+<span style="color:#75715e"># Select the columns with labels</span>
+Y <span style="color:#f92672">=</span> data_cleaned_oversampled[<span style="color:#e6db74">&#39;classe&#39;</span>]
+
+<span style="color:#75715e"># Perform the training and test 100 times with different seeds and compute the mean accuracy.</span>
+<span style="color:#75715e"># Save results</span>
+acurrances <span style="color:#f92672">=</span> []
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">100</span>):    
+    <span style="color:#75715e"># Spliting Dataset into Test and Train</span>
+    X_train, X_test, y_train, y_test <span style="color:#f92672">=</span> train_test_split(X, Y, test_size<span style="color:#f92672">=</span><span style="color:#ae81ff">0.3</span>, random_state<span style="color:#f92672">=</span>i)
+
+    <span style="color:#75715e"># Create and train the model</span>
+    clf <span style="color:#f92672">=</span> tree<span style="color:#f92672">.</span>DecisionTreeClassifier(criterion <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;entropy&#39;</span>, random_state<span style="color:#f92672">=</span>i, max_depth<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>)
+    clf<span style="color:#f92672">.</span>fit(X_train,y_train)
+
+    <span style="color:#75715e"># Performing predictions with test dataset</span>
+    y_pred <span style="color:#f92672">=</span> clf<span style="color:#f92672">.</span>predict(X_test)
+    <span style="color:#75715e"># Computing accuracy    </span>
+    acurrances<span style="color:#f92672">.</span>append(accuracy_score(y_test, y_pred)<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>)
+
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Accuracy is &#39;</span>, np<span style="color:#f92672">.</span>mean(acurrances))
+</code></pre></div><pre><code>Accuracy is  73.35648148148148
+</code></pre>
+<h3 id="using-logistic-regression-lr">Using Logistic Regression (LR)</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> sklearn.linear_model <span style="color:#f92672">import</span> LogisticRegression
+<span style="color:#f92672">from</span> sklearn.metrics <span style="color:#f92672">import</span> classification_report, confusion_matrix
+
+<span style="color:#75715e"># Select the columns with features</span>
+features <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;num_gestacoes&#39;</span>, <span style="color:#e6db74">&#39;glicose&#39;</span>, <span style="color:#e6db74">&#39;pressao_sanguinea&#39;</span>, <span style="color:#e6db74">&#39;grossura_pele&#39;</span>, <span style="color:#e6db74">&#39;insulina&#39;</span>, <span style="color:#e6db74">&#39;bmi&#39;</span>, <span style="color:#e6db74">&#39;indice_historico&#39;</span>, <span style="color:#e6db74">&#39;idade&#39;</span>]
+
+<span style="color:#75715e"># For the LR the oversampled database decreased the model accuracy, so I choose do not use it.</span>
+X <span style="color:#f92672">=</span> data_cleaned[features]
+<span style="color:#75715e"># Select the columns with labels</span>
+Y <span style="color:#f92672">=</span> data_cleaned[<span style="color:#e6db74">&#39;classe&#39;</span>]
+
+<span style="color:#75715e"># Perform the training and test 100 times with different seeds and compute the mean accuracy.</span>
+<span style="color:#75715e"># Save results</span>
+acurrances <span style="color:#f92672">=</span> []
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">100</span>):    
+    <span style="color:#75715e"># Spliting the data</span>
+    X_train, X_test, y_train, y_test <span style="color:#f92672">=</span> train_test_split(X, Y, test_size<span style="color:#f92672">=</span><span style="color:#ae81ff">0.3</span>, random_state<span style="color:#f92672">=</span>i)
+    LR_model<span style="color:#f92672">=</span>LogisticRegression(class_weight<span style="color:#f92672">=</span>{<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">1.15</span>})
+    LR_model<span style="color:#f92672">.</span>fit(X_train,y_train)
+
+    <span style="color:#75715e"># Testing</span>
+    y_pred<span style="color:#f92672">=</span>LR_model<span style="color:#f92672">.</span>predict(X_test)
+    acurrances<span style="color:#f92672">.</span>append(accuracy_score(y_test, y_pred)<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>)
+    
+    <span style="color:#75715e"># Print only the last</span>
+    <span style="color:#66d9ef">if</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">99</span>:
+        <span style="color:#66d9ef">pass</span>
+        <span style="color:#75715e">#print(classification_report(y_test,y_pred))</span>
+        <span style="color:#75715e">#print(confusion_matrix(y_true=y_test, y_pred=y_pred))</span>
+
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Accuracy is &#39;</span>, np<span style="color:#f92672">.</span>mean(acurrances))
+</code></pre></div><pre><code>Accuracy is  76.725
+</code></pre>
+<h3 id="feature-selection">Feature selection</h3>
+<p>The large number of zero values in the <em>grossura_pele</em> and <em>insulina</em> are impairing the performance of the model.
+So, as insulin is an important parameter in the evaluation of diabetes let&rsquo;s replace the zeros values by the mean
+for both columns.</p>
+<p>As the Logistic Regression (LR) perform better than the Decision Tree. I&rsquo;ll use only LR from now.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Replacing the zeros by the mean</span>
+data_cleaned_no_zeros <span style="color:#f92672">=</span> data_cleaned<span style="color:#f92672">.</span>copy()
+
+<span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> [<span style="color:#e6db74">&#39;grossura_pele&#39;</span>, <span style="color:#e6db74">&#39;insulina&#39;</span>]:    
+    feature_avg <span style="color:#f92672">=</span>data_cleaned[data_cleaned[c]<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>][[c]]<span style="color:#f92672">.</span>mean()
+    data_cleaned[c]<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>where(data_cleaned[[c]]<span style="color:#f92672">!=</span><span style="color:#ae81ff">0</span>,data_cleaned[[c]],feature_avg)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Select the columns with features</span>
+features <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;num_gestacoes&#39;</span>, <span style="color:#e6db74">&#39;glicose&#39;</span>, <span style="color:#e6db74">&#39;pressao_sanguinea&#39;</span>, <span style="color:#e6db74">&#39;grossura_pele&#39;</span>, <span style="color:#e6db74">&#39;insulina&#39;</span>, <span style="color:#e6db74">&#39;bmi&#39;</span>, <span style="color:#e6db74">&#39;indice_historico&#39;</span>, <span style="color:#e6db74">&#39;idade&#39;</span>]
+X <span style="color:#f92672">=</span> data_cleaned_no_zeros[features]
+<span style="color:#75715e"># Select the columns with labels</span>
+Y <span style="color:#f92672">=</span> data_cleaned_no_zeros[<span style="color:#e6db74">&#39;classe&#39;</span>]
+
+<span style="color:#75715e"># Perform the training and test 100 times with different seeds and compute the mean accuracy score.</span>
+<span style="color:#75715e"># Save results</span>
+acurrances <span style="color:#f92672">=</span> []
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">100</span>):    
+    <span style="color:#75715e"># Spliting the data</span>
+    X_train, X_test, y_train, y_test <span style="color:#f92672">=</span> train_test_split(X, Y, test_size<span style="color:#f92672">=</span><span style="color:#ae81ff">0.3</span>, random_state<span style="color:#f92672">=</span>i)
+    LR_model<span style="color:#f92672">=</span>LogisticRegression(class_weight<span style="color:#f92672">=</span>{<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">1.1</span>})
+    LR_model<span style="color:#f92672">.</span>fit(X_train,y_train)
+
+    <span style="color:#75715e"># Testing</span>
+    y_pred<span style="color:#f92672">=</span>LR_model<span style="color:#f92672">.</span>predict(X_test)
+    acurrances<span style="color:#f92672">.</span>append(accuracy_score(y_test, y_pred)<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>)
+    
+    <span style="color:#75715e"># Print only the last</span>
+    <span style="color:#66d9ef">if</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">99</span>:
+        <span style="color:#66d9ef">print</span>(classification_report(y_test,y_pred))
+        <span style="color:#66d9ef">print</span>(confusion_matrix(y_true<span style="color:#f92672">=</span>y_test, y_pred<span style="color:#f92672">=</span>y_pred))
+
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Accuracy is &#39;</span>, np<span style="color:#f92672">.</span>mean(acurrances))
+
+</code></pre></div><pre><code>              precision    recall  f1-score   support
+
+           0       0.83      0.91      0.87       110
+           1       0.75      0.60      0.67        50
+
+   micro avg       0.81      0.81      0.81       160
+   macro avg       0.79      0.75      0.77       160
+weighted avg       0.81      0.81      0.81       160
+
+[[100  10]
+ [ 20  30]]
+Accuracy is  76.5625
+</code></pre>
+<p>The performance decrease when I replace the zeros values by the mean for <em>grossura_pele</em> and <em>insulina</em> columns.</p>
+<h2 id="performing-the-final-prediction">Performing the Final Prediction</h2>
+<p>For the final model, I choose to use LR with the cleaned dataset.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Create and train the model with all data</span>
+model<span style="color:#f92672">=</span>LogisticRegression(class_weight<span style="color:#f92672">=</span>{<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">1.1</span>})
+model<span style="color:#f92672">.</span>fit(data_cleaned[features],data_cleaned[<span style="color:#e6db74">&#39;classe&#39;</span>])
+
+<span style="color:#75715e"># Get the kaggle test data</span>
+X_test <span style="color:#f92672">=</span> test_data[features]
+<span style="color:#75715e"># Make the prediction </span>
+prediction <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>predict(X_test)
+
+<span style="color:#75715e"># Add the predictions to the dataframe </span>
+test_data[<span style="color:#e6db74">&#39;classe&#39;</span>] <span style="color:#f92672">=</span> prediction
+
+<span style="color:#75715e"># Create the submission file</span>
+test_data<span style="color:#f92672">.</span>loc[:,[<span style="color:#e6db74">&#39;id&#39;</span>, <span style="color:#e6db74">&#39;classe&#39;</span>]]<span style="color:#f92672">.</span>to_csv(<span style="color:#e6db74">&#39;submission.csv&#39;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utf-8&#39;</span>, index<span style="color:#f92672">=</span>False)
+</code></pre></div>
+                </div>
+                
+                <div class="post-comments">
+                    
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Patrick Alves -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

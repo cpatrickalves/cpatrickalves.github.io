@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Scraping the dentist&#39;s data from findadentist.ada.org &middot; Patrick Alves - ML Engineer </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.79.1" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cpatrickalves.github.io/css/nix.css">
+
+
+
+<link rel="shortcut icon" href="/profile.ico">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+				  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'G-BQSK9NW8F8', 'auto');
+	  ga('send', 'pageview');
+
+</script>
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://cpatrickalves.github.io/'>
+        patrick@machinelearning ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://cpatrickalves.github.io/'>/home/patrick</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/about">~/about</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/projects">~/portfolio</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/post">~/blog</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="https://cpatrickalves.github.io/contact">~/contact</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://cpatrickalves.github.io/projects/scraping-dentist-data/">Scraping the dentist&#39;s data from findadentist.ada.org</a></h1>
+                <span class="post-date">2019-04-03 </span>
+                <div class="post-content">
+                    <p>This project describes how a solve a client problem that needs to get the dentist&rsquo;s data fast from <a href="https://findadentist.ada.org/">findadentist.ada.org</a>.</p>
+<h3 id="problem">Problem</h3>
+<p>A client needed a lot of information about dentists available on <a href="findadentist.ada.org">findadentist.ada.org</a>.
+The process of obtaining the data manually was very repetitive and impracticable given the number of dentists required.</p>
+<h3 id="task">Task</h3>
+<p>Create a bot to automate the collection (scraping) of website data.</p>
+<h3 id="solution">Solution</h3>
+<p>I&rsquo;ve used Python to create a bot that sends requests to the findadentist.ada.org API to get the dentist&rsquo;s data.
+The bot takes a JSON file as an input, this JSON file contains data to perform searches in findadentist.ada.org.
+The result is another JSON file with the dentist&rsquo;s name, specialty, gender, address, website, education, contact info, etc.</p>
+<h3 id="results">Results</h3>
+<p>The client integrates the bot in his software to perform quick searches and get a lot of information about several dentists in one click.
+This saves a lot of time and allow him to focus on more important tasks of his business.</p>
+<h4 id="built-with-python-and-docker">Built with: Python and Docker.</h4>
+<hr>
+<h1 id="source-code">Source code</h1>
+<p>The solution is available at Github.</p>
+<p><a href="https://github.com/cpatrickalves/scraping-findadentist"><img src="/github.jpg" alt="GitHub"></a></p>
+<hr>
+<h1 id="scraping-findadentistadaorg">Scraping findadentist.ada.org</h1>
+<p>This project contains a set of Python scripts used to scrape the dentist&rsquo;s data from <a href="https://findadentist.ada.org/">findadentist.ada.org</a>.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>
+<p>To run the scripts, download Python 3 from <a href="https://www.python.org/">Python.org</a>.</p>
+</li>
+<li>
+<p>After install, you need to install some Python packages.</p>
+</li>
+<li>
+<p>Open the terminal/Prompt/cmd and run: <code>pip install -r requirements.txt</code></p>
+</li>
+</ul>
+<h2 id="usage">Usage</h2>
+<p>Script name: <strong>findadentist.py</strong></p>
+<p>This script takes a JSON file as an input. This file contains data to perform searches in findadentist.ada.org.</p>
+<p><strong>Example of input data:</strong></p>
+<pre><code>{
+&quot;FindDentist_Input&quot;:
+[
+  {
+    &quot;location&quot;: &quot;atlanta, GA&quot;,
+    &quot;zip code&quot;: 30311,
+    &quot;distance&quot;: 5,
+    &quot;specialty&quot;: &quot;General Practice&quot;
+  },
+  {
+    &quot;location&quot;: &quot;Sugar Land, TX&quot;,
+    &quot;zip code&quot;: 77478,
+    &quot;distance&quot;: 1,
+    &quot;specialty&quot;: &quot;Oral and Maxillofacial Radiology&quot;
+  }
+]
+}
+</code></pre><h3 id="how-to-use">How to use:</h3>
+<pre><code>python findadentist.py data/input2.json
+</code></pre><p>This script performs several requests to the <em>findadentist.ada.org API</em> to get the dentist&rsquo;s data.
+To obtain the data, the script performs the following tasks:</p>
+<ol>
+<li>The scripts use a JSON input file with a set of &ldquo;location&rdquo;, &ldquo;zip code&rdquo;, &ldquo;distance&rdquo; and &ldquo;specialty&rdquo; parameters.</li>
+<li>For each set of parameters, the scripts perform a search for dentist&rsquo;s using <em>findadentist.ada.org API</em>.</li>
+<li>From the search results, the script takes a list of the dentist&rsquo;s address Ids.</li>
+<li>For each address Id, the script performs a new request to the <em>findadentist.ada.org API</em> and get the dentist&rsquo;s data.</li>
+<li>Finally, the script formats the output data and save it in a JSON file (<em>output.json</em>).</li>
+</ol>
+<p><strong>Example of output data</strong>:</p>
+<pre><code>{
+    &quot;FindDentist_Output&quot;: [
+        {
+            &quot;dentistName&quot;: &quot;Dr. Jeffrey S Butts&quot;,
+            &quot;specialty&quot;: &quot;General Practice&quot;,
+            &quot;profieImage_URL&quot;: &quot;findadentist.ada.org/Images/Profile/229367-Dr-Jeffrey-Butts.png&quot;,
+            &quot;website&quot;: &quot;www.campcreekdental.com&quot;,
+            &quot;language&quot;: [],
+            &quot;education&quot;: &quot;Meharry Medical College&quot;,
+            &quot;gender&quot;: &quot;Male&quot;,
+            &quot;paymentOptions&quot;: [],
+            &quot;contactInfo&quot;: {
+                &quot;phone&quot;: &quot;(404) 344-2323&quot;,
+                &quot;address&quot;: &quot;3886 Princeton Lakes Way Ste 220 Atlanta, GA 30331&quot;,
+                &quot;city&quot;: &quot;Atlanta&quot;,
+                &quot;state&quot;: &quot;GA&quot;,
+                &quot;zip&quot;: &quot;30331&quot;
+            },
+            &quot;proximity&quot;: {
+                &quot;distance&quot;: &quot;4.8&quot;,
+                &quot;inputZip&quot;: &quot;30311&quot;
+            }
+        },
+        {
+            &quot;dentistName&quot;: &quot;Dr. Kimberly J Williams&quot;,
+            &quot;specialty&quot;: &quot;General Practice&quot;,
+            &quot;profieImage_URL&quot;: &quot;findadentist.ada.org/Images/Profile/118049-Dr-Kimberly-Williams.png&quot;,
+            &quot;website&quot;: &quot;www.greatexpressions.com/dental-offices/georgia-offices/cascade&quot;,
+            &quot;language&quot;: [],
+            &quot;education&quot;: &quot;University of Detroit- Mercy&quot;,
+            &quot;gender&quot;: &quot;Female&quot;,
+            &quot;paymentOptions&quot;: [],
+            &quot;contactInfo&quot;: {
+                &quot;phone&quot;: &quot;(678) 836-2118&quot;,
+                &quot;address&quot;: &quot;3752 Cascade Rd Sw Ste 190 Atlanta, GA 30331-2149&quot;,
+                &quot;city&quot;: &quot;Atlanta&quot;,
+                &quot;state&quot;: &quot;GA&quot;,
+                &quot;zip&quot;: &quot;30331-2149&quot;
+            },
+            &quot;proximity&quot;: {
+                &quot;distance&quot;: &quot;2.1&quot;,
+                &quot;inputZip&quot;: &quot;30311&quot;
+            }
+        },
+        {
+            &quot;dentistName&quot;: &quot;Dr Molly H Ruiz&quot;,
+            &quot;specialty&quot;: &quot;General Practice&quot;,
+            &quot;profieImage_URL&quot;: &quot;findadentist.ada.org/Images/Profile/339870-Dr-Molly-Ruiz.png&quot;,
+            &quot;website&quot;: &quot;goodsamatlanta.org&quot;,
+            &quot;language&quot;: [],
+            &quot;education&quot;: &quot;Georgia Regents University&quot;,
+            &quot;gender&quot;: &quot;Female&quot;,
+            &quot;paymentOptions&quot;: [],
+            &quot;contactInfo&quot;: {
+                &quot;phone&quot;: &quot;(678) 371-5181&quot;,
+                &quot;address&quot;: &quot;1015 Donald Lee Hollowell Pkwy NW Atlanta, GA 30318-6653&quot;,
+                &quot;city&quot;: &quot;Atlanta&quot;,
+                &quot;state&quot;: &quot;GA&quot;,
+                &quot;zip&quot;: &quot;30318-6653&quot;
+            },
+            &quot;proximity&quot;: {
+                &quot;distance&quot;: &quot;4.7&quot;,
+                &quot;inputZip&quot;: &quot;30311&quot;
+            }
+        }
+    ]
+}
+</code></pre><p>In the <strong>data/</strong> folder you can find an example of the input and output files.</p>
+<h3 id="proxy-setup">Proxy Setup:</h3>
+<p>The <em>findadentist.ada.org</em> website has strong mechanisms against web scraping.
+So to get all the data you need to use some rotation proxy solution.</p>
+<p>The Python file <em>proxy_pool.py</em> enables the use of a pool of proxies from two services:</p>
+<ul>
+<li><a href="https://www.sslproxies.org/">https://www.sslproxies.org/</a></li>
+<li><a href="https://proxycrawl.com">https://proxycrawl.com</a></li>
+</ul>
+<p>The <em>sslproxies.org</em> contains a large list of public proxy servers that are updated every minute.
+The <strong>proxy_pool.py</strong> builds a list of the last 100 proxy servers from <em>sslproxies.org</em>.</p>
+<p>The <em>proxycrawl.com</em> service (<a href="https://proxycrawl.com/scraping-with-worldwide-backconnect-proxy">ProxyCrawl Backconnect Proxy</a>) provides a unique address that receives all connections and automatically deals with the IP address rotation so that every request will use a different IP address. This service has better performance, but in the free version, you need to manually add your current IP address in the IP Whitelist through the website.</p>
+<p>In the <strong>findadentist.py</strong> file there is a parameter called <em>proxy_server_options</em> used to set how to build your requests, the number set in this variable defines which proxy service will be used:</p>
+<ul>
+<li><em>0</em> - Do not use Proxy</li>
+<li><em>1</em> - Uses proxycrawl.com service (recommended)</li>
+<li><em>2</em> - Uses sslproxies.org service (default option)</li>
+</ul>
+<h3 id="running-an-example">Running an example::</h3>
+<p>In this example, I set <em>proxy_server_options = 1</em>.</p>
+<pre><code>&gt;&gt; scraping-findadentist&gt;python findadentist.py data/input2.json
+[I 190402 11:11:30 findadentist:131] Starting findadentist.py script ...
+[D 190402 11:11:30 proxy_pool:24] Using proxy servers from proxy.proxycrawl.com
+[I 190402 11:11:30 findadentist:136] Loading input file: data/input2.json
+[I 190402 11:11:30 findadentist:173] Performing search 1/4 - requested page: https://findadentist.ada.org/api/Dentists?Address=30311&amp;Specialty=1&amp;Distance=5
+[I 190402 11:11:33 findadentist:187] 18 dentists found.
+[I 190402 11:11:33 findadentist:173] Performing search 2/4 - requested page: https://findadentist.ada.org/api/Dentists?Address=77478&amp;Specialty=10&amp;Distance=1
+[W 190402 11:11:35 findadentist:184] No results found for the search parameters: Address=77478  Specialty=10  Distance=1
+[I 190402 11:11:35 findadentist:173] Performing search 3/4 - requested page: https://findadentist.ada.org/api/Dentists?Address=90014&amp;Specialty=6&amp;Distance=1
+[I 190402 11:11:38 findadentist:187] 7 dentists found.
+[I 190402 11:11:38 findadentist:173] Performing search 4/4 - requested page: https://findadentist.ada.org/api/Dentists?Address=30311&amp;Specialty=1&amp;Distance=5
+[I 190402 11:11:40 findadentist:187] 18 dentists found.
+[I 190402 11:11:40 findadentist:194] A total of 25 dentists IDs obtained
+[I 190402 11:11:40 findadentist:202] Getting data for 25 dentists
+[I 190402 11:11:40 findadentist:205] Getting data for dentist ID 3463667 - 1/25
+[I 190402 11:11:42 findadentist:205] Getting data for dentist ID 3753856 - 2/25
+[I 190402 11:11:45 findadentist:205] Getting data for dentist ID 2965488 - 3/25
+[I 190402 11:11:47 findadentist:205] Getting data for dentist ID 2803858 - 4/25
+[I 190402 11:11:50 findadentist:205] Getting data for dentist ID 1538580 - 5/25
+[I 190402 11:11:52 findadentist:205] Getting data for dentist ID 3279660 - 6/25
+[I 190402 11:11:54 findadentist:205] Getting data for dentist ID 1648025 - 7/25
+[I 190402 11:11:56 findadentist:205] Getting data for dentist ID 3433737 - 8/25
+[I 190402 11:11:59 findadentist:205] Getting data for dentist ID 1648024 - 9/25
+[I 190402 11:12:01 findadentist:205] Getting data for dentist ID 3063875 - 10/25
+[I 190402 11:12:04 findadentist:205] Getting data for dentist ID 1647911 - 11/25
+[I 190402 11:12:06 findadentist:205] Getting data for dentist ID 3500185 - 12/25
+[I 190402 11:12:09 findadentist:205] Getting data for dentist ID 1464724 - 13/25
+[I 190402 11:12:11 findadentist:205] Getting data for dentist ID 3278244 - 14/25
+[I 190402 11:12:14 findadentist:205] Getting data for dentist ID 1562452 - 15/25
+[I 190402 11:12:16 findadentist:205] Getting data for dentist ID 2757264 - 16/25
+[I 190402 11:12:18 findadentist:205] Getting data for dentist ID 1647899 - 17/25
+[I 190402 11:12:20 findadentist:205] Getting data for dentist ID 1519665 - 18/25
+[I 190402 11:12:23 findadentist:205] Getting data for dentist ID 2770283 - 19/25
+[I 190402 11:12:25 findadentist:205] Getting data for dentist ID 3518558 - 20/25
+[I 190402 11:12:28 findadentist:205] Getting data for dentist ID 1538919 - 21/25
+[I 190402 11:12:31 findadentist:205] Getting data for dentist ID 1538897 - 22/25
+[I 190402 11:12:33 findadentist:205] Getting data for dentist ID 2770329 - 23/25
+[I 190402 11:12:35 findadentist:205] Getting data for dentist ID 1619644 - 24/25
+[I 190402 11:12:38 findadentist:205] Getting data for dentist ID 1620861 - 25/25
+[D 190402 11:12:40 findadentist:244] Saving the data in output.json file
+[I 190402 11:12:40 findadentist:250] Total scraping time: 1.16 minutes
+[D 190402 11:12:40 findadentist:251] scraping finished
+
+</code></pre><h2 id="using-docker">Using Docker</h2>
+<p>You can build a Docker container for this project and run it as an <em>app</em>.</p>
+<p>In the project directory, there is a <em>Dockerfile</em> with all docker settings to build the docker image.</p>
+<p>To build the image, in the project directory run:</p>
+<pre><code>docker build -t scraping-findadentist .
+</code></pre><p>A ready-to-use image can be obtained from this <a href="https://drive.google.com/file/d/1MCAi2fjrjL_rMcYB-Np-EmP8onfGjnE0/view?usp=sharing">link</a>.</p>
+<p>In this case, you need to load the image in Docker:</p>
+<pre><code>docker load -i &lt;path to image tar file&gt;
+</code></pre><p>To run the image:</p>
+<pre><code>docker run --name findadentist_app scraping-findadentist
+</code></pre><p>The output file created by the app (<em>output.json</em>) was saved inside the container filesystem.</p>
+<p>To copy this file to your local filesystem run:</p>
+<pre><code>docker cp findadentist_app:/output.json output.json
+</code></pre><p>Finally, stop the container instance:</p>
+<pre><code>docker stop findadentist_app
+</code></pre>
+                </div>
+                
+                <div class="post-comments">
+                    
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Patrick Alves -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>
