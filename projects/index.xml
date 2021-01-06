@@ -21,6 +21,19 @@ Results The solution has a good accuracy and can detect faces really fast.</desc
     </item>
     
     <item>
+      <title>Creating Synthetic Faces</title>
+      <link>https://cpatrickalves.github.io/projects/creating-synthetic-face-images/</link>
+      <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cpatrickalves.github.io/projects/creating-synthetic-face-images/</guid>
+      <description>This project presents a solution to creating synthetic face images to feed Deep Learning models.
+Problem A client had ~500 face images of people with acne that feed some Deep Learning models.
+But to reach a good accuracy, he needs at least 10,000 images.
+Task Build a Deep Learning model able to generate any amount of synthetic images of faces with acne conditions.
+Solution I&amp;rsquo;ve tested the best Deep Learning models of type Generative Adversarial Networks and found that StyleGAN2-ADA create by NVIDIA can be trained with less than 1000 images and generate really good synthetic images.</description>
+    </item>
+    
+    <item>
       <title>Predict claim approval by an insurance company</title>
       <link>https://cpatrickalves.github.io/projects/predict-claim-approval/</link>
       <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
