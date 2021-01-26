@@ -6,17 +6,7 @@
     <description>Recent content on Patrick Alves - ML Engineer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 12 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://cpatrickalves.github.io/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Creating Synthetic Faces</title>
-      <link>https://cpatrickalves.github.io/projects/creating-synthetic-face-images/</link>
-      <pubDate>Sat, 12 Dec 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://cpatrickalves.github.io/projects/creating-synthetic-face-images/</guid>
-      <description>This project presents a solution to creating synthetic face images to feed Deep Learning models.
-Problem  A client has several Deep Learning models to handle face conditions, like acne. Each one of this models need at least 10,000 images to reach a good accuracy. At begining, only ~500 face images of people with acne were available, wich leads to poor performance/accuracy of Deep Learning models.  Task Find or build a solution to generate any amount of synthetic images of faces with acne conditions and good quality.</description>
-    </item>
-    
+    <lastBuildDate>Sun, 20 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://cpatrickalves.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Real-time face detection</title>
       <link>https://cpatrickalves.github.io/projects/real-time-face-detection/</link>
@@ -144,7 +134,7 @@ Scraping data from yelp.</description>
       <pubDate>Sun, 03 Jan 2021 00:00:00 +0000</pubDate>
       
       <guid>https://cpatrickalves.github.io/about/</guid>
-      <description>I am an Engineer I am an experienced Researcher and Machine Learning Engineer with a Ph.D. in Electrical Engineering (Applied Computing) with more than 5 years of practical work in design and build of scalable machine learning solutions on top of the open source and enterprise products.
+      <description>I am an Engineer I am an experienced Researcher and Machine Learning Engineer with a Ph.D. in Electrical Engineering (Applied Computing) with more than 5 years of practical work in design and build of scalable machine learning solutions on top of the open-source and enterprise products.
 My specialties are:
  Machine Learning Operations (MLOps) to unify the release cycle for machine learning and software application. Build data and ML pipelines with Airflow and Kubeflow; Automated testing of machine learning artifacts (e.</description>
     </item>
